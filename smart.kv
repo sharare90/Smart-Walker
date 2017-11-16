@@ -5,6 +5,7 @@
     front_right_leg: fr
     rear_right_leg: rr
     rear_left_leg: rl
+    timer: t
     Button:
         id:fl
         pos:root.x, root.top - 100
@@ -52,6 +53,12 @@
             Ellipse:
                 size:200, 200
                 pos:root.width / 2 - 100, root.height / 2 - 100
+    Label:
+        id:t
+        text: root.thisTime
+        pos:root.width * 5 / 12 , root.height * 4 / 5
+        color:0,0,1,1
+
     RelativeLayout:
         canvas:
             Color:
