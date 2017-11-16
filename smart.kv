@@ -8,14 +8,14 @@
     timer: t
     Button:
         id:fl
-        pos:root.x, root.top - 100
         size:100, 100
+        pos:root.x, root.top - self.y
         on_press: root.change_color(fl)
         canvas:
             Color:
                 rgba: root.ellipse_color_fl
             Ellipse:
-                pos:root.x, root.top - 100
+                pos:root.x, root.top - fl.width
 
     Button:
         id:rl
@@ -29,7 +29,7 @@
 
     Button:
         id:fr
-        pos:root.width - 100, root.height - 100
+        pos:root.width - fr.width, root.height - fr.height
         on_press: root.change_color(fr)
         canvas:
             Color:
@@ -56,7 +56,7 @@
     Label:
         id:t
         text: root.thisTime
-        pos:root.width * 5 / 12 , root.height * 4 / 5
+        pos:root.width / 2 - 50 , root.height * 4 / 5
         color:0,0,1,1
 
     RelativeLayout:
