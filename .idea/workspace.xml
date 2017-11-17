@@ -30,8 +30,8 @@
       <file leaf-file-name="data_with_write.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/data_with_write.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+            <state relative-caret-position="126">
+              <caret line="7" column="24" lean-forward="false" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -87,10 +87,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="2696" />
-    <option name="y" value="142" />
-    <option name="width" value="987" />
-    <option name="height" value="1412" />
+    <option name="x" value="2706" />
+    <option name="y" value="47" />
+    <option name="width" value="985" />
+    <option name="height" value="1376" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -229,7 +229,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="2696" y="142" width="987" height="1412" extended-state="6" />
+    <frame x="2625" y="-4" width="985" height="1404" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32055378" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -507,8 +507,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data_with_write.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        <state relative-caret-position="126">
+          <caret line="7" column="24" lean-forward="false" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
           <folding />
         </state>
       </provider>
