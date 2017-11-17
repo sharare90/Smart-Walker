@@ -2,7 +2,6 @@ import logging
 import json
 import sys
 import time
-from VL53L0X.python import VL53L0X
 from Adafruit_BNO055 import BNO055
 import RPi.GPIO as GPIO
 from hx711 import HX711
@@ -14,7 +13,6 @@ GPIO.setwarnings(False)
 
 
 # Create a VL53L0X prox object
-tof = VL53L0X.VL53L0X()
 
 # Create a BNO055 IMU object
 bno = BNO055.BNO055(serial_port='/dev/ttyS0', rst=23)
@@ -71,12 +69,7 @@ print('Press Ctrl-C to quit...')
 
 
 # Start ranging for proximity sensor
-tof.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
 
-timing = tof.get_timing()
-if (timing < 20000):
-    timing = 20000
-print ("Timing %d ms" % (timing/1000))
 
 #Create new data file
 with open('Raw_Data/count.txt', "r+") as fp:
@@ -115,19 +108,9 @@ while True:
 #           "{0: 4.3f}".format(val3));
     
     # Read the distance from the proximity sensor
-    distance = tof.get_distance()
 
     #Write Raw Data to File
-    fp.write('''FS= %.1f, %.1f, %.1f, %.1f  \t| Prox= %d cm\t| H= %.2f, R= %.2f, P= %.2f  SGAM= %d %d %d %d \n'''
-    #      Sys_cal=%d Gyro_cal = %d Accel_cal = %d Mag_cal = %d'''
-           % (val0, val1, val2, val3, (distance/10), heading, roll, pitch, sys, gyro, accel, mag))
 
-    # Print everything out.
-    print ('''FS= %.1f, %.1f, %.1f, %.1f  \t| Prox= %d cm\t| H= %.2f, R= %.2f, P= %.2f  SGAM=%d %d %d %d'''
-    #      Sys_cal=%d Gyro_cal = %d Accel_cal = %d Mag_cal = %d'''
-           % (val0, val1, val2, val3, (distance/10), heading, roll, pitch, sys, gyro, accel, mag))
-
-    time.sleep(timing/1000000.00)
 
 tof.stop_ranging()
 
