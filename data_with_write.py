@@ -42,8 +42,8 @@ class HX711:
         self.PD_SCK = pd_sck
         self.DOUT = dout
 
-        GPIO.setup(self.PD_SCK, GPIO.OUT)
-        GPIO.setup(self.DOUT, GPIO.IN)
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setmode(GPIO.BCM)
 
         self.GAIN = 0
         self.OFFSET = 0
