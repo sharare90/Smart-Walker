@@ -199,7 +199,32 @@ class HX711:
         self.power_down()
         self.power_up()
 
+    def cleanAndExit(self):
+        import sys
+
+        print "Cleaning..."
+        GPIO.cleanup()
+        print "Bye!"
+        sys.exit()
+
 
 if __name__ == '__main__':
-    hx0 = HX711()
-    print hx0.get_weight()
+
+    hx0 = HX711(5, 6)
+    hx0.set_reading_format("LSB", "MSB")
+
+    hx0.set_reference_unit(92)
+
+    hx0.reset()
+    hx0.tare()
+
+    while True:
+        try:
+            val = hx0.get_weight(5)
+            print val
+
+            hx0.power_down()
+            hx0.power_up()
+            time.sleep(0.5)
+        except (KeyboardInterrupt, SystemExit):
+            hx0.cleanAndExit()
