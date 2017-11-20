@@ -210,7 +210,7 @@ class HX711:
 
 if __name__ == '__main__':
 
-    hx0 = HX711(5, 6)
+    hx0 = HX711(27, 17, 128)
     hx0.set_reading_format("LSB", "MSB")
 
     hx0.set_reference_unit(92)
