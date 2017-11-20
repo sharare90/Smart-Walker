@@ -198,3 +198,8 @@ class HX711:
     def reset(self):
         self.power_down()
         self.power_up()
+
+
+if __name__ == '__main__':
+    hx0 = HX711()
+    print hx0.get_weight()
