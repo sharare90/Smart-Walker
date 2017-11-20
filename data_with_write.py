@@ -241,7 +241,7 @@ if __name__ == '__main__':
             val1 = hx1.get_weight(5)
             val2 = hx2.get_weight(5)
             val3 = hx3.get_weight(5)
-            print val0 + "," + val1 + "," + val2 + "," + val3
+            print val0, ",", val1, ",", val2, ",", val3
 
             hx0.power_down()
             hx0.power_up()
