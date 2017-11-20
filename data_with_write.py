@@ -43,7 +43,7 @@ class HX711:
         self.DOUT = dout
 
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setmode(GPIO.BCM)
+        # GPIO.setmode(GPIO.BCM)
 
         self.GAIN = 0
         self.OFFSET = 0
