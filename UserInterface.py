@@ -28,10 +28,10 @@ class SmartWalker(Widget):
         # self.val1 = 0  # fr
         # self.val2 = 0  # rl
         # self.val3 = 0  # fl
-        hx0 = HX711(27, 17, 128)
-        hx1 = HX711(10, 22, 128)
-        hx2 = HX711(11, 9, 128)
-        hx3 = HX711(26, 13, 128)
+        # hx0 = HX711(27, 17)
+        # hx1 = HX711(10, 22)
+        # hx2 = HX711(11, 9)
+        # hx3 = HX711(26, 13)
 
         # hx0.set_reading_format("LSB", "MSB")
         # hx0.set_reference_unit(92)
