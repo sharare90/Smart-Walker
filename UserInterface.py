@@ -104,7 +104,6 @@ class SmartWalker(Widget):
 
         heading, roll, pitch = self.bno.read_euler()
         sys, gyro, acc, mag = self.bno.get_calibration_status()
-        time.sleep(1)
         self.bno_heading = str(heading)
         self.bno_roll = str(roll)
         self.bno_pitch = str(pitch)
@@ -112,6 +111,7 @@ class SmartWalker(Widget):
         self.bno_gyro = str(gyro)
         self.bno_acc = str(acc)
         self.bno_mag = str(mag)
+        print self.bno_heading, self.bno_roll, self.bno_pitch
 
     def change_color(self, leg):
         if leg == self.front_left_leg:
