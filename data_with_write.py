@@ -1,28 +1,4 @@
-# import RPi.GPIO as GPIO
-# from hx711 import HX711
-#
-# GPIO.setmode(GPIO.BCM)
-#
-# GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-# print GPIO.input(12)
-#
-# hx0 = HX711()
-# hx1 = HX711()
-# hx2 = HX711()
-# hx3 = HX711()
-#
-# hx0.set_scale()
-# hx1.set_scale()
-# hx2.set_scale()
-# hx3.set_scale()
-#
-# hx0.tare()
-# hx1.tare()
-# hx2.tare()
-# hx3.tare()
-#
-# fl = hx0.get_units(10)
-# print fl
+# Source: https://github.com/tatobari/hx711py/blob/master/hx711.py
 
 import RPi.GPIO as GPIO
 import time
@@ -33,6 +9,11 @@ class HX711:
     def __init__(self, dout, pd_sck, gain=128):
         self.PD_SCK = pd_sck
         self.DOUT = dout
+
+        self.val0 = 0  # rr
+        self.val1 = 0  # fr
+        self.val2 = 0  # rl
+        self.val3 = 0  # fl
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.PD_SCK, GPIO.OUT)
@@ -207,57 +188,56 @@ class HX711:
         print "Bye!"
         sys.exit()
 
+    def get_values_to_print(self):
 
-if __name__ == '__main__':
+        hx0 = HX711(27, 17, 128)
+        hx1 = HX711(10, 22, 128)
+        hx2 = HX711(11, 9, 128)
+        hx3 = HX711(26, 13, 128)
 
-    hx0 = HX711(27, 17, 128)
-    hx1 = HX711(10, 22, 128)
-    hx2 = HX711(11, 9, 128)
-    hx3 = HX711(26, 13, 128)
+        hx0.set_reading_format("LSB", "MSB")
+        hx0.set_reference_unit(92)
+        hx0.reset()
+        hx0.tare()
 
-    hx0.set_reading_format("LSB", "MSB")
-    hx0.set_reference_unit(92)
-    hx0.reset()
-    hx0.tare()
+        hx1.set_reading_format("LSB", "MSB")
+        hx1.set_reference_unit(92)
+        hx1.reset()
+        hx1.tare()
 
-    hx1.set_reading_format("LSB", "MSB")
-    hx1.set_reference_unit(92)
-    hx1.reset()
-    hx1.tare()
+        hx2.set_reading_format("LSB", "MSB")
+        hx2.set_reference_unit(92)
+        hx2.reset()
+        hx2.tare()
 
-    hx2.set_reading_format("LSB", "MSB")
-    hx2.set_reference_unit(92)
-    hx2.reset()
-    hx2.tare()
+        hx3.set_reading_format("LSB", "MSB")
+        hx3.set_reference_unit(92)
+        hx3.reset()
+        hx3.tare()
 
-    hx3.set_reading_format("LSB", "MSB")
-    hx3.set_reference_unit(92)
-    hx3.reset()
-    hx3.tare()
+        while True:
+            try:
+                self.val0 = hx0.get_weight(5)
+                self.val1 = hx1.get_weight(5)
+                self.val2 = hx2.get_weight(5)
+                self.val3 = hx3.get_weight(5)
+                print self.val0, ",", self.val1, ",", self.val2, ",", self.val3
 
-    while True:
-        try:
-            val0 = hx0.get_weight(5)
-            val1 = hx1.get_weight(5)
-            val2 = hx2.get_weight(5)
-            val3 = hx3.get_weight(5)
-            print val0, ",", val1, ",", val2, ",", val3
+                hx0.power_down()
+                hx0.power_up()
 
-            hx0.power_down()
-            hx0.power_up()
+                hx1.power_down()
+                hx1.power_up()
 
-            hx1.power_down()
-            hx1.power_up()
+                hx2.power_down()
+                hx2.power_up()
 
-            hx2.power_down()
-            hx2.power_up()
+                hx3.power_down()
+                hx3.power_up()
+                time.sleep(0.5)
 
-            hx3.power_down()
-            hx3.power_up()
-            time.sleep(0.5)
-
-        except (KeyboardInterrupt, SystemExit):
-            hx0.cleanAndExit()
-            hx1.cleanAndExit()
-            hx2.cleanAndExit()
-            hx3.cleanAndExit()
+            except (KeyboardInterrupt, SystemExit):
+                hx0.cleanAndExit()
+                hx1.cleanAndExit()
+                hx2.cleanAndExit()
+                hx3.cleanAndExit()

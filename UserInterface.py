@@ -15,8 +15,11 @@ class SmartWalker(Widget):
     ellipse_color_rl = ListProperty([1, 0, 0, 1])
     ellipse_color_rr = ListProperty([1, 0, 0, 1])
     ellipse_color_gy = ListProperty([1, 0, 0, 1])
-    timer = ObjectProperty()
     thisTime = StringProperty("")
+    fl_text = StringProperty("")
+    fr_text = StringProperty("")
+    rl_text = StringProperty("")
+    rr_text = StringProperty("")
 
     def update(self, *args):
         self.thisTime = str(time.asctime())
