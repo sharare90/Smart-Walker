@@ -33,25 +33,25 @@ class SmartWalker(Widget):
         hx2 = HX711(11, 9, 128)
         hx3 = HX711(26, 13, 128)
 
-        hx0.set_reading_format("LSB", "MSB")
-        hx0.set_reference_unit(92)
-        hx0.reset()
-        hx0.tare()
-
-        hx1.set_reading_format("LSB", "MSB")
-        hx1.set_reference_unit(92)
-        hx1.reset()
-        hx1.tare()
-
-        hx2.set_reading_format("LSB", "MSB")
-        hx2.set_reference_unit(92)
-        hx2.reset()
-        hx2.tare()
-
-        hx3.set_reading_format("LSB", "MSB")
-        hx3.set_reference_unit(92)
-        hx3.reset()
-        hx3.tare()
+        # hx0.set_reading_format("LSB", "MSB")
+        # hx0.set_reference_unit(92)
+        # hx0.reset()
+        # hx0.tare()
+        #
+        # hx1.set_reading_format("LSB", "MSB")
+        # hx1.set_reference_unit(92)
+        # hx1.reset()
+        # hx1.tare()
+        #
+        # hx2.set_reading_format("LSB", "MSB")
+        # hx2.set_reference_unit(92)
+        # hx2.reset()
+        # hx2.tare()
+        #
+        # hx3.set_reading_format("LSB", "MSB")
+        # hx3.set_reference_unit(92)
+        # hx3.reset()
+        # hx3.tare()
         return 1
 
         # try:
