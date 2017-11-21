@@ -22,7 +22,8 @@ class SmartWalker(Widget):
     rl_text = StringProperty("")
     rr_text = StringProperty("")
 
-    def __init__(self):
+    def __init__(self, **kwargs):
+        super(SmartWalker, self).__init__(**kwargs)
         self.hx0 = HX711(27, 17)
         self.hx1 = HX711(10, 22)
         self.hx2 = HX711(11, 9)
