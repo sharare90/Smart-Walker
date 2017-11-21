@@ -12,6 +12,9 @@
         pos:root.x, root.top - 100
         #on_press: root.change_color(fl)
         text: root.fl_text
+        color:root.ellipse_color_fl
+        bold: True
+        font_size: 40
         #canvas:
         #    Color:
         #        rgba: root.ellipse_color_fl
@@ -23,6 +26,9 @@
         pos:root.x, root.y
         #on_press: root.change_color(rl)
         text: root.rl_text
+        color: root.ellipse_color_rl
+        bold: True
+        font_size: 40
         #canvas:
         #    Color:
         #        rgba: root.ellipse_color_rl
@@ -34,7 +40,9 @@
         pos:root.width - fr.width, root.height - fr.height
         #on_press: root.change_color(fr)
         text: root.fr_text
-        color: 0,0,1,1
+        color: root.ellipse_color_fr
+        bold: True
+        font_size: 40
         #canvas:
         #    Color:
         #        rgba: root.ellipse_color_fr
@@ -45,7 +53,9 @@
         pos:root.width - 100, root.y
         #on_press: root.change_color(rr)
         text: root.rr_text
-        color: 0,0,1,1
+        color: root.ellipse_color_rr
+        bold: True
+        font_size: 40
         #anvas:
         #   Color:
         #       rgba: root.ellipse_color_rr
@@ -63,7 +73,7 @@
         id:t
         text: root.thisTime
         bold: True
-        font_size: 40
+        font_size: 30
         pos:root.width / 2 - 50 , root.height * 4 / 5
         color:0,0,1,1
 

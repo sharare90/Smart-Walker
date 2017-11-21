@@ -36,6 +36,8 @@ class HX711:
 
         self.set_gain(gain)
 
+        time.sleep(1)
+
     def is_ready(self):
         return GPIO.input(self.DOUT) == 0
 
