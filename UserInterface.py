@@ -61,6 +61,8 @@ class SmartWalker(Widget):
 
         self.bno = BNO055.BNO055(serial_port='/dev/ttyS0', rst=23)
 
+        if not self.bno.begin():
+            raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
 
     def get_4_weight_sensors(self):
         # self.val0 = 0  # rr
@@ -111,7 +113,8 @@ class SmartWalker(Widget):
         self.bno_gyro = str(gyro)
         self.bno_acc = str(acc)
         self.bno_mag = str(mag)
-        print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(
+        print(
+        'Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(
             heading, roll, pitch, sys, gyro, acc, mag))
 
     def change_color(self, leg):
