@@ -52,31 +52,32 @@ class SmartWalker(Widget):
         hx3.set_reference_unit(92)
         hx3.reset()
         hx3.tare()
+        return 1
 
-        try:
-            hx0.power_down()
-            hx0.power_up()
-
-            hx1.power_down()
-            hx1.power_up()
-
-            hx2.power_down()
-            hx2.power_up()
-
-            hx3.power_down()
-            hx3.power_up()
-
-            val0 = hx0.get_weight(5)
-            val1 = hx1.get_weight(5)
-            val2 = hx2.get_weight(5)
-            val3 = hx3.get_weight(5)
-            # print self.val0, ",", self.val1, ",", self.val2, ",", self.val3
-            return val0, val1, val2, val3
-        except (KeyboardInterrupt, SystemExit):
-            hx0.cleanAndExit()
-            hx1.cleanAndExit()
-            hx2.cleanAndExit()
-            hx3.cleanAndExit()
+        # try:
+        #     hx0.power_down()
+        #     hx0.power_up()
+        #
+        #     hx1.power_down()
+        #     hx1.power_up()
+        #
+        #     hx2.power_down()
+        #     hx2.power_up()
+        #
+        #     hx3.power_down()
+        #     hx3.power_up()
+        #
+        #     val0 = hx0.get_weight(5)
+        #     val1 = hx1.get_weight(5)
+        #     val2 = hx2.get_weight(5)
+        #     val3 = hx3.get_weight(5)
+        #     # print self.val0, ",", self.val1, ",", self.val2, ",", self.val3
+        #     return val0, val1, val2, val3
+        # except (KeyboardInterrupt, SystemExit):
+        #     hx0.cleanAndExit()
+        #     hx1.cleanAndExit()
+        #     hx2.cleanAndExit()
+        #     hx3.cleanAndExit()
 
     def update(self, *args):
         self.thisTime = str(time.asctime())
