@@ -80,7 +80,8 @@ class SmartWalker(Widget):
 
     def update(self, *args):
         self.thisTime = str(time.asctime())
-        sensors = self.get_4_weight_sensors()
+        # sensors = self.get_4_weight_sensors()
+        sensors = [4, 5, 6, 7]
         self.rr_text = str(sensors[0])
         self.fr_text = str(sensors[1])
         self.rl_text = str(sensors[2])
