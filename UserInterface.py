@@ -59,7 +59,7 @@ class SmartWalker(Widget):
         self.hx3.reset()
         self.hx3.tare()
 
-        self.bno = BNO055.BNO055(serial_port='/dev/ttyAMA0', rst=18)
+        self.bno = BNO055.BNO055(serial_port='/dev/ttyS0', rst=23)
 
 
     def get_4_weight_sensors(self):
