@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
 import time
+from data_with_write import HX711
 from kivy.properties import ListProperty, ObjectProperty, StringProperty
 
 
@@ -23,6 +24,10 @@ class SmartWalker(Widget):
 
     def update(self, *args):
         self.thisTime = str(time.asctime())
+        self.fl_text = str(HX711.val3)
+        self.rl_text = str(HX711.val2)
+        self.fr_text = str(HX711.val1)
+        self.rr_text = str(HX711.val0)
 
     def change_color(self, leg):
         if leg == self.front_left_leg:
