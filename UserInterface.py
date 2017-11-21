@@ -60,8 +60,7 @@ class SmartWalker(Widget):
         self.hx3.tare()
 
         self.bno = BNO055.BNO055(serial_port='/dev/ttyAMA0', rst=18)
-        if not self.bno.begin():
-            raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
+
 
     def get_4_weight_sensors(self):
         # self.val0 = 0  # rr
@@ -105,6 +104,7 @@ class SmartWalker(Widget):
 
         heading, roll, pitch = self.bno.read_euler()
         sys, gyro, acc, mag = self.bno.get_calibration_status()
+        time.sleep(1)
         self.bno_heading = str(heading)
         self.bno_roll = str(roll)
         self.bno_pitch = str(pitch)
