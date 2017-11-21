@@ -21,13 +21,14 @@ class SmartWalker(Widget):
     fr_text = StringProperty("")
     rl_text = StringProperty("")
     rr_text = StringProperty("")
+    hx711 = HX711()
 
     def update(self, *args):
         self.thisTime = str(time.asctime())
-        self.fl_text = str(HX711.val3)
-        self.rl_text = str(HX711.val2)
-        self.fr_text = str(HX711.val1)
-        self.rr_text = str(HX711.val0)
+        self.fl_text = str(self.hx711.val3)
+        self.rl_text = str(self.hx711.val2)
+        self.fr_text = str(self.hx711.val1)
+        self.rr_text = str(self.hx711.val0)
 
     def change_color(self, leg):
         if leg == self.front_left_leg:
