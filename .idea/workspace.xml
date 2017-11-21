@@ -15,7 +15,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="smart.kv" pinned="false" current-in-tab="true">
+      <file leaf-file-name="smart.kv" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/smart.kv">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="576">
@@ -37,11 +37,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserInterface.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UserInterface.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/UserInterface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="18" column="20" lean-forward="false" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="20" />
+            <state relative-caret-position="612">
+              <caret line="61" column="66" lean-forward="false" selection-start-line="61" selection-start-column="66" selection-end-line="61" selection-end-column="66" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -78,8 +78,8 @@
         <option value="$USER_HOME$/SmartWalker/data_with_write.py" />
         <option value="$PROJECT_DIR$/smart2.kv" />
         <option value="$PROJECT_DIR$/data_with_write.py" />
-        <option value="$PROJECT_DIR$/UserInterface.py" />
         <option value="$PROJECT_DIR$/smart.kv" />
+        <option value="$PROJECT_DIR$/UserInterface.py" />
       </list>
     </option>
   </component>
@@ -532,21 +532,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/UserInterface.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="18" column="20" lean-forward="false" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/smart.kv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="576">
           <caret line="110" column="19" lean-forward="true" selection-start-line="110" selection-start-column="19" selection-end-line="110" selection-end-column="19" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UserInterface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="61" column="66" lean-forward="false" selection-start-line="61" selection-start-column="66" selection-end-line="61" selection-end-column="66" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
