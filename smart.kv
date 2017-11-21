@@ -11,8 +11,12 @@
         size:100, 100
         pos:root.x, root.top - 100
         #on_press: root.change_color(fl)
-        text: '[color: 0,0,1,1]' + root.fl_text
-
+        text: root.fl_text
+        #canvas:
+        #    Color:
+        #        rgba: root.ellipse_color_fl
+        #    Ellipse:
+        #        pos:root.x, root.top - fl.width
 
     Label:
         id:rl
@@ -20,11 +24,11 @@
         #on_press: root.change_color(rl)
         text: root.rl_text
         color: 0,0,1,1
-        canvas:
-            Color:
-                rgba: root.ellipse_color_rl
-            Ellipse:
-                pos:root.x, root.y
+        #canvas:
+        #    Color:
+        #        rgba: root.ellipse_color_rl
+        #    Ellipse:
+        #        pos:root.x, root.y
 
     Label:
         id:fr
@@ -32,22 +36,22 @@
         #on_press: root.change_color(fr)
         text: root.fr_text
         color: 0,0,1,1
-        canvas:
-            Color:
-                rgba: root.ellipse_color_fr
-            Ellipse:
-                pos:root.width - 100, root.height - 100
+        #canvas:
+        #    Color:
+        #        rgba: root.ellipse_color_fr
+        #    Ellipse:
+        #        pos:root.width - 100, root.height - 100
     Label:
         id:rr
         pos:root.width - 100, root.y
         #on_press: root.change_color(rr)
         text: root.rr_text
         color: 0,0,1,1
-        canvas:
-            Color:
-                rgba: root.ellipse_color_rr
-            Ellipse:
-                pos:root.width - 100, root.y
+        #anvas:
+        #   Color:
+        #       rgba: root.ellipse_color_rr
+        #   Ellipse:
+        #       pos:root.width - 100, root.y
     Label:
         id:gyroscope
         canvas:
