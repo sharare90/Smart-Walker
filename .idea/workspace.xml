@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d7d273f-77ee-43da-9e3c-f8849f955624" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/UserInterface.py" afterPath="$PROJECT_DIR$/UserInterface.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/smart.kv" afterPath="$PROJECT_DIR$/smart.kv" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,8 +21,8 @@
       <file leaf-file-name="smart.kv" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/smart.kv">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="19" column="16" lean-forward="true" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+            <state relative-caret-position="180">
+              <caret line="10" column="16" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -30,11 +31,9 @@
       <file leaf-file-name="data_with_write.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_with_write.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2582">
-              <caret line="10" column="24" lean-forward="false" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="24" />
-              <folding>
-                <element signature="e#68#91#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-2749">
+              <caret line="3" column="11" lean-forward="true" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -42,8 +41,8 @@
       <file leaf-file-name="UserInterface.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/UserInterface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1350">
-              <caret line="75" column="30" lean-forward="true" selection-start-line="75" selection-start-column="30" selection-end-line="75" selection-end-column="30" />
+            <state relative-caret-position="662">
+              <caret line="81" column="21" lean-forward="false" selection-start-line="81" selection-start-column="13" selection-end-line="81" selection-end-column="21" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -66,6 +65,7 @@
       <find>touc</find>
       <find>set_scale</find>
       <find>poi</find>
+      <find>time</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -79,8 +79,8 @@
         <option value="$USER_HOME$/SmartWalker/data_with_write.py" />
         <option value="$PROJECT_DIR$/smart2.kv" />
         <option value="$PROJECT_DIR$/data_with_write.py" />
-        <option value="$PROJECT_DIR$/UserInterface.py" />
         <option value="$PROJECT_DIR$/smart.kv" />
+        <option value="$PROJECT_DIR$/UserInterface.py" />
       </list>
     </option>
   </component>
@@ -292,9 +292,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#68#91#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -320,9 +318,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="4" column="19" lean-forward="true" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
-          <folding>
-            <element signature="e#68#91#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -518,18 +514,16 @@
     <entry file="file://$PROJECT_DIR$/smart2.kv" />
     <entry file="file://$PROJECT_DIR$/data_with_write.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2582">
-          <caret line="10" column="24" lean-forward="false" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="24" />
-          <folding>
-            <element signature="e#68#91#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-2749">
+          <caret line="3" column="11" lean-forward="true" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/UserInterface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1350">
-          <caret line="75" column="30" lean-forward="true" selection-start-line="75" selection-start-column="30" selection-end-line="75" selection-end-column="30" />
+        <state relative-caret-position="662">
+          <caret line="81" column="21" lean-forward="false" selection-start-line="81" selection-start-column="13" selection-end-line="81" selection-end-column="21" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
           </folding>
@@ -538,8 +532,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/smart.kv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="19" column="16" lean-forward="true" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+        <state relative-caret-position="180">
+          <caret line="10" column="16" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding />
         </state>
       </provider>
