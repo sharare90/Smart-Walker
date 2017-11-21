@@ -22,62 +22,60 @@ class SmartWalker(Widget):
     rl_text = StringProperty("")
     rr_text = StringProperty("")
 
-    @staticmethod
-    def get_4_weight_sensors():
+    def get_4_weight_sensors(self):
         # self.val0 = 0  # rr
         # self.val1 = 0  # fr
         # self.val2 = 0  # rl
         # self.val3 = 0  # fl
-        # hx0 = HX711(27, 17)
-        # hx1 = HX711(10, 22)
-        # hx2 = HX711(11, 9)
-        # hx3 = HX711(26, 13)
+        hx0 = HX711(27, 17)
+        hx1 = HX711(10, 22)
+        hx2 = HX711(11, 9)
+        hx3 = HX711(26, 13)
 
-        # hx0.set_reading_format("LSB", "MSB")
-        # hx0.set_reference_unit(92)
-        # hx0.reset()
-        # hx0.tare()
-        #
-        # hx1.set_reading_format("LSB", "MSB")
-        # hx1.set_reference_unit(92)
-        # hx1.reset()
-        # hx1.tare()
-        #
-        # hx2.set_reading_format("LSB", "MSB")
-        # hx2.set_reference_unit(92)
-        # hx2.reset()
-        # hx2.tare()
-        #
-        # hx3.set_reading_format("LSB", "MSB")
-        # hx3.set_reference_unit(92)
-        # hx3.reset()
-        # hx3.tare()
-        return 1
+        hx0.set_reading_format("LSB", "MSB")
+        hx0.set_reference_unit(92)
+        hx0.reset()
+        hx0.tare()
 
-        # try:
-        #     hx0.power_down()
-        #     hx0.power_up()
-        #
-        #     hx1.power_down()
-        #     hx1.power_up()
-        #
-        #     hx2.power_down()
-        #     hx2.power_up()
-        #
-        #     hx3.power_down()
-        #     hx3.power_up()
-        #
-        #     val0 = hx0.get_weight(5)
-        #     val1 = hx1.get_weight(5)
-        #     val2 = hx2.get_weight(5)
-        #     val3 = hx3.get_weight(5)
-        #     # print self.val0, ",", self.val1, ",", self.val2, ",", self.val3
-        #     return val0, val1, val2, val3
-        # except (KeyboardInterrupt, SystemExit):
-        #     hx0.cleanAndExit()
-        #     hx1.cleanAndExit()
-        #     hx2.cleanAndExit()
-        #     hx3.cleanAndExit()
+        hx1.set_reading_format("LSB", "MSB")
+        hx1.set_reference_unit(92)
+        hx1.reset()
+        hx1.tare()
+
+        hx2.set_reading_format("LSB", "MSB")
+        hx2.set_reference_unit(92)
+        hx2.reset()
+        hx2.tare()
+
+        hx3.set_reading_format("LSB", "MSB")
+        hx3.set_reference_unit(92)
+        hx3.reset()
+        hx3.tare()
+
+        try:
+            hx0.power_down()
+            hx0.power_up()
+
+            hx1.power_down()
+            hx1.power_up()
+
+            hx2.power_down()
+            hx2.power_up()
+
+            hx3.power_down()
+            hx3.power_up()
+
+            val0 = hx0.get_weight(5)
+            val1 = hx1.get_weight(5)
+            val2 = hx2.get_weight(5)
+            val3 = hx3.get_weight(5)
+            # print self.val0, ",", self.val1, ",", self.val2, ",", self.val3
+            return val0, val1, val2, val3
+        except (KeyboardInterrupt, SystemExit):
+            hx0.cleanAndExit()
+            hx1.cleanAndExit()
+            hx2.cleanAndExit()
+            hx3.cleanAndExit()
 
     def update(self, *args):
         self.thisTime = str(time.asctime())
