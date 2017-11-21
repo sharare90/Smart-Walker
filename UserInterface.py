@@ -3,6 +3,7 @@ from kivy.uix.widget import Widget
 from kivy.clock import Clock
 import time
 from data_with_write import HX711
+from Adafruit_BNO055 import BNO055
 from kivy.properties import ListProperty, ObjectProperty, StringProperty
 
 
@@ -17,10 +18,19 @@ class SmartWalker(Widget):
     ellipse_color_rr = ListProperty([1, 0, 0, 1])
     ellipse_color_gy = ListProperty([1, 0, 0, 1])
     thisTime = StringProperty("")
+
     fl_text = StringProperty("")
     fr_text = StringProperty("")
     rl_text = StringProperty("")
     rr_text = StringProperty("")
+
+    bno_heading = StringProperty("")
+    bno_roll = StringProperty("")
+    bno_pitch = StringProperty("")
+    bno_sys = StringProperty("")
+    bno_gyro = StringProperty("")
+    bno_acc = StringProperty("")
+    bno_mag = StringProperty("")
 
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
@@ -48,6 +58,8 @@ class SmartWalker(Widget):
         self.hx3.set_reference_unit(92)
         self.hx3.reset()
         self.hx3.tare()
+
+        self.bno = BNO055.BNO055(serial_port='dev/ttyS0', rst=23)
 
     def get_4_weight_sensors(self):
         # self.val0 = 0  # rr
@@ -88,6 +100,16 @@ class SmartWalker(Widget):
         self.fr_text = str(sensors[1])
         self.rl_text = str(sensors[2])
         self.fl_text = str(sensors[3])
+
+        heading, roll, pitch = self.bno.read_euler()
+        sys, gyro, acc, mag = self.bno.get_calibration_status()
+        self.bno_heading = str(heading)
+        self.bno_roll = str(roll)
+        self.bno_pitch = str(pitch)
+        self.bno_sys = str(sys)
+        self.bno_gyro = str(gyro)
+        self.bno_acc = str(acc)
+        self.bno_mag = str(mag)
 
     def change_color(self, leg):
         if leg == self.front_left_leg:

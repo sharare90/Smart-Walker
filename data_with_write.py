@@ -187,6 +187,3 @@ class HX711:
         GPIO.cleanup()
         print "Bye!"
         sys.exit()
-
-
-

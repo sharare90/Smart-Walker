@@ -56,19 +56,24 @@
         color: root.ellipse_color_rr
         bold: True
         font_size: 40
-        #anvas:
+        #canvas:
         #   Color:
         #       rgba: root.ellipse_color_rr
         #   Ellipse:
         #       pos:root.width - 100, root.y
     Label:
         id:gyroscope
-        canvas:
-            Color:
-                rgba: root.ellipse_color_gy
-            Ellipse:
-                size:200, 200
-                pos:root.width / 2 - 100, root.height / 2 - 100
+        pos:root.width / 2 - 100, root.height / 2 - 100
+        text: root.bno_heading + ',' + root.bno_roll + ',' + root.bno_pitch + ',' + root.bno_sys + ',' + root.bno_gyro + ',' + root.bno_acc + ',' + root.bno_mag
+        color: root.ellipse_color_gy
+
+
+        #canvas:
+        #    Color:
+        #        rgba: root.ellipse_color_gy
+        #    Ellipse:
+        #        size:200, 200
+        #        pos:root.width / 2 - 100, root.height / 2 - 100
     Label:
         id:t
         text: root.thisTime
@@ -98,14 +103,14 @@
                 id:down
                 pos:root.x, root.top - root.height + 100
                 size:root.width, 10
-    Label:
-        id:inner_gy
-        canvas:
-            Color:
-                rgba:0,0,1,1
-            Ellipse:
-                size:20, 20
-                pos:root.width / 2 - 10, root.height / 2 - 10
+    #Label:
+    #    id:inner_gy
+    #    canvas:
+    #        Color:
+    #            rgba:0,0,1,1
+    #        Ellipse:
+    #            size:20, 20
+    #            pos:root.width / 2 - 10, root.height / 2 - 10
     Label:
         id: proximity
         text:"Proximity"
