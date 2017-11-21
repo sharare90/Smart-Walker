@@ -111,7 +111,8 @@ class SmartWalker(Widget):
         self.bno_gyro = str(gyro)
         self.bno_acc = str(acc)
         self.bno_mag = str(mag)
-        print self.bno_heading, self.bno_roll, self.bno_pitch
+        print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(
+            heading, roll, pitch, sys, gyro, acc, mag))
 
     def change_color(self, leg):
         if leg == self.front_left_leg:

@@ -40,8 +40,8 @@
       <file leaf-file-name="UserInterface.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/UserInterface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1386">
-              <caret line="113" column="61" lean-forward="false" selection-start-line="113" selection-start-column="61" selection-end-line="113" selection-end-column="61" />
+            <state relative-caret-position="396">
+              <caret line="106" column="24" lean-forward="false" selection-start-line="106" selection-start-column="13" selection-end-line="106" selection-end-column="24" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -543,8 +543,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/UserInterface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1386">
-          <caret line="113" column="61" lean-forward="false" selection-start-line="113" selection-start-column="61" selection-end-line="113" selection-end-column="61" />
+        <state relative-caret-position="396">
+          <caret line="106" column="24" lean-forward="false" selection-start-line="106" selection-start-column="13" selection-end-line="106" selection-end-column="24" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
           </folding>
