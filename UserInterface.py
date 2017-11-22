@@ -104,6 +104,7 @@ class SmartWalker(Widget):
         self.fr_text = str(self.sensors[1])
         self.rl_text = str(self.sensors[2])
         self.fl_text = str(self.sensors[3])
+        self.change_color()
 
         heading, roll, pitch = self.bno.read_euler()
         sys, gyro, acc, mag = self.bno.get_calibration_status()
@@ -118,18 +119,18 @@ class SmartWalker(Widget):
         # 'Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(
         #     heading, roll, pitch, sys, gyro, acc, mag))
 
-    def change_color(self, leg):
+    def change_color(self):
         self.ellipse_color_fl = 0, 0, 0, 1
         self.ellipse_color_fr = 0, 0, 0, 1
         self.ellipse_color_rl = 0, 0, 0, 1
         self.ellipse_color_rr = 0, 0, 0, 1
-        if leg == self.front_left_leg and self.sensors[3] > 200:
+        if self.sensors[3] > 200:
             self.ellipse_color_fl = 1, 1, 1, 1
-        if leg == self.front_right_leg and self.sensors[1] > 200:
+        if self.sensors[1] > 200:
             self.ellipse_color_fr = 1, 1, 1, 1
-        if leg == self.rear_left_leg and self.sensors[2] > 200:
+        if self.sensors[2] > 200:
             self.ellipse_color_rl = 1, 1, 1, 1
-        if leg == self.rear_right_leg and self.sensors[0] > 200:
+        if self.sensors[0] > 200:
             self.ellipse_color_rr = 1, 1, 1, 1
 
 
