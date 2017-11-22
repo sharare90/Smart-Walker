@@ -118,13 +118,13 @@ class SmartWalker(Widget):
         #     heading, roll, pitch, sys, gyro, acc, mag))
 
     def change_color(self, leg):
-        if leg == self.front_left_leg:
+        if leg == self.front_left_leg and self.fl_text > 200:
             self.ellipse_color_fl = 1, 1, 1, 1
-        if leg == self.front_right_leg:
+        if leg == self.front_right_leg and self.fr_text > 200:
             self.ellipse_color_fr = 1, 1, 1, 1
-        if leg == self.rear_left_leg:
+        if leg == self.rear_left_leg and self.rl_text > 200:
             self.ellipse_color_rl = 1, 1, 1, 1
-        if leg == self.rear_right_leg:
+        if leg == self.rear_right_leg and self.rr_text > 200:
             self.ellipse_color_rr = 1, 1, 1, 1
 
 
