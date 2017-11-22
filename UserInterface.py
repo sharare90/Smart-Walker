@@ -120,18 +120,18 @@ class SmartWalker(Widget):
         #     heading, roll, pitch, sys, gyro, acc, mag))
 
     def change_color(self):
-        self.ellipse_color_fl = 0, 0, 0, 1
-        self.ellipse_color_fr = 0, 0, 0, 1
-        self.ellipse_color_rl = 0, 0, 0, 1
-        self.ellipse_color_rr = 0, 0, 0, 1
+        self.ellipse_color_fl = 0, 1, 0, 1
+        self.ellipse_color_fr = 0, 1, 0, 1
+        self.ellipse_color_rl = 0, 1, 0, 1
+        self.ellipse_color_rr = 0, 1, 0, 1
         if self.sensors[3] > 200:
-            self.ellipse_color_fl = 1, 1, 1, 1
+            self.ellipse_color_fl = 1, 0, 0, 1
         if self.sensors[1] > 200:
-            self.ellipse_color_fr = 1, 1, 1, 1
+            self.ellipse_color_fr = 1, 0, 0, 1
         if self.sensors[2] > 200:
-            self.ellipse_color_rl = 1, 1, 1, 1
+            self.ellipse_color_rl = 1, 0, 0, 1
         if self.sensors[0] > 200:
-            self.ellipse_color_rr = 1, 1, 1, 1
+            self.ellipse_color_rr = 1, 0, 0, 1
 
 
 class SmartApp(App):
