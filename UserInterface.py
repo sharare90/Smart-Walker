@@ -19,6 +19,7 @@ class SmartWalker(Widget):
     ellipse_color_gy = ListProperty([1, 0, 0, 1])
     thisTime = StringProperty("")
 
+    sensors = ListProperty()
     fl_text = StringProperty("")
     fr_text = StringProperty("")
     rl_text = StringProperty("")
@@ -97,12 +98,12 @@ class SmartWalker(Widget):
 
     def update(self, *args):
         self.thisTime = str(time.asctime())
-        sensors = self.get_4_weight_sensors()
+        self.sensors = self.get_4_weight_sensors()
         # sensors = [4, 5, 6, 7]
-        self.rr_text = str(sensors[0])
-        self.fr_text = str(sensors[1])
-        self.rl_text = str(sensors[2])
-        self.fl_text = str(sensors[3])
+        self.rr_text = str(self.sensors[0])
+        self.fr_text = str(self.sensors[1])
+        self.rl_text = str(self.sensors[2])
+        self.fl_text = str(self.sensors[3])
 
         heading, roll, pitch = self.bno.read_euler()
         sys, gyro, acc, mag = self.bno.get_calibration_status()
@@ -118,13 +119,13 @@ class SmartWalker(Widget):
         #     heading, roll, pitch, sys, gyro, acc, mag))
 
     def change_color(self, leg):
-        if leg == self.front_left_leg and self.fl_text > 200:
+        if leg == self.front_left_leg and self.sensors[3] > 200:
             self.ellipse_color_fl = 1, 1, 1, 1
-        if leg == self.front_right_leg and self.fr_text > 200:
+        if leg == self.front_right_leg and self.sensors[1] > 200:
             self.ellipse_color_fr = 1, 1, 1, 1
-        if leg == self.rear_left_leg and self.rl_text > 200:
+        if leg == self.rear_left_leg and self.sensors[2] > 200:
             self.ellipse_color_rl = 1, 1, 1, 1
-        if leg == self.rear_right_leg and self.rr_text > 200:
+        if leg == self.rear_right_leg and self.sensors[0] > 200:
             self.ellipse_color_rr = 1, 1, 1, 1
 
 
