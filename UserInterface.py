@@ -12,11 +12,11 @@ class SmartWalker(Widget):
     front_right_leg = ObjectProperty()
     rear_left_leg = ObjectProperty()
     rear_right_leg = ObjectProperty()
-    ellipse_color_fl = ListProperty([1, 0, 0, 1])
-    ellipse_color_fr = ListProperty([1, 0, 0, 1])
-    ellipse_color_rl = ListProperty([1, 0, 0, 1])
-    ellipse_color_rr = ListProperty([1, 0, 0, 1])
-    ellipse_color_gy = ListProperty([1, 0, 0, 1])
+    ellipse_color_fl = ListProperty()
+    ellipse_color_fr = ListProperty()
+    ellipse_color_rl = ListProperty()
+    ellipse_color_rr = ListProperty()
+    ellipse_color_gy = ListProperty()
     thisTime = StringProperty("")
 
     sensors = ListProperty()
@@ -119,6 +119,10 @@ class SmartWalker(Widget):
         #     heading, roll, pitch, sys, gyro, acc, mag))
 
     def change_color(self, leg):
+        self.ellipse_color_fl = 0, 0, 0, 1
+        self.ellipse_color_fr = 0, 0, 0, 1
+        self.ellipse_color_rl = 0, 0, 0, 1
+        self.ellipse_color_rr = 0, 0, 0, 1
         if leg == self.front_left_leg and self.sensors[3] > 200:
             self.ellipse_color_fl = 1, 1, 1, 1
         if leg == self.front_right_leg and self.sensors[1] > 200:
