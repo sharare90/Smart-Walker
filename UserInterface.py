@@ -146,17 +146,11 @@ class SmartWalker(Widget):
         elif value > maximum:
             value = maximum
 
-        halfmax = (minimum + maximum) / 2
-        if minimum <= value <= halfmax:
-            r = 0
-            g = 255. / (halfmax - minimum) * (value - minimum) / 255.
-            b = 255. + -255. / (halfmax - minimum) * (value - minimum) / 255.
-            return (r, g, b, 1)
-        elif halfmax < value <= maximum:
-            r = 255. / (maximum - halfmax) * (value - halfmax) / 255.
-            g = 255. + -255. / (maximum - halfmax) * (value - halfmax) / 255.
-            b = 0
-            return (r, g, b, 1)
+        ratio = 2 * (value - minimum) / (maximum - minimum)
+        b = int(max(0, 255 * (1 - ratio)))
+        r = int(max(0, 255 * (ratio - 1)))
+        g = 255 - b - r
+        return r, g, b, 1
 
 
 class SmartApp(App):
