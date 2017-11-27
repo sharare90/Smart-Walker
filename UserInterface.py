@@ -146,12 +146,13 @@ class SmartWalker(Widget):
             r = 0
             g = 255. / (halfmax - minimum) * (value - minimum) / 255.
             b = 255. + -255. / (halfmax - minimum) * (value - minimum) / 255.
-            return (r, g, b)
+            return (r, g, b, 1)
         elif halfmax < value <= maximum:
             r = 255. / (maximum - halfmax) * (value - halfmax) / 255.
             g = 255. + -255. / (maximum - halfmax) * (value - halfmax) / 255.
             b = 0
-            return (r, g, b)
+            return (r, g, b, 1)
+
 
 class SmartApp(App):
     def build(self):
