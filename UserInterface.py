@@ -59,6 +59,8 @@ class SmartWalker(Widget):
         self.hx3.set_reference_unit(92)
         self.hx3.reset()
         self.hx3.tare()
+        self.min = -500
+        self.max = 100
 
         self.bno = BNO055.BNO055(serial_port='/dev/ttyS0', rst=23)
 
@@ -120,19 +122,36 @@ class SmartWalker(Widget):
         #     heading, roll, pitch, sys, gyro, acc, mag))
 
     def change_color(self):
-        self.ellipse_color_fl = 0, 1, 0, 1
-        self.ellipse_color_fr = 0, 1, 0, 1
-        self.ellipse_color_rl = 0, 1, 0, 1
-        self.ellipse_color_rr = 0, 1, 0, 1
-        if self.sensors[3] > 200:
-            self.ellipse_color_fl = 1, 0, 0, 1
-        if self.sensors[1] > 200:
-            self.ellipse_color_fr = 1, 0, 0, 1
-        if self.sensors[2] > 200:
-            self.ellipse_color_rl = 1, 0, 0, 1
-        if self.sensors[0] > 200:
-            self.ellipse_color_rr = 1, 0, 0, 1
+        self.ellipse_color_fl = self.get_color(self.sensors[3])
+        self.ellipse_color_fr = self.get_color(self.sensors[1])
+        self.ellipse_color_rl = self.get_color(self.sensors[2])
+        self.ellipse_color_rr = self.get_color(self.sensors[0])
+        # self.ellipse_color_fl = 0, 1, 0, 1
+        # self.ellipse_color_fr = 0, 1, 0, 1
+        # self.ellipse_color_rl = 0, 1, 0, 1
+        # self.ellipse_color_rr = 0, 1, 0, 1
+        # if self.sensors[3] > 100:
+        #     self.ellipse_color_fl = 1, 0, 0, 1
+        # if self.sensors[1] > 100:
+        #     self.ellipse_color_fr = 1, 0, 0, 1
+        # if self.sensors[2] > 100:
+        #     self.ellipse_color_rl = 1, 0, 0, 1
+        # if self.sensors[0] > 100:
+        #     self.ellipse_color_rr = 1, 0, 0, 1
 
+    def get_color(self, value):
+        minimum, maximum = float(self.min), float(self.max)
+        halfmax = (minimum + maximum) / 2
+        if minimum <= value <= halfmax:
+            r = 0
+            g = 255. / (halfmax - minimum) * (value - minimum) / 255.
+            b = 255. + -255. / (halfmax - minimum) * (value - minimum) / 255.
+            return (r, g, b)
+        elif halfmax < value <= maximum:
+            r = 255. / (maximum - halfmax) * (value - halfmax) / 255.
+            g = 255. + -255. / (maximum - halfmax) * (value - halfmax) / 255.
+            b = 0
+            return (r, g, b)
 
 class SmartApp(App):
     def build(self):
