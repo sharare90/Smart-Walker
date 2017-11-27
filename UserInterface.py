@@ -141,6 +141,11 @@ class SmartWalker(Widget):
 
     def get_color(self, value):
         minimum, maximum = float(self.min), float(self.max)
+        if value < minimum:
+            value = minimum
+        elif value > maximum:
+            value = maximum
+
         halfmax = (minimum + maximum) / 2
         if minimum <= value <= halfmax:
             r = 0
