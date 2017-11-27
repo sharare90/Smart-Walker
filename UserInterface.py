@@ -60,7 +60,7 @@ class SmartWalker(Widget):
         self.hx3.reset()
         self.hx3.tare()
         self.min = -500
-        self.max = 100
+        self.max = 500
 
         self.bno = BNO055.BNO055(serial_port='/dev/ttyS0', rst=23)
 
