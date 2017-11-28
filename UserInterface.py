@@ -39,11 +39,23 @@ class SmartWalker(Widget):
     bno_acc = StringProperty("")
     bno_mag = StringProperty("")
 
+    # 1 / 3 of arrow height and width
+    arrow_height = 5
+    arrow_width = 5
+    forward_arrow_color = ListProperty()
+    backward_arrow_color = ListProperty()
+    left_arrow_color = ListProperty()
+    right_arrow_color = ListProperty()
+
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
         self.min = -500
         self.max = 500
-        self.ellipse_color_gy = 1, 0, 0, 1
+        self.forward_arrow_color = 1, 1, 1, 1
+        self.backward_arrow_color = 0, 1, 1, 1
+        self.left_arrow_color = 1, 0, 1, 1
+        self.right_arrow_color = 1, 1, 0, 1
+
         if not TEST_ENVIRONMENT:
             self.hx0 = HX711(27, 17)
             self.hx1 = HX711(10, 22)
