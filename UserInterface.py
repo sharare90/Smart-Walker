@@ -43,6 +43,7 @@ class SmartWalker(Widget):
         super(SmartWalker, self).__init__(**kwargs)
         self.min = -500
         self.max = 500
+        self.ellipse_color_gy = 1, 0, 0, 1
         if not TEST_ENVIRONMENT:
             self.hx0 = HX711(27, 17)
             self.hx1 = HX711(10, 22)
@@ -93,10 +94,10 @@ class SmartWalker(Widget):
             self.hx1.cleanAndExit()
             self.hx2.cleanAndExit()
             self.hx3.cleanAndExit()
+            return 1, 1, 1, 1
 
     def update_weights(self):
         self.sensors = self.get_4_weight_sensors()
-        # sensors = [4, 5, 6, 7]
         self.rr_text = str(self.sensors[0])
         self.fr_text = str(self.sensors[1])
         self.rl_text = str(self.sensors[2])
