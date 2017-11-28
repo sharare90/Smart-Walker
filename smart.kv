@@ -57,24 +57,24 @@
         bold: True
         font_size: 40
         canvas:
-           Color:
-               rgba: root.ellipse_color_rr
-           Ellipse:
-               pos:root.width - 100, root.y
+            Color:
+                rgba: root.ellipse_color_rr
+            Ellipse:
+                pos:root.width - 100, root.y
     Label:
         id:gyroscope
         pos:root.width / 2 - 100, root.height / 2
         text: 'Heading:' + root.bno_heading + '\n Rolling:' + root.bno_roll + '\n Pitching:' + root.bno_pitch
-        #color: root.ellipse_color_gy
+        color: root.ellipse_color_gy
         bold: True
         font_size: 20
 
-        canvas:
-            Color:
-                rgba: root.ellipse_color_gy
-            Ellipse:
-                size:200, 200
-                pos:root.width / 2 - 100, root.height / 2 - 100
+        #canvas:
+        #    Color:
+        #        rgba: root.ellipse_color_gy
+        #    Ellipse:
+        #        size:200, 200
+        #        pos:root.width / 2 - 100, root.height / 2 - 100
     Label:
         id:t
         text: root.thisTime
