@@ -104,6 +104,67 @@
                 id:down
                 pos:root.x, root.top - root.height + 100
                 size:root.width, 10
+    Label:
+        canvas:
+            Color:
+                rgba: root.forward_arrow_color
+            Rectangle:
+                pos: root.width / 2 - 2 * root.arrow_width, root.height / 2 + 10
+                size: 4 * root.arrow_width, 4 * root.arrow_height
+            Triangle:
+                points:
+                    [
+                    root.width / 2 - 3 * root.arrow_width, root.height / 2 + 10 + 4 * root.arrow_height,
+                    root.width / 2, root.height / 2 + 10 + 6 * root.arrow_height,
+                    root.width / 2 + 3 * root.arrow_width, root.height / 2 + 10 + 4 * root.arrow_height
+                    ]
+
+    Label:
+        canvas:
+            Color:
+                rgba: root.backward_arrow_color
+            Rectangle:
+                pos: root.width / 2 - 2 * root.arrow_width, root.height / 2 - 10
+                size: 4 * root.arrow_width, -4 * root.arrow_height
+            Triangle:
+                points:
+                    [
+                    root.width / 2 - 3 * root.arrow_width, root.height / 2 - 10 - 4 * root.arrow_height,
+                    root.width / 2, root.height / 2 - 10 - 6 * root.arrow_height,
+                    root.width / 2 + 3 * root.arrow_width, root.height / 2 - 10 - 4 * root.arrow_height
+                    ]
+
+    Label:
+        canvas:
+            Color:
+                rgba: root.right_arrow_color
+            Rectangle:
+                pos: root.width / 2 + 10, root.height / 2 - 2 * root.arrow_width
+                size: 4 * root.arrow_height, 4 * root.arrow_width
+            Triangle:
+                points:
+                    [
+                    root.width / 2 + 10 + 4 * root.arrow_height, root.height / 2 + 3 * root.arrow_width,
+                    root.width / 2 + 10 + 6 * root.arrow_height, root.height / 2,
+                    root.width / 2 + 10 + 4 * root.arrow_height, root.height / 2 - 3 * root.arrow_width
+                    ]
+
+    Label:
+        canvas:
+            Color:
+                rgba: root.left_arrow_color
+            Rectangle:
+                pos: root.width / 2 - 10, root.height / 2 - 2 * root.arrow_width
+                size: -4 * root.arrow_height, 4 * root.arrow_width
+            Triangle:
+                points:
+                    [
+                    root.width / 2 - 10 - 4 * root.arrow_height, root.height / 2 + 3 * root.arrow_width,
+                    root.width / 2 - 10 - 6 * root.arrow_height, root.height / 2,
+                    root.width / 2 - 10 - 4 * root.arrow_height, root.height / 2 - 3 * root.arrow_width
+                    ]
+
+
     #Label:
     #    id:inner_gy
     #    canvas:
