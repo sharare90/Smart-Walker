@@ -148,7 +148,7 @@ class SmartWalker(Widget):
 class SmartApp(App):
     def build(self):
         s = SmartWalker()
-        Clock.schedule_interval(s.update, 1)
+        Clock.schedule_interval(s.update, 5)
         return s
 
 
