@@ -5,7 +5,6 @@ import time
 
 class MyApp(App):
     def build(self):
-        time.sleep(1)
         return Label(text='Hello world')
 
 
