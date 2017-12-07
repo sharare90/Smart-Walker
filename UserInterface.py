@@ -51,7 +51,6 @@ class SmartWalker(Widget):
         super(SmartWalker, self).__init__(**kwargs)
         self.min = -500
         self.max = 500
-        self.ellipse_color_gy = 1, 1, 1, 1
         self.forward_arrow_color = 1, 1, 1, 1
         self.backward_arrow_color = 0, 1, 1, 1
         self.left_arrow_color = 1, 0, 1, 1
@@ -124,18 +123,6 @@ class SmartWalker(Widget):
         else:
             heading, roll, pitch = 100, 45, 30
             sys, gyro, acc, mag = 20, 12, 10, 4
-
-        if roll < -40:
-            self.forward_arrow_color = 1, 0, 0, 1
-        else:
-            self.forward_arrow_color = 0, 1, 0, 1
-        if roll > 40:
-            self.backward_arrow_color = 1, 0, 0, 1
-        else:
-            self.backward_arrow_color = 0, 1, 0, 1
-
-        self.left_arrow_color = 0, 1, 0, 1
-        self.right_arrow_color = 0, 1, 0, 1
 
         self.bno_heading = str(heading)
         self.bno_roll = str(roll)
