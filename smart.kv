@@ -12,62 +12,62 @@
         pos:root.x, root.top - 100
         #on_press: root.change_color(fl)
         text: root.fl_text
-        #color:root.ellipse_color_fl
+        color:root.ellipse_color_fl
         bold: True
         font_size: 40
-        canvas:
-            Color:
-                rgba: root.ellipse_color_fl
-            Ellipse:
-                pos:root.x, root.top - fl.width
+        #canvas:
+        #    Color:
+        #        rgba: root.ellipse_color_fl
+        #    Ellipse:
+        #        pos:root.x, root.top - fl.width
 
     Label:
         id:rl
         pos:root.x, root.y
         #on_press: root.change_color(rl)
         text: root.rl_text
-        #color: root.ellipse_color_rl
+        color: root.ellipse_color_rl
         bold: True
         font_size: 40
-        canvas:
-            Color:
-                rgba: root.ellipse_color_rl
-            Ellipse:
-                pos:root.x, root.y
+        #canvas:
+        #    Color:
+        #        rgba: root.ellipse_color_rl
+        #    Ellipse:
+        #        pos:root.x, root.y
 
     Label:
         id:fr
         pos:root.width - fr.width, root.height - fr.height
         #on_press: root.change_color(fr)
         text: root.fr_text
-        #color: root.ellipse_color_fr
+        color: root.ellipse_color_fr
         bold: True
         font_size: 40
-        canvas:
-            Color:
-                rgba: root.ellipse_color_fr
-            Ellipse:
-                pos:root.width - 100, root.height - 100
+        #canvas:
+        #    Color:
+        #        rgba: root.ellipse_color_fr
+        #    Ellipse:
+        #        pos:root.width - 100, root.height - 100
     Label:
         id:rr
         pos:root.width - 100, root.y
         #on_press: root.change_color(rr)
         text: root.rr_text
-        #color: root.ellipse_color_rr
+        color: root.ellipse_color_rr
         bold: True
         font_size: 40
-        canvas:
-            Color:
-                rgba: root.ellipse_color_rr
-            Ellipse:
-                pos:root.width - 100, root.y
-    Label:
-        id:gyroscope
-        pos:root.width / 2 - 100, root.height / 2
-        text: 'Heading:' + root.bno_heading + '\n Rolling:' + root.bno_roll + '\n Pitching:' + root.bno_pitch
-        color: root.ellipse_color_gy
-        bold: True
-        font_size: 20
+        #canvas:
+        #    Color:
+        #        rgba: root.ellipse_color_rr
+        #    Ellipse:
+        #        pos:root.width - 100, root.y
+    #Label:
+    #    id:gyroscope
+    #    pos:root.width / 2 - 100, root.height / 2
+    #    text: 'Heading:' + root.bno_heading + '\n Rolling:' + root.bno_roll + '\n Pitching:' + root.bno_pitch
+    #    color: root.ellipse_color_gy
+    #    bold: True
+    #    font_size: 20
 
         #canvas:
         #    Color:
