@@ -81,7 +81,7 @@ class SmartWalker(Widget):
 
     def get_4_weight_sensors(self):
         if TEST_ENVIRONMENT:
-            return 50, -300, 500, 100
+            return 100, 100, 100, 100
         try:
             self.hx0.power_down()
             self.hx0.power_up()
