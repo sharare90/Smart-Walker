@@ -9,8 +9,7 @@ for development and testing purposes. See deployment for notes on how to deploy 
 Use this [link](https://kivy.org/docs/installation/installation-rpi.html) 
 to install the latest version of kivy on raspberry pi or follow these commands:
 
-`sudo apt-get update`
-
+`sudo apt-get update` <br/>
 `sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \`
 
 `pkg-config libgl1-mesa-dev libgles2-mesa-dev \`
