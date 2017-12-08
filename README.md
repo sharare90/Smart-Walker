@@ -19,9 +19,7 @@ to install the latest version of kivy on raspberry pi or follow these commands:
 
 `gstreamer1.0-plugins-{bad,base,good,ugly} \`
 
-`gstreamer1.0-{omx,alsa} python-dev libmtdev-dev \`
-
-`Xclip`
+`gstreamer1.0-{omx,alsa} python-dev libmtdev-dev Xclip`
 
 Then install Cython and Kivy
 
