@@ -132,6 +132,15 @@ class SmartWalker(Widget):
         self.bno_acc = str(acc)
         self.bno_mag = str(mag)
 
+        if roll < -40:
+            self.forward_arrow_color = 1, 0, 0, 1
+        else:
+            self.forward_arrow_color = 0, 1, 0, 1
+        if roll > 40:
+            self.backward_arrow_color = 1, 0, 0, 1
+        else:
+            self.backward_arrow_color = 0, 1, 0, 1
+
     def update(self, *args):
         self.thisTime = str(time.asctime())
         self.update_weights()
