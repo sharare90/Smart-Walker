@@ -4,7 +4,7 @@ from settings import TEST_ENVIRONMENT
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
-from kivy.properties import ListProperty, ObjectProperty, StringProperty
+from kivy.properties import ListProperty, ObjectProperty, StringProperty, NumericProperty
 
 import time
 
@@ -51,6 +51,10 @@ class SmartWalker(Widget):
         super(SmartWalker, self).__init__(**kwargs)
         self.min = -500
         self.max = 500
+        self.fl_value = 0
+        self.fr_value = 0
+        self.rl_value = 0
+        self.rr_value = 0
         self.forward_arrow_color = 1, 1, 1, 1
         self.backward_arrow_color = 0, 1, 1, 1
         self.left_arrow_color = 1, 0, 1, 1
@@ -110,11 +114,31 @@ class SmartWalker(Widget):
 
     def update_weights(self):
         self.sensors = self.get_4_weight_sensors()
-        self.rr_text = str(self.sensors[0])
-        self.fr_text = str(self.sensors[1])
-        self.rl_text = str(self.sensors[2])
-        self.fl_text = str(self.sensors[3])
-        self.change_color()
+
+        delta_rr = self.sensors[0] - self.rr_value
+        delta_fr = self.sensors[1] - self.fr_value
+        delta_rl = self.sensors[2] - self.rl_value
+        delta_fl = self.sensors[3] - self.fl_value
+
+        self.set_text(delta_rr, delta_fr, delta_rl, delta_fl)
+        self.change_color(delta_rr, delta_fr, delta_rl, delta_fl)
+
+        self.rr_value = self.sensors[0]
+        self.fr_value = self.sensors[1]
+        self.rl_value = self.sensors[2]
+        self.fl_value = self.sensors[3]
+
+    def change_color(self, delta_rr, delta_fr, delta_rl, delta_fl):
+        self.ellipse_color_fl = self.get_color(delta_fl)
+        self.ellipse_color_fr = self.get_color(delta_fr)
+        self.ellipse_color_rl = self.get_color(delta_rl)
+        self.ellipse_color_rr = self.get_color(delta_rr)
+
+    def set_text(self, delta_rr, delta_fr, delta_rl, delta_fl):
+        self.rr_text = str(delta_rr)
+        self.fr_text = str(delta_fr)
+        self.rl_text = str(delta_rl)
+        self.fl_text = str(delta_fl)
 
     def update_gyroscope(self):
         if not TEST_ENVIRONMENT:
@@ -145,12 +169,6 @@ class SmartWalker(Widget):
         self.thisTime = str(time.asctime())
         self.update_weights()
         self.update_gyroscope()
-
-    def change_color(self):
-        self.ellipse_color_fl = self.get_color(self.sensors[3])
-        self.ellipse_color_fr = self.get_color(self.sensors[1])
-        self.ellipse_color_rl = self.get_color(self.sensors[2])
-        self.ellipse_color_rr = self.get_color(self.sensors[0])
 
     def get_color(self, value):
         minimum, maximum = float(self.min), float(self.max)
