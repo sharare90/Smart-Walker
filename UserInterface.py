@@ -10,7 +10,7 @@ import time
 if not TEST_ENVIRONMENT:
     from data_with_write import HX711
     from Adafruit_BNO055 import BNO055
-    from VL53L0x.python import VL53L0X
+    import VL53L0X
 
 
 class SmartWalker(Widget):
