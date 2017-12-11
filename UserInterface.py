@@ -1,6 +1,5 @@
 from settings import TEST_ENVIRONMENT
 
-
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
@@ -11,6 +10,7 @@ import time
 if not TEST_ENVIRONMENT:
     from data_with_write import HX711
     from Adafruit_BNO055 import BNO055
+    from VL53L0x.python import VL53L0X
 
 
 class SmartWalker(Widget):
@@ -47,6 +47,8 @@ class SmartWalker(Widget):
     left_arrow_color = ListProperty()
     right_arrow_color = ListProperty()
 
+    proxi_sensor = StringProperty("")
+
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
         self.min = -500
@@ -75,6 +77,8 @@ class SmartWalker(Widget):
 
             if not self.bno.begin():
                 raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
+
+            self.tof = VL53L0X.VL53L0X()
 
     def initialize_weight_sensor(self, sensor):
         sensor.set_reading_format("LSB", "MSB")
@@ -164,6 +168,14 @@ class SmartWalker(Widget):
             self.backward_arrow_color = 1, 0, 0, 1
         else:
             self.backward_arrow_color = 0, 1, 0, 1
+
+    def update_proximity(self):
+        if not TEST_ENVIRONMENT:
+            self.tof.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
+            proximity_sensor = self.tof.get_distance()
+        else:
+            proximity_sensor = 10
+        self.proxi_sensor = str(proximity_sensor / 10)
 
     def update(self, *args):
         self.thisTime = str(time.asctime())
