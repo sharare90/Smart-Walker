@@ -10,6 +10,8 @@ import time
 if not TEST_ENVIRONMENT:
     from data_with_write import HX711
     from Adafruit_BNO055 import BNO055
+    import sys
+    sys.path.insert(0,'VL53L0X_rasp_python/python/')
     import VL53L0X
 
 
