@@ -38,6 +38,7 @@ class Logger(object):
     def update_proximity(self, proximity):
         self.file.write(str(proximity))
         self.file.write('\n')
+        self.file.flush()
 
 if __name__ == '__main__':
     Logger()
