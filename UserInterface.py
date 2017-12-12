@@ -81,6 +81,7 @@ class SmartWalker(Widget):
                 raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
 
             self.tof = VL53L0X.VL53L0X()
+            self.tof.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
 
     def initialize_weight_sensor(self, sensor):
         sensor.set_reading_format("LSB", "MSB")
@@ -173,7 +174,6 @@ class SmartWalker(Widget):
 
     def update_proximity(self):
         if not TEST_ENVIRONMENT:
-            self.tof.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
             proximity_sensor = self.tof.get_distance()
         else:
             proximity_sensor = 10
