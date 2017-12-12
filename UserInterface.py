@@ -53,8 +53,6 @@ class SmartWalker(Widget):
 
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
-        self.min = -500
-        self.max = 500
         self.fl_value = 0
         self.fr_value = 0
         self.rl_value = 0
@@ -91,7 +89,7 @@ class SmartWalker(Widget):
 
     def get_4_weight_sensors(self):
         if TEST_ENVIRONMENT:
-            return 100, 100, 100, 100
+            return 100, -53, 100, 100
         try:
             self.hx0.power_down()
             self.hx0.power_up()
@@ -136,10 +134,10 @@ class SmartWalker(Widget):
         self.fl_value = self.sensors[3]
 
     def change_color(self, delta_rr, delta_fr, delta_rl, delta_fl):
-        self.ellipse_color_fl = self.get_color(delta_fl)
-        self.ellipse_color_fr = self.get_color(delta_fr)
-        self.ellipse_color_rl = self.get_color(delta_rl)
-        self.ellipse_color_rr = self.get_color(delta_rr)
+        self.ellipse_color_fl = self.get_color(delta_fl, self.ellipse_color_fl)
+        self.ellipse_color_fr = self.get_color(delta_fr, self.ellipse_color_fr)
+        self.ellipse_color_rl = self.get_color(delta_rl, self.ellipse_color_rl)
+        self.ellipse_color_rr = self.get_color(delta_rr, self.ellipse_color_rr)
 
     def set_text(self, delta_rr, delta_fr, delta_rl, delta_fl):
         self.rr_text = str(delta_rr)
@@ -185,24 +183,21 @@ class SmartWalker(Widget):
         self.update_gyroscope()
         self.update_proximity()
 
-    def get_color(self, value):
-        minimum, maximum = float(self.min), float(self.max)
-        if value < minimum:
-            value = minimum
-        elif value > maximum:
-            value = maximum
-
-        ratio = 2 * (value - minimum) / (maximum - minimum)
-        b = int(max(0, 255 * (1 - ratio)))
-        r = int(max(0, 255 * (ratio - 1)))
-        g = 255 - b - r
-        return r / 255., g / 255., b / 255., 1
+    def get_color(self, value, default_color):
+        if value > 50:
+            return 0, 1, 0
+        elif value < -50:
+            return 1, 0, 0
+        elif default_color:
+            return default_color
+        else:
+            return 0, 1, 0
 
 
 class SmartApp(App):
     def build(self):
         s = SmartWalker()
-        Clock.schedule_interval(s.update, 0.1)
+        Clock.schedule_interval(s.update, 1)
         return s
 
 
