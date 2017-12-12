@@ -189,7 +189,7 @@ class SmartWalker(Widget):
         elif value < -50:
             return 1, 0, 0, 1
         elif default_color:
-            return default_color
+            return 1, 1, 1, 1
         else:
             return 0, 1, 0, 1
 
