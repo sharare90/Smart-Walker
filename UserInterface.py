@@ -181,6 +181,7 @@ class SmartWalker(Widget):
         self.thisTime = str(time.asctime())
         self.update_weights()
         self.update_gyroscope()
+        self.update_proximity()
 
     def get_color(self, value):
         minimum, maximum = float(self.min), float(self.max)
