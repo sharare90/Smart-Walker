@@ -191,13 +191,13 @@ class SmartWalker(Widget):
 
     def get_color(self, value, default_color):
         if value > 50:
-            return 0, 1, 0
+            return 0, 1, 0, 1
         elif value < -50:
-            return 1, 0, 0
+            return 1, 0, 0, 1
         elif default_color:
-            return default_color
+            return 1, 1, 1, 1
         else:
-            return 0, 1, 0
+            return 0, 1, 0, 1
 
 
 class SmartApp(App):
