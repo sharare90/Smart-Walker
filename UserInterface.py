@@ -3,7 +3,9 @@ from settings import TEST_ENVIRONMENT
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
-from kivy.properties import ListProperty, ObjectProperty, StringProperty, NumericProperty
+from kivy.properties import ListProperty, ObjectProperty, StringProperty
+
+from logger import Logger
 
 import time
 
@@ -53,6 +55,7 @@ class SmartWalker(Widget):
 
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
+        self.logger = Logger()
         self.fl_value = 0
         self.fr_value = 0
         self.rl_value = 0
@@ -132,6 +135,7 @@ class SmartWalker(Widget):
         self.fr_value = self.sensors[1]
         self.rl_value = self.sensors[2]
         self.fl_value = self.sensors[3]
+        self.logger.update_sensors(self.fr_value, self.fl_value, self.rr_value, self.rl_value)
 
     def change_color(self, delta_rr, delta_fr, delta_rl, delta_fl):
         self.ellipse_color_fl = self.get_color(delta_fl, self.ellipse_color_fl)
@@ -160,6 +164,7 @@ class SmartWalker(Widget):
         self.bno_gyro = str(gyro)
         self.bno_acc = str(acc)
         self.bno_mag = str(mag)
+        self.logger.update_gyro(heading, roll, pitch, sys, gyro, acc, mag)
 
         if roll < -40:
             self.forward_arrow_color = 1, 0, 0, 1
@@ -175,7 +180,8 @@ class SmartWalker(Widget):
             proximity_sensor = self.tof.get_distance()
         else:
             proximity_sensor = 10
-        self.proxi_sensor = str(proximity_sensor / 10)
+        self.proxi_sensor = str(proximity_sensor)
+        self.logger.update_proximity(proximity_sensor)
 
     def update(self, *args):
         self.thisTime = str(time.asctime())
