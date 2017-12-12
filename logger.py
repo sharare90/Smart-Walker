@@ -4,6 +4,10 @@ from datetime import datetime
 class Logger(object):
     def __init__(self):
         file_name = str(datetime.now())
+        for char in ('.', ':', ' '):
+            file_name = file_name.replace(char, '-')
+        file_name += '.txt'
+
         self.file = open('logs/' + file_name, 'w')
         self.write_header()
 
