@@ -98,17 +98,17 @@ class SmartWalker(Widget):
         if TEST_ENVIRONMENT:
             return 100, -53, 100, 100
         try:
-            self.hx0.power_down()
-            self.hx0.power_up()
-
-            self.hx1.power_down()
-            self.hx1.power_up()
-
-            self.hx2.power_down()
-            self.hx2.power_up()
-
-            self.hx3.power_down()
-            self.hx3.power_up()
+            # self.hx0.power_down()
+            # self.hx0.power_up()
+            #
+            # self.hx1.power_down()
+            # self.hx1.power_up()
+            #
+            # self.hx2.power_down()
+            # self.hx2.power_up()
+            #
+            # self.hx3.power_down()
+            # self.hx3.power_up()
 
             val0 = self.hx0.get_weight(5)
             val1 = self.hx1.get_weight(5)
