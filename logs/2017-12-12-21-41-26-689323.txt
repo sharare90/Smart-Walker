@@ -1,1 +1,0 @@
-time, fr, fl, rr, rl, head, roll, pitch, sys, gyro, acc, mag, proximity
