@@ -110,10 +110,10 @@ class SmartWalker(Widget):
             # self.hx3.power_down()
             # self.hx3.power_up()
 
-            val0 = self.hx0.get_weight(5)
-            val1 = self.hx1.get_weight(5)
-            val2 = self.hx2.get_weight(5)
-            val3 = self.hx3.get_weight(5)
+            val0 = self.hx0.get_weight(1)
+            val1 = self.hx1.get_weight(1)
+            val2 = self.hx2.get_weight(1)
+            val3 = self.hx3.get_weight(1)
 
             return val0, val1, val2, val3
 
