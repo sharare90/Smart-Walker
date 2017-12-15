@@ -1,3 +1,4 @@
+from decorators import timing
 from settings import TEST_ENVIRONMENT
 
 from kivy.app import App
@@ -53,6 +54,7 @@ class SmartWalker(Widget):
 
     proxi_sensor = StringProperty("")
 
+    @timing
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
         self.logger = Logger()
@@ -84,12 +86,14 @@ class SmartWalker(Widget):
             self.tof = VL53L0X.VL53L0X()
             self.tof.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
 
+    @timing
     def initialize_weight_sensor(self, sensor):
         sensor.set_reading_format("LSB", "MSB")
         sensor.set_reference_unit(92)
         sensor.reset()
         sensor.tare()
 
+    @timing
     def get_4_weight_sensors(self):
         if TEST_ENVIRONMENT:
             return 100, -53, 100, 100
@@ -120,6 +124,7 @@ class SmartWalker(Widget):
             self.hx3.cleanAndExit()
             return 1, 1, 1, 1
 
+    @timing
     def update_weights(self):
         self.sensors = self.get_4_weight_sensors()
 
@@ -137,18 +142,21 @@ class SmartWalker(Widget):
         self.fl_value = self.sensors[3]
         self.logger.update_sensors(self.fr_value, self.fl_value, self.rr_value, self.rl_value)
 
+    @timing
     def change_color(self, delta_rr, delta_fr, delta_rl, delta_fl):
         self.ellipse_color_fl = self.get_color(delta_fl, self.ellipse_color_fl)
         self.ellipse_color_fr = self.get_color(delta_fr, self.ellipse_color_fr)
         self.ellipse_color_rl = self.get_color(delta_rl, self.ellipse_color_rl)
         self.ellipse_color_rr = self.get_color(delta_rr, self.ellipse_color_rr)
 
+    @timing
     def set_text(self, delta_rr, delta_fr, delta_rl, delta_fl):
         self.rr_text = str(delta_rr)
         self.fr_text = str(delta_fr)
         self.rl_text = str(delta_rl)
         self.fl_text = str(delta_fl)
 
+    @timing
     def update_gyroscope(self):
         if not TEST_ENVIRONMENT:
             heading, roll, pitch = self.bno.read_euler()
@@ -175,6 +183,7 @@ class SmartWalker(Widget):
         else:
             self.backward_arrow_color = 0, 1, 0, 1
 
+    @timing
     def update_proximity(self):
         if not TEST_ENVIRONMENT:
             proximity_sensor = self.tof.get_distance()
@@ -183,12 +192,14 @@ class SmartWalker(Widget):
         self.proxi_sensor = str(proximity_sensor)
         self.logger.update_proximity(proximity_sensor)
 
+    @timing
     def update(self, *args):
         self.thisTime = str(time.asctime())
         self.update_weights()
         self.update_gyroscope()
         self.update_proximity()
 
+    @timing
     def get_color(self, value, default_color):
         if value > 50:
             return 0, 1, 0, 1
