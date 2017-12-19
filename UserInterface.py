@@ -150,8 +150,11 @@ class SmartWalker(Widget):
 class ProximityWidget(Widget):
     dr_value = 0
     color = ListProperty((1, 0.65, 0, 1))
-    rectangle_count = 10
-    rectangle_height = 100 / rectangle_count
+    max_value = 800
+    min_value = 0
+
+    rectangle_count = 20
+    rectangle_height = 300 / rectangle_count
 
     @staticmethod
     def set_dr_value(dr_value):
@@ -162,7 +165,7 @@ class ProximityWidget(Widget):
         direction = 1 if diff > 0 else -1
         self.canvas.clear()
 
-        for i in range(abs(diff)):
+        for i in range(min(abs(diff), ProximityWidget.rectangle_count / 2)):
             with self.canvas:
                 Color(0.1 * i, 1 - 0.1 * i, 0, 0.5)
 
