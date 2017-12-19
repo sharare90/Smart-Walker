@@ -1,0 +1,2 @@
+class NoDrPrescriptionFound(Exception):
+    pass

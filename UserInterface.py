@@ -1,10 +1,10 @@
-from decorators import timing
+from smart_walker_exceptions import NoDrPrescriptionFound
 from settings import TEST_ENVIRONMENT
 
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
-from kivy.properties import ListProperty, ObjectProperty, StringProperty
+from kivy.properties import ListProperty, StringProperty, NumericProperty, ObjectProperty
 
 from logger import Logger
 
@@ -19,30 +19,7 @@ if not TEST_ENVIRONMENT:
 
 
 class SmartWalker(Widget):
-    front_left_leg = ObjectProperty()
-    front_right_leg = ObjectProperty()
-    rear_left_leg = ObjectProperty()
-    rear_right_leg = ObjectProperty()
-    ellipse_color_fl = ListProperty()
-    ellipse_color_fr = ListProperty()
-    ellipse_color_rl = ListProperty()
-    ellipse_color_rr = ListProperty()
-    ellipse_color_gy = ListProperty()
-    thisTime = StringProperty("")
-
-    sensors = ListProperty()
-    fl_text = StringProperty("")
-    fr_text = StringProperty("")
-    rl_text = StringProperty("")
-    rr_text = StringProperty("")
-
-    bno_heading = StringProperty("")
-    bno_roll = StringProperty("")
-    bno_pitch = StringProperty("")
-    bno_sys = StringProperty("")
-    bno_gyro = StringProperty("")
-    bno_acc = StringProperty("")
-    bno_mag = StringProperty("")
+    time = StringProperty("")
 
     # 1 / 3 of arrow height and width
     arrow_height = 5
@@ -54,14 +31,11 @@ class SmartWalker(Widget):
 
     proxi_sensor = StringProperty("")
 
-    @timing
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
         self.logger = Logger()
-        self.fl_value = 0
-        self.fr_value = 0
-        self.rl_value = 0
-        self.rr_value = 0
+        self.set_dr_radiuses()
+
         self.forward_arrow_color = 1, 1, 1, 1
         self.backward_arrow_color = 0, 1, 1, 1
         self.left_arrow_color = 1, 0, 1, 1
@@ -86,30 +60,33 @@ class SmartWalker(Widget):
             self.tof = VL53L0X.VL53L0X()
             self.tof.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
 
-    @timing
+    def set_dr_radiuses(self):
+        try:
+            with open('dr_note.txt') as f:
+                numbers = map(int, f.readline().split(' '))
+        except:
+            raise NoDrPrescriptionFound()
+
+        if numbers:
+            PressureSensorWidget.set_max_dr_value(max(numbers))
+
+            self.fl.set_dr_radius(numbers[0])
+            self.fr.set_dr_radius(numbers[1])
+            self.rl.set_dr_radius(numbers[2])
+            self.rr.set_dr_radius(numbers[3])
+
     def initialize_weight_sensor(self, sensor):
         sensor.set_reading_format("LSB", "MSB")
         sensor.set_reference_unit(92)
         sensor.reset()
         sensor.tare()
 
-    @timing
     def get_4_weight_sensors(self):
+        """returns rr, fr, rl, fl"""
         if TEST_ENVIRONMENT:
-            return 100, -53, 100, 100
+            import random
+            return random.randrange(10000), random.randrange(10000), random.randrange(10000), random.randrange(10000)
         try:
-            # self.hx0.power_down()
-            # self.hx0.power_up()
-            #
-            # self.hx1.power_down()
-            # self.hx1.power_up()
-            #
-            # self.hx2.power_down()
-            # self.hx2.power_up()
-            #
-            # self.hx3.power_down()
-            # self.hx3.power_up()
-
             val0 = self.hx0.get_weight(1)
             val1 = self.hx1.get_weight(1)
             val2 = self.hx2.get_weight(1)
@@ -124,39 +101,14 @@ class SmartWalker(Widget):
             self.hx3.cleanAndExit()
             return 1, 1, 1, 1
 
-    @timing
     def update_weights(self):
-        self.sensors = self.get_4_weight_sensors()
+        rr_value, fr_value, rl_value, fl_value = self.get_4_weight_sensors()
+        self.logger.update_sensors(fr_value, fl_value, rr_value, rl_value)
+        self.rr.set_pressure(rr_value)
+        self.fr.set_pressure(fr_value)
+        self.rl.set_pressure(rl_value)
+        self.fl.set_pressure(fl_value)
 
-        delta_rr = self.sensors[0] - self.rr_value
-        delta_fr = self.sensors[1] - self.fr_value
-        delta_rl = self.sensors[2] - self.rl_value
-        delta_fl = self.sensors[3] - self.fl_value
-
-        self.set_text(delta_rr, delta_fr, delta_rl, delta_fl)
-        self.change_color(delta_rr, delta_fr, delta_rl, delta_fl)
-
-        self.rr_value = self.sensors[0]
-        self.fr_value = self.sensors[1]
-        self.rl_value = self.sensors[2]
-        self.fl_value = self.sensors[3]
-        self.logger.update_sensors(self.fr_value, self.fl_value, self.rr_value, self.rl_value)
-
-    @timing
-    def change_color(self, delta_rr, delta_fr, delta_rl, delta_fl):
-        self.ellipse_color_fl = self.get_color(delta_fl, self.ellipse_color_fl)
-        self.ellipse_color_fr = self.get_color(delta_fr, self.ellipse_color_fr)
-        self.ellipse_color_rl = self.get_color(delta_rl, self.ellipse_color_rl)
-        self.ellipse_color_rr = self.get_color(delta_rr, self.ellipse_color_rr)
-
-    @timing
-    def set_text(self, delta_rr, delta_fr, delta_rl, delta_fl):
-        self.rr_text = str(delta_rr)
-        self.fr_text = str(delta_fr)
-        self.rl_text = str(delta_rl)
-        self.fl_text = str(delta_fl)
-
-    @timing
     def update_gyroscope(self):
         if not TEST_ENVIRONMENT:
             heading, roll, pitch = self.bno.read_euler()
@@ -165,13 +117,6 @@ class SmartWalker(Widget):
             heading, roll, pitch = 100, 45, 30
             sys, gyro, acc, mag = 20, 12, 10, 4
 
-        self.bno_heading = str(heading)
-        self.bno_roll = str(roll)
-        self.bno_pitch = str(pitch)
-        self.bno_sys = str(sys)
-        self.bno_gyro = str(gyro)
-        self.bno_acc = str(acc)
-        self.bno_mag = str(mag)
         self.logger.update_gyro(heading, roll, pitch, sys, gyro, acc, mag)
 
         if roll < -40:
@@ -183,32 +128,43 @@ class SmartWalker(Widget):
         else:
             self.backward_arrow_color = 0, 1, 0, 1
 
-    @timing
     def update_proximity(self):
         if not TEST_ENVIRONMENT:
             proximity_sensor = self.tof.get_distance()
         else:
             proximity_sensor = 10
+
         self.proxi_sensor = str(proximity_sensor)
         self.logger.update_proximity(proximity_sensor)
 
-    @timing
     def update(self, *args):
-        self.thisTime = str(time.asctime())
+        self.time = str(time.asctime())
         self.update_weights()
         self.update_gyroscope()
         self.update_proximity()
 
-    @timing
-    def get_color(self, value, default_color):
-        if value > 50:
-            return 0, 1, 0, 1
-        elif value < -50:
-            return 1, 0, 0, 1
-        elif default_color:
-            return 1, 1, 1, 1
-        else:
-            return 0, 1, 0, 1
+
+class PressureSensorWidget(Widget):
+    max_dr_value = 1
+    max_dr_radius_size = 50
+    dr_circle_color = 1, 1, 1, 1
+    patient_circle_color = 1, 0, 0, 1
+
+    dr_radius = NumericProperty()
+    patient_radius = NumericProperty()
+
+    def set_dr_radius(self, dr_value):
+        self.dr_radius = float(dr_value) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size
+
+    def set_pressure(self, pressure):
+        self.patient_radius = min(
+            float(pressure) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size,
+            1.5 * PressureSensorWidget.max_dr_radius_size,
+        )
+
+    @staticmethod
+    def set_max_dr_value(value):
+        PressureSensorWidget.max_dr_value = value
 
 
 class SmartApp(App):

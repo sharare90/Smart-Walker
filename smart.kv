@@ -1,166 +1,140 @@
 #:kivy 1.8.0
 
+
+<StandardPressureSensorWidget@PressureSensorWidget>
+    Label:
+        canvas:
+            Color:
+                rgba: root.dr_circle_color
+            Ellipse:
+                pos: root.center_x - root.dr_radius, root.center_y - root.dr_radius
+                size: 2 * root.dr_radius, 2 * root.dr_radius
+
+    Label:
+        canvas:
+            Color:
+                rgba: root.patient_circle_color
+            Line:
+                dash_offset: 4
+                width: 1
+                ellipse:
+                    (
+                    root.center_x - root.patient_radius,
+                    root.center_y - root.patient_radius,
+                    2 * root.patient_radius,
+                    2 * root.patient_radius,
+                    0,
+                    360,
+                    20
+                    )
+
 <SmartWalker>
-    front_left_leg: fl
-    front_right_leg: fr
-    rear_right_leg: rr
-    rear_left_leg: rl
-    timer: t
-    Label:
-        id:fl
-        size:100, 100
-        pos:root.x, root.top - 100
-        #on_press: root.change_color(fl)
-        text: root.fl_text
-        color:root.ellipse_color_fl
-        bold: True
-        font_size: 40
-        #canvas:
-        #    Color:
-        #        rgba: root.ellipse_color_fl
-        #    Ellipse:
-        #        pos:root.x, root.top - fl.width
+    fl: fl
+    fr: fr
+    rl: rl
+    rr: rr
 
-    Label:
-        id:rl
-        pos:root.x, root.y
-        #on_press: root.change_color(rl)
-        text: root.rl_text
-        color: root.ellipse_color_rl
-        bold: True
-        font_size: 40
-        #canvas:
-        #    Color:
-        #        rgba: root.ellipse_color_rl
-        #    Ellipse:
-        #        pos:root.x, root.y
+    StandardPressureSensorWidget:
+        id: fl
+        pos: root.width / 4, root.top * 8 / 15
 
-    Label:
-        id:fr
-        pos:root.width - fr.width, root.height - fr.height
-        #on_press: root.change_color(fr)
-        text: root.fr_text
-        color: root.ellipse_color_fr
-        bold: True
-        font_size: 40
-        #canvas:
-        #    Color:
-        #        rgba: root.ellipse_color_fr
-        #    Ellipse:
-        #        pos:root.width - 100, root.height - 100
-    Label:
-        id:rr
-        pos:root.width - 100, root.y
-        #on_press: root.change_color(rr)
-        text: root.rr_text
-        color: root.ellipse_color_rr
-        bold: True
-        font_size: 40
-        #canvas:
-        #    Color:
-        #        rgba: root.ellipse_color_rr
-        #    Ellipse:
-        #        pos:root.width - 100, root.y
-    Label:
-        id:gyroscope
-        pos:root.width / 2 - 100, root.height / 2
-        text: 'Heading:' + root.bno_heading + '\n Rolling:' + root.bno_roll + '\n Pitching:' + root.bno_pitch
-        bold: True
-        font_size: 20
+    StandardPressureSensorWidget:
+        id: fr
+        pos: root.width * 3 / 4 - fr.width, root.top * 8 / 15
 
+    StandardPressureSensorWidget:
+        id: rl
+        pos: root.width / 4, root.top * 1 / 5
+
+    StandardPressureSensorWidget:
+        id: rr
+        pos: root.width * 3 / 4 - rr.width, root.top * 1 / 5
 
     Label:
         id:proximity
-        pos:root.width / 2 - 100, root.height / 3
+        pos: 0, root.top * 3 / 5
         text: root.proxi_sensor
         bold: True
         font_size: 20
 
     Label:
-        id:t
-        text: root.thisTime
+        id:time
+        text: root.time
         bold: True
         font_size: 30
-        pos:root.width / 2 - 50 , root.height * 4 / 5
+        pos:root.width / 2 - 50, root.height * 4 / 5
         color:0,0,1,1
 
-
     RelativeLayout:
+        id: top_line
         canvas:
             Color:
                 rgba: 1,1,1,1
             Rectangle:
                 id:top
-                pos:root.x, root.top - 110
+                pos:root.x, root.top * 4 / 5
                 size:root.width, 10
-            Rectangle:
-                id:left
-                pos:root.x + 100, root.top - 600
-                size:10, 600
-            Rectangle:
-                id:right
-                pos:root.x + 690, root.top - 600
-                size:10, 600
-            Rectangle:
-                id:down
-                pos:root.x, root.top - root.height + 100
-                size:root.width, 10
-    Label:
-        canvas:
-            Color:
-                rgba: root.forward_arrow_color
-            Rectangle:
-                pos: root.width / 2 - 2 * root.arrow_width, root.height / 2 + 10
-                size: 4 * root.arrow_width, 4 * root.arrow_height
-            Triangle:
-                points:
-                    [
-                    root.width / 2 - 3 * root.arrow_width, root.height / 2 + 10 + 4 * root.arrow_height,
-                    root.width / 2, root.height / 2 + 10 + 6 * root.arrow_height,
-                    root.width / 2 + 3 * root.arrow_width, root.height / 2 + 10 + 4 * root.arrow_height
-                    ]
 
-    Label:
-        canvas:
-            Color:
-                rgba: root.backward_arrow_color
-            Rectangle:
-                pos: root.width / 2 - 2 * root.arrow_width, root.height / 2 - 10
-                size: 4 * root.arrow_width, -4 * root.arrow_height
-            Triangle:
-                points:
-                    [
-                    root.width / 2 - 3 * root.arrow_width, root.height / 2 - 10 - 4 * root.arrow_height,
-                    root.width / 2, root.height / 2 - 10 - 6 * root.arrow_height,
-                    root.width / 2 + 3 * root.arrow_width, root.height / 2 - 10 - 4 * root.arrow_height
-                    ]
+    RelativeLayout:
+        id: gyro
+        pos: 0, -1 * root.top * 2 / 5
 
-    Label:
-        canvas:
-            Color:
-                rgba: root.right_arrow_color
-            Rectangle:
-                pos: root.width / 2 + 10, root.height / 2 - 2 * root.arrow_width
-                size: 4 * root.arrow_height, 4 * root.arrow_width
-            Triangle:
-                points:
-                    [
-                    root.width / 2 + 10 + 4 * root.arrow_height, root.height / 2 + 3 * root.arrow_width,
-                    root.width / 2 + 10 + 6 * root.arrow_height, root.height / 2,
-                    root.width / 2 + 10 + 4 * root.arrow_height, root.height / 2 - 3 * root.arrow_width
-                    ]
+        Label:
+            canvas:
+                Color:
+                    rgba: root.forward_arrow_color
+                Rectangle:
+                    pos: root.width / 2 - 2 * root.arrow_width, root.height / 2 + 10
+                    size: 4 * root.arrow_width, 4 * root.arrow_height
+                Triangle:
+                    points:
+                        [
+                        root.width / 2 - 3 * root.arrow_width, root.height / 2 + 10 + 4 * root.arrow_height,
+                        root.width / 2, root.height / 2 + 10 + 6 * root.arrow_height,
+                        root.width / 2 + 3 * root.arrow_width, root.height / 2 + 10 + 4 * root.arrow_height
+                        ]
 
-    Label:
-        canvas:
-            Color:
-                rgba: root.left_arrow_color
-            Rectangle:
-                pos: root.width / 2 - 10, root.height / 2 - 2 * root.arrow_width
-                size: -4 * root.arrow_height, 4 * root.arrow_width
-            Triangle:
-                points:
-                    [
-                    root.width / 2 - 10 - 4 * root.arrow_height, root.height / 2 + 3 * root.arrow_width,
-                    root.width / 2 - 10 - 6 * root.arrow_height, root.height / 2,
-                    root.width / 2 - 10 - 4 * root.arrow_height, root.height / 2 - 3 * root.arrow_width
-                    ]
+        Label:
+            canvas:
+                Color:
+                    rgba: root.backward_arrow_color
+                Rectangle:
+                    pos: root.width / 2 - 2 * root.arrow_width, root.height / 2 - 10
+                    size: 4 * root.arrow_width, -4 * root.arrow_height
+                Triangle:
+                    points:
+                        [
+                        root.width / 2 - 3 * root.arrow_width, root.height / 2 - 10 - 4 * root.arrow_height,
+                        root.width / 2, root.height / 2 - 10 - 6 * root.arrow_height,
+                        root.width / 2 + 3 * root.arrow_width, root.height / 2 - 10 - 4 * root.arrow_height
+                        ]
+
+        Label:
+            canvas:
+                Color:
+                    rgba: root.right_arrow_color
+                Rectangle:
+                    pos: root.width / 2 + 10, root.height / 2 - 2 * root.arrow_width
+                    size: 4 * root.arrow_height, 4 * root.arrow_width
+                Triangle:
+                    points:
+                        [
+                        root.width / 2 + 10 + 4 * root.arrow_height, root.height / 2 + 3 * root.arrow_width,
+                        root.width / 2 + 10 + 6 * root.arrow_height, root.height / 2,
+                        root.width / 2 + 10 + 4 * root.arrow_height, root.height / 2 - 3 * root.arrow_width
+                        ]
+
+        Label:
+            canvas:
+                Color:
+                    rgba: root.left_arrow_color
+                Rectangle:
+                    pos: root.width / 2 - 10, root.height / 2 - 2 * root.arrow_width
+                    size: -4 * root.arrow_height, 4 * root.arrow_width
+                Triangle:
+                    points:
+                        [
+                        root.width / 2 - 10 - 4 * root.arrow_height, root.height / 2 + 3 * root.arrow_width,
+                        root.width / 2 - 10 - 6 * root.arrow_height, root.height / 2,
+                        root.width / 2 - 10 - 4 * root.arrow_height, root.height / 2 - 3 * root.arrow_width
+                        ]
