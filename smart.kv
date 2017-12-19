@@ -33,6 +33,25 @@
     fr: fr
     rl: rl
     rr: rr
+    proximity: proximity
+
+    Label:
+        id:time
+        text: root.time
+        bold: True
+        font_size: 30
+        pos:root.width / 2 - 50, root.height * 4 / 5
+        color:0,0,1,1
+
+    Label:
+        id: top_line
+        canvas:
+            Color:
+                rgba: 1,1,1,1
+            Rectangle:
+                id:top
+                pos:root.x, root.top * 4 / 5
+                size:root.width, 10
 
     StandardPressureSensorWidget:
         id: fl
@@ -50,30 +69,24 @@
         id: rr
         pos: root.width * 3 / 4 - rr.width, root.top * 1 / 5
 
-    Label:
-        id:proximity
-        pos: 0, root.top * 3 / 5
-        text: root.proxi_sensor
-        bold: True
-        font_size: 20
+    ProximityWidget:
+        id: proximity
+        pos: 20, root.center_y / 3
+        size: 40, 300
 
     Label:
-        id:time
-        text: root.time
-        bold: True
-        font_size: 30
-        pos:root.width / 2 - 50, root.height * 4 / 5
-        color:0,0,1,1
-
-    RelativeLayout:
-        id: top_line
         canvas:
             Color:
-                rgba: 1,1,1,1
-            Rectangle:
-                id:top
-                pos:root.x, root.top * 4 / 5
-                size:root.width, 10
+                rgba: proximity.color
+            Line:
+                width: 2
+                rectangle:
+                    (
+                    proximity.center_x - proximity.width / 2,
+                    proximity.center_y - proximity.height / 2,
+                    proximity.width,
+                    proximity.height
+                    )
 
     RelativeLayout:
         id: gyro

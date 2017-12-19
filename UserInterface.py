@@ -1,3 +1,6 @@
+from kivy.graphics.context_instructions import Color
+from kivy.graphics.vertex_instructions import Rectangle, Line
+
 from smart_walker_exceptions import NoDrPrescriptionFound
 from settings import TEST_ENVIRONMENT
 
@@ -29,12 +32,10 @@ class SmartWalker(Widget):
     left_arrow_color = ListProperty()
     right_arrow_color = ListProperty()
 
-    proxi_sensor = StringProperty("")
-
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
         self.logger = Logger()
-        self.set_dr_radiuses()
+        self.set_dr_prescription()
 
         self.forward_arrow_color = 1, 1, 1, 1
         self.backward_arrow_color = 0, 1, 1, 1
@@ -60,7 +61,7 @@ class SmartWalker(Widget):
             self.tof = VL53L0X.VL53L0X()
             self.tof.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
 
-    def set_dr_radiuses(self):
+    def set_dr_prescription(self):
         try:
             with open('dr_note.txt') as f:
                 numbers = map(int, f.readline().split(' '))
@@ -74,6 +75,7 @@ class SmartWalker(Widget):
             self.fr.set_dr_radius(numbers[1])
             self.rl.set_dr_radius(numbers[2])
             self.rr.set_dr_radius(numbers[3])
+            ProximityWidget.set_dr_value(numbers[4])
 
     def initialize_weight_sensor(self, sensor):
         sensor.set_reading_format("LSB", "MSB")
@@ -130,18 +132,47 @@ class SmartWalker(Widget):
 
     def update_proximity(self):
         if not TEST_ENVIRONMENT:
-            proximity_sensor = self.tof.get_distance()
+            proximity_value = self.tof.get_distance()
         else:
-            proximity_sensor = 10
+            import random
+            proximity_value = random.randrange(100)
 
-        self.proxi_sensor = str(proximity_sensor)
-        self.logger.update_proximity(proximity_sensor)
+        self.logger.update_proximity(proximity_value)
+        self.proximity.set_proximity(proximity_value)
 
     def update(self, *args):
         self.time = str(time.asctime())
         self.update_weights()
         self.update_gyroscope()
         self.update_proximity()
+
+
+class ProximityWidget(Widget):
+    dr_value = 0
+    color = ListProperty((1, 0.65, 0, 1))
+    rectangle_count = 10
+    rectangle_height = 100 / rectangle_count
+
+    @staticmethod
+    def set_dr_value(dr_value):
+        ProximityWidget.dr_value = dr_value
+
+    def set_proximity(self, value):
+        diff = (value - ProximityWidget.dr_value) / 5
+        direction = 1 if diff > 0 else -1
+        self.canvas.clear()
+
+        for i in range(abs(diff)):
+            with self.canvas:
+                Color(0.1 * i, 1 - 0.1 * i, 0, 0.5)
+
+                Rectangle(
+                    pos=(
+                        self.center_x - self.width / 2 + 2,
+                        self.center_y + direction * i * ProximityWidget.rectangle_height
+                    ),
+                    size=(self.width - 4, ProximityWidget.rectangle_height - 2)
+                )
 
 
 class PressureSensorWidget(Widget):
