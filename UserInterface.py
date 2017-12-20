@@ -212,7 +212,6 @@ class PressureSensorWidget(Widget):
         PressureSensorWidget.max_dr_value = value
 
     def set_mean(self):
-        self.patient_radius = 40
         if self.patient_radius == 0:
             return
 
