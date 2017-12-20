@@ -161,7 +161,7 @@ class ProximityWidget(Widget):
         ProximityWidget.dr_value = dr_value
 
     def set_proximity(self, value):
-        diff = (value - ProximityWidget.dr_value) / 5
+        diff = (value - ProximityWidget.dr_value) / 50
         direction = 1 if diff > 0 else -1
         self.canvas.clear()
 
@@ -191,9 +191,9 @@ class PressureSensorWidget(Widget):
         self.dr_radius = float(dr_value) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size
 
     def set_pressure(self, pressure):
-        if pressure > 0:
+        if pressure < 0:
             self.patient_radius = min(
-                float(pressure) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size,
+                abs(float(pressure) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size),
                 1.5 * PressureSensorWidget.max_dr_radius_size,
             )
         else:
