@@ -135,7 +135,7 @@ class SmartWalker(Widget):
             proximity_value = self.tof.get_distance()
         else:
             import random
-            proximity_value = random.randrange(100)
+            proximity_value = random.randrange(1000)
 
         self.logger.update_proximity(proximity_value)
         self.proximity.set_proximity(proximity_value)
@@ -172,7 +172,7 @@ class ProximityWidget(Widget):
                 Rectangle(
                     pos=(
                         self.center_x - self.width / 2 + 2,
-                        self.center_y + direction * i * ProximityWidget.rectangle_height
+                        self.center_y + direction * (i + abs((direction - 1) / 2)) * ProximityWidget.rectangle_height
                     ),
                     size=(self.width - 4, ProximityWidget.rectangle_height - 2)
                 )
@@ -191,10 +191,13 @@ class PressureSensorWidget(Widget):
         self.dr_radius = float(dr_value) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size
 
     def set_pressure(self, pressure):
-        self.patient_radius = min(
-            float(pressure) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size,
-            1.5 * PressureSensorWidget.max_dr_radius_size,
-        )
+        if pressure > 0:
+            self.patient_radius = min(
+                float(pressure) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size,
+                1.5 * PressureSensorWidget.max_dr_radius_size,
+            )
+        else:
+            self.patient_radius = 0
 
     @staticmethod
     def set_max_dr_value(value):
