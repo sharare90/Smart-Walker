@@ -87,7 +87,7 @@ class SmartWalker(Widget):
         """returns rr, fr, rl, fl"""
         if TEST_ENVIRONMENT:
             import random
-            return random.randrange(10000), random.randrange(10000), random.randrange(10000), random.randrange(10000)
+            return random.randrange(10000) - 5000, random.randrange(10000), random.randrange(10000), random.randrange(10000)
         try:
             val0 = self.hx0.get_weight(1)
             val1 = self.hx1.get_weight(1)
@@ -183,9 +183,16 @@ class PressureSensorWidget(Widget):
     max_dr_radius_size = 50
     dr_circle_color = 1, 1, 1, 1
     patient_circle_color = 1, 0, 0, 1
+    mean_circle_color = 1, 0, 0, 0.4
 
     dr_radius = NumericProperty()
     patient_radius = NumericProperty()
+    mean_radius = NumericProperty()
+
+    def __init__(self, **kwargs):
+        super(PressureSensorWidget, self).__init__(**kwargs)
+        self.mean_counter = 0
+        self.mean_radius = 0
 
     def set_dr_radius(self, dr_value):
         self.dr_radius = float(dr_value) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size
@@ -198,10 +205,19 @@ class PressureSensorWidget(Widget):
             )
         else:
             self.patient_radius = 0
+        self.set_mean()
 
     @staticmethod
     def set_max_dr_value(value):
         PressureSensorWidget.max_dr_value = value
+
+    def set_mean(self):
+        if self.patient_radius == 0:
+            return
+
+        mean_radius = self.mean_radius * self.mean_counter + self.patient_radius
+        self.mean_counter += 1
+        self.mean_radius = mean_radius / self.mean_counter
 
 
 class SmartApp(App):
