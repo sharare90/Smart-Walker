@@ -87,7 +87,7 @@ class SmartWalker(Widget):
         """returns rr, fr, rl, fl"""
         if TEST_ENVIRONMENT:
             import random
-            return random.randrange(10000) - 5000, random.randrange(10000), random.randrange(10000), random.randrange(10000)
+            return random.randrange(10000) - 9000, random.randrange(10000)  - 5000, random.randrange(10000)  - 5000, random.randrange(10000)  - 5000
         try:
             val0 = self.hx0.get_weight(1)
             val1 = self.hx1.get_weight(1)
@@ -181,9 +181,9 @@ class ProximityWidget(Widget):
 class PressureSensorWidget(Widget):
     max_dr_value = 1
     max_dr_radius_size = 50
-    dr_circle_color = 1, 1, 1, 1
+    dr_circle_color = 0, 1, 0, 0.5
     patient_circle_color = 1, 0, 0, 1
-    mean_circle_color = 1, 0, 0, 0.4
+    mean_circle_color = 1, 1, 1, 1
 
     dr_radius = NumericProperty()
     patient_radius = NumericProperty()
@@ -212,6 +212,7 @@ class PressureSensorWidget(Widget):
         PressureSensorWidget.max_dr_value = value
 
     def set_mean(self):
+        self.patient_radius = 40
         if self.patient_radius == 0:
             return
 
