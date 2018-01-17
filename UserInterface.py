@@ -106,10 +106,11 @@ class SmartWalker(Widget):
     def update_weights(self):
         rr_value, fr_value, rl_value, fl_value = self.get_4_weight_sensors()
         self.logger.update_sensors(fr_value, fl_value, rr_value, rl_value)
-        self.rr.set_pressure(rr_value)
-        self.fr.set_pressure(fr_value)
-        self.rl.set_pressure(rl_value)
-        self.fl.set_pressure(fl_value)
+        minimum_value = min((fr_value, fl_value, rr_value, rl_value))
+        self.rr.set_pressure(rr_value - minimum_value)
+        self.fr.set_pressure(fr_value - minimum_value)
+        self.rl.set_pressure(rl_value - minimum_value)
+        self.fl.set_pressure(fl_value - minimum_value)
 
     def update_gyroscope(self):
         if not TEST_ENVIRONMENT:
