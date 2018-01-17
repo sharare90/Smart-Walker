@@ -7,7 +7,7 @@ from settings import TEST_ENVIRONMENT
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
-from kivy.properties import ListProperty, StringProperty, NumericProperty, ObjectProperty
+from kivy.properties import ListProperty, StringProperty, NumericProperty, BooleanProperty
 
 from logger import Logger
 
@@ -190,6 +190,7 @@ class PressureSensorWidget(Widget):
     patient_radius = NumericProperty()
     mean_radius = NumericProperty()
     pressure = StringProperty()
+    change_color = BooleanProperty(False)
 
     def __init__(self, **kwargs):
         super(PressureSensorWidget, self).__init__(**kwargs)
@@ -200,8 +201,11 @@ class PressureSensorWidget(Widget):
         self.dr_radius = float(dr_value) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size
 
     def set_pressure(self, pressure):
+        if pressure > 400:
+            self.change_color = True
+        else:
+            self.change_color = False
         self.pressure = str(pressure)
-
         if pressure < 0:
             self.patient_radius = min(
                 abs(float(pressure) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size),
