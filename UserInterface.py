@@ -107,10 +107,10 @@ class SmartWalker(Widget):
         rr_value, fr_value, rl_value, fl_value = self.get_4_weight_sensors()
         self.logger.update_sensors(fr_value, fl_value, rr_value, rl_value)
         minimum_value = min((fr_value, fl_value, rr_value, rl_value))
-        self.rr.set_pressure(rr_value - minimum_value)
-        self.fr.set_pressure(fr_value - minimum_value)
-        self.rl.set_pressure(rl_value - minimum_value)
-        self.fl.set_pressure(fl_value - minimum_value)
+        self.rr.set_pressure(rr_value, minimum_value)
+        self.fr.set_pressure(fr_value, minimum_value)
+        self.rl.set_pressure(rl_value, minimum_value)
+        self.fl.set_pressure(fl_value, minimum_value)
 
     def update_gyroscope(self):
         if not TEST_ENVIRONMENT:
@@ -200,8 +200,8 @@ class PressureSensorWidget(Widget):
     def set_dr_radius(self, dr_value):
         self.dr_radius = float(dr_value) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size
 
-    def set_pressure(self, pressure):
-        if pressure > 400:
+    def set_pressure(self, pressure, min_val):
+        if pressure - min_val > 400 and pressure > 0:
             self.change_color = True
         else:
             self.change_color = False
