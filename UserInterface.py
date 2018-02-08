@@ -188,6 +188,7 @@ class PressureSensorWidget(Widget):
     dr_radius = NumericProperty()
     patient_radius = NumericProperty()
     mean_radius = NumericProperty()
+    pressure = StringProperty()
 
     def __init__(self, **kwargs):
         super(PressureSensorWidget, self).__init__(**kwargs)
@@ -198,6 +199,8 @@ class PressureSensorWidget(Widget):
         self.dr_radius = float(dr_value) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size
 
     def set_pressure(self, pressure):
+        self.pressure = str(pressure)
+
         if pressure < 0:
             self.patient_radius = min(
                 abs(float(pressure) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size),
