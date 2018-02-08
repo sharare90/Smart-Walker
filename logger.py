@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
 class ServerLogger(object):
     def __init__(self):
-        response = requests.post('http://10.42.0.149:8000/create_file')
+        response = requests.post('http://10.173.215.128:8000/create_file')
         self.file_name = json.loads(response.content)['file_name']
         self.line = ''
 
@@ -74,7 +74,7 @@ class ServerLogger(object):
 
     def update_proximity(self, proximity):
         self.line += str(proximity)
-        requests.post('http://10.42.0.149:8000/add_line', data={
+        requests.post('http://10.173.215.128:8000/add_line', data={
             'line': self.line,
             'file_name': self.file_name,
         })
