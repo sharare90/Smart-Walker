@@ -3,7 +3,6 @@ from kivy.graphics.vertex_instructions import Rectangle, Line
 
 from smart_walker_exceptions import NoDrPrescriptionFound
 from settings import TEST_ENVIRONMENT
-import RPi.GPIO as GPIO
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
@@ -199,8 +198,6 @@ class PressureSensorWidget(Widget):
         super(PressureSensorWidget, self).__init__(**kwargs)
         self.mean_counter = 0
         self.mean_radius = 0
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(12, GPIO.OUT)
 
     def set_dr_radius(self, dr_value):
         self.dr_radius = float(dr_value) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size
@@ -208,11 +205,7 @@ class PressureSensorWidget(Widget):
     def set_pressure(self, pressure, min_val):
         if pressure - min_val > 400 and pressure > 0:
             self.change_color = True
-            p = GPIO.PWM(12, 0.5)
-            p.start(1)
-            input('Press return to stop:')  # use raw_input for Python 2
-            p.stop()
-            GPIO.cleanup()
+
         else:
             self.change_color = False
         self.pressure = str(pressure)
