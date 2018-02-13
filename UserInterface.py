@@ -3,7 +3,7 @@ from kivy.graphics.vertex_instructions import Rectangle, Line
 
 from smart_walker_exceptions import NoDrPrescriptionFound
 from settings import TEST_ENVIRONMENT
-
+import RPi.GPIO as GPIO
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
@@ -16,7 +16,9 @@ import time
 if not TEST_ENVIRONMENT:
     from data_with_write import HX711
     from Adafruit_BNO055 import BNO055
+
     import sys
+
     sys.path.insert(0, 'VL53L0X_rasp_python/python/')
     import VL53L0X
 
@@ -87,7 +89,8 @@ class SmartWalker(Widget):
         """returns rr, fr, rl, fl"""
         if TEST_ENVIRONMENT:
             import random
-            return random.randrange(10000) - 9000, random.randrange(10000)  - 5000, random.randrange(10000)  - 5000, random.randrange(10000)  - 5000
+            return random.randrange(10000) - 9000, random.randrange(10000) - 5000, random.randrange(
+                10000) - 5000, random.randrange(10000) - 5000
         try:
             val0 = self.hx0.get_weight(1)
             val1 = self.hx1.get_weight(1)
@@ -196,6 +199,9 @@ class PressureSensorWidget(Widget):
         super(PressureSensorWidget, self).__init__(**kwargs)
         self.mean_counter = 0
         self.mean_radius = 0
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(12, GPIO.OUT)
+        self.p = GPIO.PWM(12, 0.5)
 
     def set_dr_radius(self, dr_value):
         self.dr_radius = float(dr_value) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size
@@ -203,6 +209,10 @@ class PressureSensorWidget(Widget):
     def set_pressure(self, pressure, min_val):
         if pressure - min_val > 400 and pressure > 0:
             self.change_color = True
+            self.p.start(1)
+            input('Press return to stop:')  # use raw_input for Python 2
+            self.p.stop()
+            GPIO.cleanup()
         else:
             self.change_color = False
         self.pressure = str(pressure)
