@@ -9,7 +9,7 @@ from kivy.uix.widget import Widget
 from kivy.clock import Clock
 from kivy.properties import ListProperty, StringProperty, NumericProperty, ObjectProperty
 
-from logger import Logger
+from logger import Logger, ServerLogger
 
 import time
 
@@ -34,7 +34,7 @@ class SmartWalker(Widget):
 
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
-        self.logger = Logger()
+        self.logger = ServerLogger()
         self.set_dr_prescription()
 
         self.forward_arrow_color = 1, 1, 1, 1
