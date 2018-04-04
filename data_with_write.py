@@ -60,6 +60,8 @@ class HX711:
 
     def read(self):
         while not self.is_ready():
+            print("It does not work!")
+            return
             # print("WAITING")
             pass
 
