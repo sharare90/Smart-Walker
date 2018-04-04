@@ -43,10 +43,15 @@ class SmartWalker(Widget):
         self.right_arrow_color = 1, 1, 0, 1
 
         if not TEST_ENVIRONMENT:
+
             for i in range(1000):
                 for j in range(1000):
+
                     print(i, j)
-                    HX711(i, j)
+                    try:
+                        HX711(i, j)
+                    except:
+                        print('port did not work')
             # self.hx0 = HX711(27, 17)
             # self.hx3 = HX711(26, 13)
             # self.hx1 = HX711(10, 22)
