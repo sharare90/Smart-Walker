@@ -34,7 +34,7 @@ class SmartWalker(Widget):
 
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
-        self.logger = ServerLogger()
+        self.logger = Logger() if TEST_ENVIRONMENT else ServerLogger()
         self.set_dr_prescription()
 
         self.forward_arrow_color = 1, 1, 1, 1
@@ -82,7 +82,7 @@ class SmartWalker(Widget):
             raise NoDrPrescriptionFound()
 
         if numbers:
-            PressureSensorWidget.set_max_dr_value(max(numbers))
+            PressureSensorWidget.set_max_dr_value(max(numbers[:4]))
 
             self.fl.set_dr_radius(numbers[0])
             self.fr.set_dr_radius(numbers[1])
