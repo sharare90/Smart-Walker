@@ -44,9 +44,9 @@ class SmartWalker(Widget):
 
         if not TEST_ENVIRONMENT:
             self.hx0 = HX711(27, 17)
-            self.hx1 = HX711(10, 22)
-            self.hx2 = HX711(11, 9)
-            self.hx3 = HX711(26, 13)
+            # self.hx1 = HX711(10, 22)
+            # self.hx2 = HX711(11, 9)
+            # self.hx3 = HX711(26, 13)
 
             self.initialize_weight_sensor(self.hx0)
             self.initialize_weight_sensor(self.hx1)
