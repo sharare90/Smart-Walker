@@ -50,6 +50,8 @@ class SmartWalker(Widget):
                     print(i, j)
                     try:
                         HX711(i, j)
+                        import pdb
+                        pdb.set_trace()
                     except:
                         print('port did not work')
             # self.hx0 = HX711(27, 17)
