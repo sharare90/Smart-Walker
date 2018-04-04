@@ -51,9 +51,10 @@ class SmartWalker(Widget):
                     try:
                         hx = HX711(i, j)
                         self.initialize_weight_sensor(hx)
-                        if 0L != hx.get_weight(1):
-                            import pdb
-                            pdb.set_trace()
+                        for k in range(10):
+                            if 0L != hx.get_weight(1):
+                                import pdb
+                                pdb.set_trace()
                     except:
                         print('port did not work')
             # self.hx0 = HX711(27, 17)
