@@ -44,8 +44,8 @@ class SmartWalker(Widget):
 
         if not TEST_ENVIRONMENT:
 
-            for i in range(1000):
-                for j in range(1000):
+            for i in range(100):
+                for j in range(100):
 
                     print(i, j)
                     try:
