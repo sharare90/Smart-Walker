@@ -69,7 +69,7 @@ class SmartWalker(Widget):
             raise NoDrPrescriptionFound()
 
         if numbers:
-            PressureSensorWidget.set_max_dr_value(max(numbers))
+            PressureSensorWidget.set_max_dr_value(max(numbers[:4]))
 
             self.fl.set_dr_radius(numbers[0])
             self.fr.set_dr_radius(numbers[1])
