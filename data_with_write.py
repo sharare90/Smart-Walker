@@ -7,6 +7,7 @@ import numpy  # sudo apt-get python-numpy
 
 class HX711:
     def __init__(self, dout, pd_sck, gain=128):
+        
         self.PD_SCK = pd_sck
         self.DOUT = dout
 
@@ -60,10 +61,7 @@ class HX711:
 
     def read(self):
         while not self.is_ready():
-            print("It does not work!")
-            return
-            # print("WAITING")
-            pass
+            print("WAITING")
 
         dataBits = [self.createBoolList(), self.createBoolList(), self.createBoolList()]
         dataBytes = [0x0] * 4

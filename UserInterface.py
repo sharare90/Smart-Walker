@@ -34,7 +34,7 @@ class SmartWalker(Widget):
 
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
-        self.logger = ServerLogger()
+        self.logger = Logger() if TEST_ENVIRONMENT else ServerLogger()
         self.set_dr_prescription()
 
         self.forward_arrow_color = 1, 1, 1, 1
@@ -43,23 +43,10 @@ class SmartWalker(Widget):
         self.right_arrow_color = 1, 1, 0, 1
 
         if not TEST_ENVIRONMENT:
-
-            for i in range(100):
-                for j in range(100):
-
-                    print(i, j)
-                    try:
-                        hx = HX711(i, j)
-                        self.initialize_weight_sensor(hx)
-                        if 0L != hx.get_weight(1):
-                            import pdb
-                            pdb.set_trace()
-                    except:
-                        print('port did not work')
-            # self.hx0 = HX711(27, 17)
-            # self.hx3 = HX711(26, 13)
-            # self.hx1 = HX711(10, 22)
-            # self.hx2 = HX711(11, 9)
+            self.hx0 = HX711(27, 17)
+            self.hx3 = HX711(26, 13)
+            self.hx1 = HX711(10, 22)
+            self.hx2 = HX711(11, 9)
 
             self.initialize_weight_sensor(self.hx0)
             self.initialize_weight_sensor(self.hx1)
