@@ -7,11 +7,12 @@ from settings import TEST_ENVIRONMENT
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
-from kivy.properties import ListProperty, StringProperty, NumericProperty, ObjectProperty
+from kivy.properties import ListProperty, StringProperty, NumericProperty, ObjectProperty, BooleanProperty
 
 from logger import Logger, ServerLogger
 
 import time
+import random
 
 if not TEST_ENVIRONMENT:
     from data_with_write import HX711
@@ -23,6 +24,7 @@ if not TEST_ENVIRONMENT:
 
 class SmartWalker(Widget):
     time = StringProperty("")
+    safe = BooleanProperty(True)
 
     # 1 / 3 of arrow height and width
     arrow_height = 5
@@ -140,6 +142,9 @@ class SmartWalker(Widget):
         self.logger.update_proximity(proximity_value)
         self.proximity.set_proximity(proximity_value)
 
+    def update_safe(self, *args):
+        self.safe = random.uniform(0, 1) < 0.6
+
     def update(self, *args):
         self.time = str(time.asctime())
         self.update_weights()
@@ -227,6 +232,7 @@ class SmartApp(App):
     def build(self):
         s = SmartWalker()
         Clock.schedule_interval(s.update, 0.1)
+        Clock.schedule_interval(s.update_safe, 1.0)
         return s
 
 
