@@ -4,11 +4,16 @@ import json
 
 
 class Logger(object):
+
+
     def __init__(self):
         file_name = str(datetime.now())
         for char in ('.', ':', ' '):
             file_name = file_name.replace(char, '-')
         file_name += '.txt'
+        self.upload_data = True
+        self._current_data = ''
+
 
         self.file = open('logs/' + file_name, 'w')
         self.write_header()
@@ -18,7 +23,7 @@ class Logger(object):
         self.file.write('\n')
 
     def update_sensors(self, fr, fl, rr, rl):
-        self.file.write('{time}, {fr}, {fl}, {rr}, {rl}, '.format(
+        self._current_data += ('{time}, {fr}, {fl}, {rr}, {rl}, '.format(
             time=datetime.now(),
             fr=fr,
             fl=fl,
@@ -27,7 +32,7 @@ class Logger(object):
         ))
 
     def update_gyro(self, head, roll, pitch, sys, gyro, acc, mag):
-        self.file.write('{head}, {roll}, {pitch}, {sys}, {gyro}, {acc}, {mag}, '.format(
+        self._current_data += ('{head}, {roll}, {pitch}, {sys}, {gyro}, {acc}, {mag}, '.format(
             head=head,
             roll=roll,
             pitch=pitch,
@@ -38,15 +43,22 @@ class Logger(object):
         ))
 
     def update_proximity(self, proximity):
-        self.file.write(str(proximity))
+        self._current_data += str(proximity)
+
+    def write_data_to_file(self):
+        self.file.write(_current_data)
         self.file.write('\n')
         self.file.flush()
+
+    def set_upload_data(self, upload):
+        self.upload_data = upload
 
 if __name__ == '__main__':
     Logger()
 
 
 class ServerLogger(object):
+
     def __init__(self):
         response = requests.post('http://10.173.215.128:8000/create_file')
         self.file_name = json.loads(response.content)['file_name']
