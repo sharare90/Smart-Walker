@@ -68,7 +68,7 @@ class Logger(object):
     # write_data_to_file(self)
     # writes the string _current_data to the local log file
     def write_data_to_file(self):
-        self.file.write(_current_data)
+        self.file.write(self._current_data)
         self.file.write('\n')
         self.file.flush()
         upload_data(self)
