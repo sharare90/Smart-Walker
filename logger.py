@@ -71,7 +71,7 @@ class Logger(object):
         self.file.write(self._current_data)
         self.file.write('\n')
         self.file.flush()
-        self.upload_data(self)
+        self.upload_data(self, None)
 
     # is_server_available(self)
     # tests the connection to the server
