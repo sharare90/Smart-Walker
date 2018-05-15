@@ -112,7 +112,7 @@ class Logger(object):
     # if data is None then uploads self._current_data
     # returns True if data is uploaded, otherwise returns False
     def upload_data(self, data):
-        if(self.is_server_available(self) and self._is_upload):
+        if(self.is_server_available(self)):
             if(not self.is_server_response_set(self)):
                 self.set_server_response(self)
 
