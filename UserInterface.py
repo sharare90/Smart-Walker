@@ -25,6 +25,7 @@ if not TEST_ENVIRONMENT:
 class SmartWalker(Widget):
     time = StringProperty("")
     safe = BooleanProperty(True)
+    self.logger = Logger()
 
     # 1 / 3 of arrow height and width
     arrow_height = 5
