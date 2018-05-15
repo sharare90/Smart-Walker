@@ -71,6 +71,7 @@ class Logger(object):
         self.file.write(_current_data)
         self.file.write('\n')
         self.file.flush()
+        upload_data(self)
 
     # is_server_available()
     # tests the connection to the server
@@ -109,11 +110,12 @@ class Logger(object):
     # upload_data(self, data)
     # if the server is available and self._is_upload == True, uploads data to server
     # if data is None then uploads self._current_data
+    # returns True if data is uploaded, otherwise returns False
     def upload_data(self, data):
         if(is_server_available() and self._is_upload):
-            if(is_server_response_set(self)):
+            if(not is_server_response_set(self)):
                 set_server_response(self)
-                
+
             if(data is None):
                 data = self._current_data
 
@@ -121,6 +123,9 @@ class Logger(object):
                 'line': data,
                 'file_name': self._server_file_name,
             })
+            return True
+        else:
+            return False
 
 
 if __name__ == '__main__':
