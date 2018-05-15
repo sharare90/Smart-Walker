@@ -1,6 +1,7 @@
 from datetime import datetime
 import requests
 import json
+from settings import TEST_ENVIRONMENT
 
 
 class Logger(object):
@@ -42,6 +43,19 @@ class Logger(object):
         self.file.write('\n')
         self.file.flush()
 
+
+    def server_connection():
+        if TEST_ENVIRONMENT:
+            return False
+        else:
+            try:
+                if(urlopen('http://10.173.215.128:8000/').getcode() == 200):
+                    return True
+                else
+                    return False
+            except Exception:
+                return False
+
 if __name__ == '__main__':
     Logger()
 
@@ -69,7 +83,7 @@ class ServerLogger(object):
             sys=sys,
             gyro=gyro,
             acc=acc,
-            mag=mag,
+            mag=mag, 
         ))
 
     def update_proximity(self, proximity):
