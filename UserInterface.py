@@ -25,7 +25,6 @@ if not TEST_ENVIRONMENT:
 class SmartWalker(Widget):
     time = StringProperty("")
     safe = BooleanProperty(True)
-    self.logger = Logger()
 
     # 1 / 3 of arrow height and width
     arrow_height = 5
@@ -38,6 +37,7 @@ class SmartWalker(Widget):
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
         self.set_dr_prescription()
+        self.logger = Logger()
 
         self.forward_arrow_color = 1, 1, 1, 1
         self.backward_arrow_color = 0, 1, 1, 1
