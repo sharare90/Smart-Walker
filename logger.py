@@ -73,10 +73,10 @@ class Logger(object):
         self.file.flush()
         self.upload_data(self)
 
-    # is_server_available()
+    # is_server_available(self)
     # tests the connection to the server
     # if the URL in SERVER_URL is valid, returns True. Otherwise returns False
-    def is_server_available():
+    def is_server_available(self):
         if TEST_ENVIRONMENT:
             return False
         else:
@@ -112,7 +112,7 @@ class Logger(object):
     # if data is None then uploads self._current_data
     # returns True if data is uploaded, otherwise returns False
     def upload_data(self, data):
-        if(self.is_server_available() and self._is_upload):
+        if(self.is_server_available(self) and self._is_upload):
             if(not self.is_server_response_set(self)):
                 self.set_server_response(self)
 
