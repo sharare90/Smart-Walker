@@ -83,12 +83,9 @@ class Logger(object):
             return False
         else:
             try:
-                if(urlopen(SERVER_URL).getcode() == 200):
-                    self.debug_file.write('server available\n')
-                    return True
-                else:
-                    self.debug_file.write('server not available\n')
-                    return False
+                urlopen(SERVER_URL).getcode()
+                self.debug_file.write('server available\n')
+                return True
             except Exception:
                 return False
 
