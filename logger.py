@@ -83,9 +83,11 @@ class Logger(object):
             return False
         else:
             try:
-                urlopen(SERVER_URL).getcode()
-                self.debug_file.write('server available\n')
-                return True
+                if(urlopen(SERVER_URL).getcode() == 204):
+                    self.debug_file.write('server available\n')
+                    return True
+                else:
+                    return False
             except Exception:
                 return False
 
@@ -93,7 +95,6 @@ class Logger(object):
     # checks if either _response or _server_file_name is None
     # returns False if either variable is None, otherwise returns True
     def is_server_response_set(self):
-        self.debug_file.write('set server response\n')
         if self._response is None or self._server_file_name is None:
             self.debug_file.write('server response not set')
             return False
