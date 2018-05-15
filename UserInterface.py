@@ -150,6 +150,7 @@ class SmartWalker(Widget):
         self.update_weights()
         self.update_gyroscope()
         self.update_proximity()
+        self.write_data_to_file()
 
 
 class ProximityWidget(Widget):
