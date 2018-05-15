@@ -8,14 +8,18 @@ class Logger(object):
 
 
     def __init__(self):
+        SERVER_URL = 'http://10.173.215.128:8000/'
+        POST_URL = SERVER_URL+'add_line'
+        CREATE_FILE_URL = SERVER_URL+'create_file'
+
         file_name = str(datetime.now())
         for char in ('.', ':', ' '):
             file_name = file_name.replace(char, '-')
         file_name += '.txt'
-        self._upload_data = True
+        self._is_upload = True
         self._current_data = ''
-        response = requests.post('http://10.173.215.128:8000/create_file')
-        self._server_file_name = json.loads(response.content)['file_name']
+        self._response = None
+        self._server_file_name = None
         self.file = open('logs/' + file_name, 'w')
         self.write_header()
 
@@ -52,7 +56,7 @@ class Logger(object):
         self.file.flush()
 
 
-    def server_connection():
+    def is_server_available():
         if TEST_ENVIRONMENT:
             return False
         else:
@@ -64,14 +68,28 @@ class Logger(object):
             except Exception:
                 return False
 
-    def set_upload_data(self, upload):
-        self.upload_data = upload
+    def is_server_response_set(self):
+        if self._response is None or self._server_file_name is None:
+            return False
+        else:
+            return True
+
+    def set_server_response(self):
+        self._response = requests.post(CREATE_FILE_URL)
+        self._server_file_name = json.loads(self._response.content)['file_name']
+
+    def set_upload_data(self, set_upload):
+        self._is_upload = set_upload
 
     def upload_data(self):
-        requests.post('http://10.173.215.128:8000/add_line', data={
-            'line': self._current_data,
-            'file_name': self._server_file_name,
-        })
+        if(is_server_available() and self._is_upload):
+            if(is_server_response_set(self)):
+                set_server_response(self)
+
+            requests.post(POST_URL, data={
+                'line': self._current_data,
+                'file_name': self._server_file_name,
+            })
 
 
 if __name__ == '__main__':
