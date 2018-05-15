@@ -82,8 +82,10 @@ class Logger(object):
         else:
             try:
                 if(urlopen(SERVER_URL).getcode() == 200):
+                    print('server available')
                     return True
                 else:
+                    print('server not available')
                     return False
             except Exception:
                 return False
@@ -93,13 +95,16 @@ class Logger(object):
     # returns False if either variable is None, otherwise returns True
     def is_server_response_set(self):
         if self._response is None or self._server_file_name is None:
+            print('server response not set')
             return False
         else:
+            print('server response set')
             return True
 
     # set_server_response(self)
     # sets the member variables _response and _server_file_name
     def set_server_response(self):
+        print('set server response')
         self._response = requests.post(CREATE_FILE_URL)
         self._server_file_name = json.loads(self._response.content)['file_name']
 
@@ -119,6 +124,7 @@ class Logger(object):
             if(data is None):
                 data = self._current_data
 
+            print('send data')
             requests.post(POST_URL, data={
                 'line': data,
                 'file_name': self._server_file_name,
