@@ -108,10 +108,14 @@ class Logger(object):
 
     # upload_data(self, data)
     # if the server is available and self._is_upload == True, uploads data to server
+    # if data is None then uploads self._current_data
     def upload_data(self, data):
         if(is_server_available() and self._is_upload):
             if(is_server_response_set(self)):
                 set_server_response(self)
+                
+            if(data is None):
+                data = self._current_data
 
             requests.post(POST_URL, data={
                 'line': data,
