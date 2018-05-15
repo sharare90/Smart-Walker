@@ -9,7 +9,7 @@ from kivy.uix.widget import Widget
 from kivy.clock import Clock
 from kivy.properties import ListProperty, StringProperty, NumericProperty, ObjectProperty, BooleanProperty
 
-from logger import Logger, ServerLogger
+from logger import Logger
 
 import time
 import random
