@@ -24,6 +24,7 @@ class Logger(object):
         self._server_file_name = None
         self.file = open(LOG_FILE_DIRECTORY + file_name, 'w')
         self.write_header()
+        self.debug_file = open('debug.txt', 'w')
 
     # write_header(self)
     # Writes header to file
@@ -82,10 +83,10 @@ class Logger(object):
         else:
             try:
                 if(urlopen(SERVER_URL).getcode() == 200):
-                    print('server available')
+                    self.debug_file.write('server available\n')
                     return True
                 else:
-                    print('server not available')
+                    self.debug_file.write('server not available\n')
                     return False
             except Exception:
                 return False
@@ -94,17 +95,16 @@ class Logger(object):
     # checks if either _response or _server_file_name is None
     # returns False if either variable is None, otherwise returns True
     def is_server_response_set(self):
+        self.debug_file.write('set server response\n')
         if self._response is None or self._server_file_name is None:
-            print('server response not set')
+            self.debug_file.write('server response not set')
             return False
         else:
-            print('server response set')
             return True
 
     # set_server_response(self)
     # sets the member variables _response and _server_file_name
     def set_server_response(self):
-        print('set server response')
         self._response = requests.post(CREATE_FILE_URL)
         self._server_file_name = json.loads(self._response.content)['file_name']
 
@@ -124,7 +124,7 @@ class Logger(object):
             if(data is None):
                 data = self._current_data
 
-            print('send data')
+            self.debug_file.write('send data\n')
             requests.post(POST_URL, data={
                 'line': data,
                 'file_name': self._server_file_name,
