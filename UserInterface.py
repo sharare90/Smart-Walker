@@ -9,7 +9,7 @@ from kivy.uix.widget import Widget
 from kivy.clock import Clock
 from kivy.properties import ListProperty, StringProperty, NumericProperty, ObjectProperty, BooleanProperty
 
-from logger import Logger, ServerLogger
+from logger import Logger
 
 import time
 import random
@@ -36,8 +36,8 @@ class SmartWalker(Widget):
 
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
-        self.logger = Logger() if TEST_ENVIRONMENT else ServerLogger()
         self.set_dr_prescription()
+        self.logger = Logger()
 
         self.forward_arrow_color = 1, 1, 1, 1
         self.backward_arrow_color = 0, 1, 1, 1
@@ -150,6 +150,7 @@ class SmartWalker(Widget):
         self.update_weights()
         self.update_gyroscope()
         self.update_proximity()
+        self.logger.write_data_to_file()
 
 
 class ProximityWidget(Widget):
