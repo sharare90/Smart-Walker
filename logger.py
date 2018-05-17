@@ -3,11 +3,14 @@ import requests
 import json
 from urllib import urlopen
 from settings import TEST_ENVIRONMENT
+import pygame.camera
+import os
 
 SERVER_URL = 'http://10.173.215.128:8000/'
 POST_URL = SERVER_URL+'add_line'
 CREATE_FILE_URL = SERVER_URL+'create_file'
 LOG_FILE_DIRECTORY = 'logs/'
+LOG_IMAGE_FILE_DIRECTORY = 'images_logs/'
 FILE_HEADER = 'time, fr, fl, rr, rl, head, roll, pitch, sys, gyro, acc, mag, proximity'
 
 class Logger(object):
@@ -18,6 +21,9 @@ class Logger(object):
         file_name = str(datetime.now())
         for char in ('.', ':', ' '):
             file_name = file_name.replace(char, '-')
+        os.mkdir(LOG_IMAGE_FILE_DIRECTORY + file_name)
+        self.image_file_name = LOG_IMAGE_FILE_DIRECTORY + file_name + "/"
+        self.image_counter = 1
         file_name += '.txt'
         self._is_upload = True
         self._current_data = ''
@@ -26,6 +32,9 @@ class Logger(object):
         self.file = open(LOG_FILE_DIRECTORY + file_name, 'w')
         self.write_header()
         self.debug_file = open('debug.txt', 'w')
+        pygame.camera.init()
+        self.cam = pygame.camera.Camera(pygame.camera.list_cameras()[0])
+        self.cam.start()
 
     # write_header(self)
     # Writes header to file
@@ -67,6 +76,12 @@ class Logger(object):
     def update_proximity(self, proximity):
         self._current_data += str(proximity)
 
+    def capture_photos(self):
+        img = self.cam.get_image()
+        image_file_name = self.image_file_name + str(self.image_counter) + '.jpg'
+        pygame.image.save(img, image_file_name)
+        self.image_counter += 1
+
     # write_data_to_file(self)
     # writes the string _current_data to the local log file
     def write_data_to_file(self):
@@ -101,7 +116,6 @@ class Logger(object):
             return False
         else:
             return True
-
     # set_server_response(self)
     # sets the member variables _response and _server_file_name
     def set_server_response(self):
