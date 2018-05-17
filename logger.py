@@ -2,9 +2,12 @@ from datetime import datetime
 import requests
 import json
 from urllib import urlopen
-from settings import TEST_ENVIRONMENT
-import pygame.camera
 import os
+
+import pygame.camera
+
+from settings import TEST_ENVIRONMENT
+
 
 SERVER_URL = 'http://10.173.215.128:8000/'
 POST_URL = SERVER_URL+'add_line'
