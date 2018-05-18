@@ -15,12 +15,10 @@ import time
 import random
 
 if not TEST_ENVIRONMENT:
-    import sys
-    sys.path.insert(0, "Dependencies/")
+    from Dependencies.HX711 import HX711
     from HX711 import HX711
     from Adafruit_BNO055 import BNO055
-    sys.path.insert(0, 'VL53L0X_rasp_python/python/')
-    import VL53L0X
+    from Dependencies.VL53L0X_rasp_python import VL53L0X
 
 
 class SmartWalker(Widget):
