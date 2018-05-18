@@ -16,7 +16,6 @@ import random
 
 if not TEST_ENVIRONMENT:
     from Dependencies.HX711 import HX711
-    from HX711 import HX711
     from Adafruit_BNO055 import BNO055
     from Dependencies.VL53L0X_rasp_python import VL53L0X
 
