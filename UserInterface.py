@@ -15,10 +15,10 @@ import time
 import random
 
 if not TEST_ENVIRONMENT:
+    import sys
     sys.path.insert(0, "Dependencies/")
     from HX711 import HX711
     from Adafruit_BNO055 import BNO055
-    import sys
     sys.path.insert(0, 'VL53L0X_rasp_python/python/')
     import VL53L0X
 
@@ -80,11 +80,11 @@ class SmartWalker(Widget):
             self.rr.set_dr_radius(numbers[3])
             ProximityWidget.set_dr_value(numbers[4])
 
-    def initialize_weight_sensor(self, sensor):
-        sensor.set_reading_format("LSB", "MSB")
-        sensor.set_reference_unit(92)
-        sensor.reset()
-        sensor.tare()
+    # def initialize_weight_sensor(self, sensor):
+    #     sensor.set_reading_format("LSB", "MSB")
+    #     sensor.set_reference_unit(92)
+    #     sensor.reset()
+    #     sensor.tare()
 
     def get_4_weight_sensors(self):
         """returns rr, fr, rl, fl"""
@@ -114,24 +114,24 @@ class SmartWalker(Widget):
         self.rl.set_pressure(rl_value)
         self.fl.set_pressure(fl_value)
 
-    def update_gyroscope(self):
-        if not TEST_ENVIRONMENT:
-            heading, roll, pitch = self.bno.read_euler()
-            sys, gyro, acc, mag = self.bno.get_calibration_status()
-        else:
-            heading, roll, pitch = 100, 45, 30
-            sys, gyro, acc, mag = 20, 12, 10, 4
+    # def update_gyroscope(self):
+    #     if not TEST_ENVIRONMENT:
+    #         heading, roll, pitch = self.bno.read_euler()
+    #         sys, gyro, acc, mag = self.bno.get_calibration_status()
+    #     else:
+    #         heading, roll, pitch = 100, 45, 30
+    #         sys, gyro, acc, mag = 20, 12, 10, 4
 
-        self.logger.update_gyro(heading, roll, pitch, sys, gyro, acc, mag)
+    #     self.logger.update_gyro(heading, roll, pitch, sys, gyro, acc, mag)
 
-        if roll < -40:
-            self.forward_arrow_color = 1, 0, 0, 1
-        else:
-            self.forward_arrow_color = 0, 1, 0, 1
-        if roll > 40:
-            self.backward_arrow_color = 1, 0, 0, 1
-        else:
-            self.backward_arrow_color = 0, 1, 0, 1
+    #     if roll < -40:
+    #         self.forward_arrow_color = 1, 0, 0, 1
+    #     else:
+    #         self.forward_arrow_color = 0, 1, 0, 1
+    #     if roll > 40:
+    #         self.backward_arrow_color = 1, 0, 0, 1
+    #     else:
+    #         self.backward_arrow_color = 0, 1, 0, 1
 
     def update_proximity(self):
         if not TEST_ENVIRONMENT:
