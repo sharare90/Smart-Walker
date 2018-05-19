@@ -65,7 +65,7 @@ def i2c_write(address, reg, data_p, length):
     return ret_val
 
 # Load VL53L0X shared lib 
-tof_lib = CDLL("/home/pi/SmartWalker/Smart-Walker/Dependencies/VL53L0X_rasp_python/bin/vl53l0x_python.so")
+tof_lib = CDLL(os.path.dirname(os.path.abspath(__file__))+"/../bin/vl53l0x_python.so")
 
 # Create read function pointer
 READFUNC = CFUNCTYPE(c_int, c_ubyte, c_ubyte, POINTER(c_ubyte), c_ubyte)
