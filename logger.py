@@ -46,8 +46,7 @@ class Logger(object):
         file_name += '.txt'
         self._is_upload = True
         self._current_data = dict()
-        for i in DataTypes:
-            self._current_data[i] = ''
+        self.clear_and_build_current_data()
         self._data_list = []
         self._response = None
         self._server_file_name = None
@@ -72,10 +71,15 @@ class Logger(object):
     def set_time(self):
         self._current_data[DataTypes.TIME] = datetime.now()
 
+    def clear_and_build_current_data(self):
+        self._current_data.clear()
+        for i in DataTypes:
+            self._current_data[i] = ''
+
     def is_dictionary_full(self):
         no_empty_values = True
         for dataType in DataTypes:
-            if self._current_data[dataType] == '' and dataType != DataTypes.TIME:
+            if self._current_data[dataType] == '' and dataType.value != DataTypes.TIME.value:
                 no_empty_values = False
         return no_empty_values
 
@@ -102,7 +106,7 @@ class Logger(object):
         if self.is_dictionary_full():
             self.set_time()
             self._data_list.append(copy.deepcopy(self._current_data))
-            self._current_data.clear()
+            self.clear_and_build_current_data()
         if len(self._data_list) == 100:
             self.write_data_to_file()
             self.upload_data()
