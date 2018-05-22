@@ -68,6 +68,16 @@ class Logger(object):
         self.file.write(FILE_HEADER)
         self.file.write('\n')
 
+    def set_time(self):
+        self._current_data[DataTypes.TIME] = datetime.now()
+
+    def is_dictionary_full(self):
+        no_empty_values = True
+        for dataType in DataTypes:
+            if self._current_data[dataType] == '' and dataType != DataTypes.TIME:
+                no_empty_values = False
+        return no_empty_values
+
     def add_data(self, data, dataSource):
         startingIndex = 0
         endingIndex = 0
@@ -88,7 +98,7 @@ class Logger(object):
             i = i + 1
             if dataType == endingIndex:
                 break
-        if is_dictionary_full:
+        if is_dictionary_full():
             set_time()
             self._data_list.append(copy.deepcopy(self._current_data))
             self._current_data.clear()
@@ -96,16 +106,6 @@ class Logger(object):
             write_data_to_file()
             upload_data()
             self._data_list.clear()
-
-    def is_dictionary_full(self):
-        no_empty_values = True
-        for dataType in DataTypes:
-            if self._current_data[dataType] == '' and dataType != DataTypes.TIME:
-                no_empty_values = False
-        return no_empty_values
-
-    def set_time(self):
-        self._current_data[DataTypes.TIME] = datetime.now()
 
 
     # update_sensors(self, fr, fl, rr, rl)
@@ -220,7 +220,7 @@ class Logger(object):
 if __name__ == '__main__':
     myLogger = Logger()
     for i in range(0, 200):
-        myLogger.add_data(['0','0','0','0','0','0'], DataSources.GYROSCOPE)
+        myLogger.add_data(['0','0','0','0','0','0', '0'], DataSources.GYROSCOPE)
         myLogger.add_data(['0','0','0','0','0','0'], DataSources.WEIGHT)
         myLogger.add_data(['0','0','0','0','0','0'], DataSources.PROXIMITY)
 
