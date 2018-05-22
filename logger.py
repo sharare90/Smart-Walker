@@ -196,7 +196,7 @@ class Logger(object):
 
     def dict_to_string(self):
         data = ""
-        for key in sorted(self._current_data.iterkeys()):
+        for key in sorted(self._current_data.iterkeys().value):
             if(key != len(self._current_data) - 1):
                 data += self._current_data[key]+", "
             else:
