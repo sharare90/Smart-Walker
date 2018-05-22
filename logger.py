@@ -98,13 +98,13 @@ class Logger(object):
             i = i + 1
             if dataType == endingIndex:
                 break
-        if is_dictionary_full():
+        if self.is_dictionary_full():
             set_time()
             self._data_list.append(copy.deepcopy(self._current_data))
             self._current_data.clear()
         if len(self._data_list) == 100:
-            write_data_to_file()
-            upload_data()
+            self.write_data_to_file()
+            self.upload_data()
             self._data_list.clear()
 
 
@@ -209,7 +209,7 @@ class Logger(object):
 
             for data in self._data_list:
                 requests.post(POST_URL, data={
-                    'line': dict_to_string(data),
+                    'line': self.dict_to_string(data),
                     'file_name': self._server_file_name,
                 })
             return True
