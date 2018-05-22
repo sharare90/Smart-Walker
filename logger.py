@@ -5,6 +5,7 @@ from urllib import urlopen
 import os.path
 from pathlib import Path
 from enum import Enum
+import copy
 
 #import pygame.camera
 
