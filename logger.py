@@ -99,7 +99,7 @@ class Logger(object):
             if dataType == endingIndex:
                 break
         if self.is_dictionary_full():
-            set_time()
+            self.set_time()
             self._data_list.append(copy.deepcopy(self._current_data))
             self._current_data.clear()
         if len(self._data_list) == 100:
