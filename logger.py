@@ -217,7 +217,7 @@ class Logger(object):
 if __name__ == '__main__':
     myLogger = Logger()
     for i in range(0, 200):
-        myLogger.add_data({'0','0','0','0','0','0'}, DataSources.GYROSCOPE)
-        myLogger.add_data({'0','0','0','0','0','0'}, DataSources.WEIGHT)
-        myLogger.add_data({'0','0','0','0','0','0'}, DataSources.PROXIMITY)
+        myLogger.add_data(['0','0','0','0','0','0'], DataSources.GYROSCOPE)
+        myLogger.add_data(['0','0','0','0','0','0'], DataSources.WEIGHT)
+        myLogger.add_data(['0','0','0','0','0','0'], DataSources.PROXIMITY)
 
