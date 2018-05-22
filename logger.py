@@ -81,8 +81,11 @@ class Logger(object):
             startingIndex = DataTypes.PROXIMITY
             endingIndex = DataTypes.PROXIMITY
         i = 0
-        for i, dataType in enumerate(DataTypes, start = startingIndex.value):
+        for dataType in DataTypes:
+            if(dataType.value < startingIndex.value):
+                continue
             self._current_data[dataType] = data[i]
+            i = i + 1
             if dataType == endingIndex:
                 break
         if is_dictionary_full:
