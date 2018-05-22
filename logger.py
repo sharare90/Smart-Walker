@@ -175,7 +175,7 @@ class Logger(object):
             return False
         else:
             return True
-            
+
     # set_server_response(self)
     # sets the member variables _response and _server_file_name
     def set_server_response(self):
@@ -191,7 +191,7 @@ class Logger(object):
         for key in sorted(self._current_data.iterkeys()):
             if(key != len(self._current_data) - 1):
                 data += self._current_data[key]+", "
-            else
+            else:
                 data += self._current_data[key]+"\n"
         return data
 
@@ -215,4 +215,9 @@ class Logger(object):
 
 
 if __name__ == '__main__':
-    Logger()
+    myLogger = Logger()
+    for i in range(0, 200):
+        myLogger.add_data({'0','0','0','0','0','0'}, DataSources.GYROSCOPE)
+        myLogger.add_data({'0','0','0','0','0','0'}, DataSources.WEIGHT)
+        myLogger.add_data({'0','0','0','0','0','0'}, DataSources.PROXIMITY)
+
