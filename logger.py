@@ -18,19 +18,19 @@ class DataSources(Enum):
     PROXIMITY = 3
 
 class DataTypes(Enum):
-    TIME = 0
-    FR = 1
-    FL = 2
-    RR = 3
-    RL = 4
-    HEAD = 5
-    ROLL = 6
-    PITCH = 7
-    SYS = 8
-    GYRO = 9
-    ACC = 10
-    MAG = 11
-    PROXIMITY = 12
+    TIME = 1
+    FR = 2
+    FL = 3
+    RR = 4
+    RL = 5
+    HEAD = 6
+    ROLL = 7
+    PITCH = 8
+    SYS = 9
+    GYRO = 10
+    ACC = 11
+    MAG = 12
+    PROXIMITY = 13
 
 class Logger(object):
 
