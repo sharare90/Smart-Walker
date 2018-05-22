@@ -157,7 +157,7 @@ class Logger(object):
     # writes the string _current_data to the local log file
     def write_data_to_file(self):
         for data in self._data_list:
-            self.file.write(dict_to_string(data))
+            self.file.write(self.dict_to_string(data))
             self.file.flush()
 
     # is_server_available(self)
