@@ -57,7 +57,6 @@ class Logger(object):
             self.file = open(LOG_FILE_DIRECTORY + file_name, 'w')
         except IOError:
             print("An error occurred while opening the log file. Do you have appropriate permissions?")
-            pass
         self.write_header()
         #pygame.camera.init()
         #self.cam = pygame.camera.Camera(pygame.camera.list_cameras()[0])
@@ -90,13 +89,16 @@ class Logger(object):
             set_time()
             self._data_list.append(copy.deepcopy(self._current_data))
             self._current_data.clear()
-
+        if len(self._data_list) == 100:
+            write_data_to_file()
+            upload_data()
+            self._data_list.clear()
 
     def is_dictionary_full(self):
-        no_empty_values = 1
+        no_empty_values = True
         for dataType in DataTypes:
             if self._current_data[dataType] == '' and dataType != DataTypes.TIME:
-                no_empty_values = 0
+                no_empty_values = False
         return no_empty_values
 
     def set_time(self):
@@ -146,11 +148,9 @@ class Logger(object):
     # write_data_to_file(self)
     # writes the string _current_data to the local log file
     def write_data_to_file(self):
-        self.file.write(self._current_data)
-        self.file.write('\n')
-        self.file.flush()
-        self.upload_data(self._current_data)
-        self._current_data = ''
+        for data in self._data_list:
+            self.file.write(dict_to_string(data))
+            self.file.flush()
 
     # is_server_available(self)
     # tests the connection to the server
@@ -175,6 +175,7 @@ class Logger(object):
             return False
         else:
             return True
+            
     # set_server_response(self)
     # sets the member variables _response and _server_file_name
     def set_server_response(self):
@@ -185,21 +186,29 @@ class Logger(object):
     def set_upload_data(self, set_upload):
         self._is_upload = set_upload
 
+    def dict_to_string(self):
+        data = ""
+        for key in sorted(self._current_data.iterkeys()):
+            if(key != len(self._current_data) - 1):
+                data += self._current_data[key]+", "
+            else
+                data += self._current_data[key]+"\n"
+        return data
+
     # upload_data(self, data)
     # if the server is available and self._is_upload == True, uploads data to server
     # if data is None then uploads self._current_data
     # returns True if data is uploaded, otherwise returns False
-    def upload_data(self, data):
+    def upload_data(self):
         if(self.is_server_available()):
             if(not self.is_server_response_set()):
                 self.set_server_response()
 
-            if(data is None):
-                data = self._current_data
-            requests.post(POST_URL, data={
-                'line': data,
-                'file_name': self._server_file_name,
-            })
+            for data in self._data_list:
+                requests.post(POST_URL, data={
+                    'line': dict_to_string(data),
+                    'file_name': self._server_file_name,
+                })
             return True
         else:
             return False
