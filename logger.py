@@ -2,19 +2,34 @@ from datetime import datetime
 import requests
 import json
 from urllib import urlopen
-import os
+import os.path
+from pathlib import Path
+from enum import Enum
 
-import pygame.camera
+#import pygame.camera
 
-from settings import TEST_ENVIRONMENT
+from settings import (TEST_ENVIRONMENT, SERVER_URL, POST_URL,
+CREATE_FILE_URL, LOG_FILE_DIRECTORY, LOG_IMAGE_FILE_DIRECTORY, FILE_HEADER)
 
+class DataSources(Enum):
+    WEIGHT = 1
+    GYROSCOPE = 2
+    PROXIMITY = 3
 
-SERVER_URL = 'http://10.173.215.128:8000/'
-POST_URL = SERVER_URL+'add_line'
-CREATE_FILE_URL = SERVER_URL+'create_file'
-LOG_FILE_DIRECTORY = 'logs/'
-LOG_IMAGE_FILE_DIRECTORY = 'images_logs/'
-FILE_HEADER = 'time, fr, fl, rr, rl, head, roll, pitch, sys, gyro, acc, mag, proximity'
+class DataTypes(Enum):
+    TIME = 0
+    FR = 1
+    FL = 2
+    RR = 3
+    RL = 4
+    HEAD = 5
+    ROLL = 6
+    PITCH = 7
+    SYS = 8
+    GYRO = 9
+    ACC = 10
+    MAG = 11
+    PROXIMITY = 12
 
 class Logger(object):
 
@@ -24,20 +39,29 @@ class Logger(object):
         file_name = str(datetime.now())
         for char in ('.', ':', ' '):
             file_name = file_name.replace(char, '-')
-        os.mkdir(LOG_IMAGE_FILE_DIRECTORY + file_name)
-        self.image_file_name = LOG_IMAGE_FILE_DIRECTORY + file_name + "/"
-        self.image_counter = 1
+        #os.mkdir(LOG_IMAGE_FILE_DIRECTORY + file_name)
+        #self.image_file_name = LOG_IMAGE_FILE_DIRECTORY + file_name + "/"
+        #self.image_counter = 1
         file_name += '.txt'
         self._is_upload = True
-        self._current_data = ''
+        self._current_data = dict()
+        for i in DataTypes:
+            self._current_data[i] = ''
+        self._data_list = []
         self._response = None
         self._server_file_name = None
-        self.file = open(LOG_FILE_DIRECTORY + file_name, 'w')
+        self._log_file_directory = Path(os.path.dirname(LOG_FILE_DIRECTORY))
+        if not self._log_file_directory.exists():
+            self._log_file_directory.mkdir(True, True)
+        try:
+            self.file = open(LOG_FILE_DIRECTORY + file_name, 'w')
+        except IOError:
+            print("An error occurred while opening the log file. Do you have appropriate permissions?")
+            pass
         self.write_header()
-        self.debug_file = open('debug.txt', 'w')
-        pygame.camera.init()
-        self.cam = pygame.camera.Camera(pygame.camera.list_cameras()[0])
-        self.cam.start()
+        #pygame.camera.init()
+        #self.cam = pygame.camera.Camera(pygame.camera.list_cameras()[0])
+        #self.cam.start()
 
     # write_header(self)
     # Writes header to file
@@ -45,45 +69,79 @@ class Logger(object):
         self.file.write(FILE_HEADER)
         self.file.write('\n')
 
+    def add_data(self, data, dataSource):
+        startingIndex = 0
+        endingIndex = 0
+        if(dataSource == DataSources.WEIGHT):
+            startingIndex = DataTypes.FR
+            endingIndex = DataTypes.RL
+        elif(dataSource == DataSources.GYROSCOPE):
+            startingIndex = DataTypes.HEAD
+            endingIndex = DataTypes.MAG
+        elif(dataSource == DataSources.PROXIMITY):
+            startingIndex = DataTypes.PROXIMITY
+            endingIndex = DataTypes.PROXIMITY
+        i = 0
+        for i, dataType in enumerate(DataTypes, start = startingIndex):
+            self._current_data[dataType] = data[i]
+            if dataType == endingIndex:
+                break
+        if is_dictionary_full:
+            set_time()
+            self._data_list.append(copy.deepcopy(self._current_data))
+            self._current_data.clear()
+
+
+    def is_dictionary_full(self):
+        no_empty_values = 1
+        for dataType in DataTypes:
+            if self._current_data[dataType] == '' and dataType != DataTypes.TIME:
+                no_empty_values = 0
+        return no_empty_values
+
+    def set_time(self):
+        self._current_data[DataTypes.TIME] = datetime.now()
+
+
     # update_sensors(self, fr, fl, rr, rl)
     # adds the sensor values in order to member variable _current_data
     # in order to preserve integrity of log file, this function should be called before both
     # update_gyro and update_proximity
-    def update_sensors(self, fr, fl, rr, rl):
-        self._current_data += ('{time}, {fr}, {fl}, {rr}, {rl}, '.format(
-            time=datetime.now(),
-            fr=fr,
-            fl=fl,
-            rr=rr,
-            rl=rl,
-        ))
+    # def update_sensors(self, fr, fl, rr, rl):
+    #     self._current_data += ('{time}, {fr}, {fl}, {rr}, {rl}, '.format(
+    #         time=datetime.now(),
+    #         fr=fr,
+    #         fl=fl,
+    #         rr=rr,
+    #         rl=rl,
+    #     ))
 
     # update_gyro(self, head, roll, pitch, sys, gyro, acc, mag)
     # adds the gyroscope values in order to member variable _current_data
     # in order to preserve integrity of log file, this function should be called after update_sensors and
     # before update_proximity
-    def update_gyro(self, head, roll, pitch, sys, gyro, acc, mag):
-        self._current_data += ('{head}, {roll}, {pitch}, {sys}, {gyro}, {acc}, {mag}, '.format(
-            head=head,
-            roll=roll,
-            pitch=pitch,
-            sys=sys,
-            gyro=gyro,
-            acc=acc,
-            mag=mag,
-        ))
+    # def update_gyro(self, head, roll, pitch, sys, gyro, acc, mag):
+    #     self._current_data += ('{head}, {roll}, {pitch}, {sys}, {gyro}, {acc}, {mag}, '.format(
+    #         head=head,
+    #         roll=roll,
+    #         pitch=pitch,
+    #         sys=sys,
+    #         gyro=gyro,
+    #         acc=acc,
+    #         mag=mag,
+    #     ))
 
     # update_proximity(self, proximity)
     # adds the proximity value to member variable _current_data
     # in order to preserve integrity of the log file, this function should be called after update_gyro and update_sensors
-    def update_proximity(self, proximity):
-        self._current_data += str(proximity)
+    # def update_proximity(self, proximity):
+    #     self._current_data += str(proximity)
 
-    def capture_photos(self):
-        img = self.cam.get_image()
-        image_file_name = self.image_file_name + str(self.image_counter) + '.jpg'
-        pygame.image.save(img, image_file_name)
-        self.image_counter += 1
+    # def capture_photos(self):
+    #     img = self.cam.get_image()
+    #     image_file_name = self.image_file_name + str(self.image_counter) + '.jpg'
+    #     pygame.image.save(img, image_file_name)
+    #     self.image_counter += 1
 
     # write_data_to_file(self)
     # writes the string _current_data to the local log file
@@ -103,7 +161,6 @@ class Logger(object):
         else:
             try:
                 if(urlopen(SERVER_URL).getcode() == 204):
-                    self.debug_file.write('server available\n')
                     return True
                 else:
                     return False
@@ -115,7 +172,6 @@ class Logger(object):
     # returns False if either variable is None, otherwise returns True
     def is_server_response_set(self):
         if self._response is None or self._server_file_name is None:
-            self.debug_file.write('server response not set')
             return False
         else:
             return True
@@ -140,8 +196,6 @@ class Logger(object):
 
             if(data is None):
                 data = self._current_data
-
-            self.debug_file.write('send data\n')
             requests.post(POST_URL, data={
                 'line': data,
                 'file_name': self._server_file_name,

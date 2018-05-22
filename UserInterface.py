@@ -11,11 +11,12 @@ from kivy.properties import ListProperty, StringProperty, NumericProperty, Objec
 
 from logger import Logger
 
+
 import time
 import random
 
 if not TEST_ENVIRONMENT:
-    from Dependencies.HX711 import HX711
+    from WeightSensor import WeightSensor
     from Adafruit_BNO055 import BNO055
     from Dependencies.VL53L0X_rasp_python.python.VL53L0X import VL53L0X
 
@@ -43,15 +44,15 @@ class SmartWalker(Widget):
         self.right_arrow_color = 1, 1, 0, 1
 
         if not TEST_ENVIRONMENT:
-            self.hx0 = HX711(27, 17)
-            self.hx3 = HX711(26, 13)
-            self.hx1 = HX711(10, 22)
-            self.hx2 = HX711(11, 9)
+            self.hx0 = WeightSensor(27, 17)
+            self.hx3 = WeightSensor(26, 13)
+            self.hx1 = WeightSensor(10, 22)
+            self.hx2 = WeightSensor(11, 9)
 
-            self.initialize_weight_sensor(self.hx0)
-            self.initialize_weight_sensor(self.hx1)
-            self.initialize_weight_sensor(self.hx2)
-            self.initialize_weight_sensor(self.hx3)
+            self.hx0.initialize_weight_sensor()
+            self.hx1.initialize_weight_sensor()
+            self.hx2.initialize_weight_sensor()
+            self.hx3.initialize_weight_sensor()
 
             self.bno = BNO055.BNO055(serial_port='/dev/ttyS0', rst=23)
 
@@ -111,15 +112,15 @@ class SmartWalker(Widget):
         self.rl.set_pressure(rl_value)
         self.fl.set_pressure(fl_value)
 
-    # def update_gyroscope(self):
-    #     if not TEST_ENVIRONMENT:
-    #         heading, roll, pitch = self.bno.read_euler()
-    #         sys, gyro, acc, mag = self.bno.get_calibration_status()
-    #     else:
-    #         heading, roll, pitch = 100, 45, 30
-    #         sys, gyro, acc, mag = 20, 12, 10, 4
+    def update_gyroscope(self):
+        if not TEST_ENVIRONMENT:
+            heading, roll, pitch = self.bno.read_euler()
+            sys, gyro, acc, mag = self.bno.get_calibration_status()
+        else:
+            heading, roll, pitch = 100, 45, 30
+            sys, gyro, acc, mag = 20, 12, 10, 4
 
-    #     self.logger.update_gyro(heading, roll, pitch, sys, gyro, acc, mag)
+        self.logger.update_gyro(heading, roll, pitch, sys, gyro, acc, mag)
 
     #     if roll < -40:
     #         self.forward_arrow_color = 1, 0, 0, 1

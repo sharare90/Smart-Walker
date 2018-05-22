@@ -1,10 +1,8 @@
-import sys
-sys.path.insert(0, "Dependencies/")
-from HX711 import HX711
+from Dependencies.HX711 import HX711
 
 class WeightSensor(HX711):
 
-    def __init__(self):
+    def __init__(self, dout, pd_sck):
         super().__init__(dout, pd_sck)
 
     def initialize_weight_sensor(self):
