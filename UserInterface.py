@@ -18,6 +18,7 @@ if not TEST_ENVIRONMENT:
     from data_with_write import HX711
     from Adafruit_BNO055 import BNO055
     import sys
+
     sys.path.insert(0, 'VL53L0X_rasp_python/python/')
     import VL53L0X
 
@@ -34,6 +35,9 @@ class SmartWalker(Widget):
     left_arrow_color = ListProperty()
     right_arrow_color = ListProperty()
 
+    rolling = NumericProperty()
+    pitching = NumericProperty()
+
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
         self.set_dr_prescription()
@@ -43,6 +47,9 @@ class SmartWalker(Widget):
         self.backward_arrow_color = 0, 1, 1, 1
         self.left_arrow_color = 1, 0, 1, 1
         self.right_arrow_color = 1, 1, 0, 1
+
+        self.rolling = 0
+        self.pitching = 0
 
         if not TEST_ENVIRONMENT:
             self.hx0 = HX711(27, 17)
@@ -89,7 +96,8 @@ class SmartWalker(Widget):
         """returns rr, fr, rl, fl"""
         if TEST_ENVIRONMENT:
             import random
-            return random.randrange(10000) - 9000, random.randrange(10000)  - 5000, random.randrange(10000)  - 5000, random.randrange(10000)  - 5000
+            return random.randrange(10000) - 9000, random.randrange(10000) - 5000, random.randrange(
+                10000) - 5000, random.randrange(10000) - 5000
         try:
             val0 = self.hx0.get_weight(1)
             val1 = self.hx1.get_weight(1)
@@ -118,10 +126,13 @@ class SmartWalker(Widget):
             heading, roll, pitch = self.bno.read_euler()
             sys, gyro, acc, mag = self.bno.get_calibration_status()
         else:
-            heading, roll, pitch = 100, 45, 30
+            heading, roll, pitch = 100, random.randint(1, 100), random.randint(1, 500)
             sys, gyro, acc, mag = 20, 12, 10, 4
 
         self.logger.update_gyro(heading, roll, pitch, sys, gyro, acc, mag)
+
+        self.rolling = roll
+        self.pitching = pitch
 
         if roll < -40:
             self.forward_arrow_color = 1, 0, 0, 1
@@ -151,7 +162,7 @@ class SmartWalker(Widget):
         self.update_gyroscope()
         self.update_proximity()
         self.logger.write_data_to_file()
-       # self.logger.capture_photos()
+        self.logger.capture_photos()
 
 
 class ProximityWidget(Widget):
