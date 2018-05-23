@@ -79,12 +79,6 @@ class SmartWalker(Widget):
             self.rr.set_dr_radius(numbers[3])
             ProximityWidget.set_dr_value(numbers[4])
 
-    # def initialize_weight_sensor(self, sensor):
-    #     sensor.set_reading_format("LSB", "MSB")
-    #     sensor.set_reference_unit(92)
-    #     sensor.reset()
-    #     sensor.tare()
-
     def get_4_weight_sensors(self):
         """returns rr, fr, rl, fl"""
         if TEST_ENVIRONMENT:
