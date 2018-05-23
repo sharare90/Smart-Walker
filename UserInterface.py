@@ -59,7 +59,7 @@ class SmartWalker(Widget):
             if not self.bno.begin():
                 raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
 
-            self.tof = VL53L0X.VL53L0X()
+            self.tof = VL53L0X()
             self.tof.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
 
     def set_dr_prescription(self):
