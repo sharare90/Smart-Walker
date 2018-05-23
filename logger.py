@@ -77,7 +77,7 @@ class Logger(object):
         if not self._log_file_directory.exists():
             self._log_file_directory.mkdir(True, True)
         try:
-            self.file = open(path.join(LOG_FILE_DIRECTORY, file_name), 'w')
+            self.file = open(join(LOG_FILE_DIRECTORY, file_name), 'w')
         except IOError:
             print("An error occurred while opening the log file. Do you have appropriate permissions?")
         self.write_header()
