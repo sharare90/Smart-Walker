@@ -3,7 +3,7 @@ from Dependencies.HX711 import HX711
 class WeightSensor(HX711):
 
     def __init__(self, dout, pd_sck):
-        super().__init__(dout, pd_sck)
+        super(WeightSensor, self).__init__(dout, pd_sck)
 
     def initialize_weight_sensor(self):
         sensor.set_reading_format("LSB", "MSB")
