@@ -35,9 +35,9 @@ class Logger(object):
         self.file = open(LOG_FILE_DIRECTORY + file_name, 'w')
         self.write_header()
         self.debug_file = open('debug.txt', 'w')
-        pygame.camera.init()
-        self.cam = pygame.camera.Camera(pygame.camera.list_cameras()[0])
-        self.cam.start()
+        # pygame.camera.init()
+        # self.cam = pygame.camera.Camera(pygame.camera.list_cameras()[0])
+        # self.cam.start()
 
     # write_header(self)
     # Writes header to file

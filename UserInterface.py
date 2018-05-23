@@ -37,6 +37,8 @@ class SmartWalker(Widget):
 
     rolling = NumericProperty()
     pitching = NumericProperty()
+    pre_rolling = NumericProperty()
+    pre_pitching = NumericProperty()
 
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
@@ -50,6 +52,8 @@ class SmartWalker(Widget):
 
         self.rolling = 0
         self.pitching = 0
+        self.pre_rolling = 0
+        self.pre_pitching = 0
 
         if not TEST_ENVIRONMENT:
             self.hx0 = HX711(27, 17)
@@ -126,11 +130,13 @@ class SmartWalker(Widget):
             heading, roll, pitch = self.bno.read_euler()
             sys, gyro, acc, mag = self.bno.get_calibration_status()
         else:
-            heading, roll, pitch = 100, random.randint(1, 100), random.randint(1, 500)
+            heading, roll, pitch = 100, random.uniform(0, 0.1), random.uniform(0, 0.1)
             sys, gyro, acc, mag = 20, 12, 10, 4
 
         self.logger.update_gyro(heading, roll, pitch, sys, gyro, acc, mag)
 
+        self.pre_rolling = self.rolling
+        self.pre_pitching = self.pitching
         self.rolling = roll
         self.pitching = pitch
 
@@ -162,7 +168,7 @@ class SmartWalker(Widget):
         self.update_gyroscope()
         self.update_proximity()
         self.logger.write_data_to_file()
-        self.logger.capture_photos()
+        # self.logger.capture_photos()
 
 
 class ProximityWidget(Widget):
