@@ -114,12 +114,14 @@ class Logger(object):
             if(dataType.value < startingIndex.value):
                 continue
             self._current_data[dataType] = data[i]
+            print(data[i])
+            print(self._current_data)
             i = i + 1
             if dataType == endingIndex:
                 break
         if self.is_dictionary_full():
             self.set_time()
-            self._data_list.append(copy.deepcopy(self._current_data))
+            self._data_list.append(dict_to_string(self._current_data))
             self.clear_and_build_current_data()
         if len(self._data_list) == UPLOAD_FREQUENCY:
             self.write_data_to_file()
@@ -170,7 +172,7 @@ class Logger(object):
     # writes the string _current_data to the local log file
     def write_data_to_file(self):
         for data in self._data_list:
-            self.file.write(self.dict_to_string())
+            self.file.write(data)
             self.file.flush()
 
     # is_server_available(self)
@@ -227,7 +229,7 @@ class Logger(object):
 
             for data in self._data_list:
                 requests.post(POST_URL, data={
-                    'line': self.dict_to_string(),
+                    'line': data,
                     'file_name': self._server_file_name,
                 })
             return True
