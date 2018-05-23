@@ -19,6 +19,7 @@ if not TEST_ENVIRONMENT:
     from WeightSensor import WeightSensor
     from Adafruit_BNO055 import BNO055
     from Dependencies.VL53L0X_rasp_python.python.VL53L0X import VL53L0X
+    from Dependencies.VL53L0X_rasp_python.python.VL53L0X import VL53L0X_BETTER_ACCURACY_MODE
 
 
 class SmartWalker(Widget):
@@ -60,7 +61,7 @@ class SmartWalker(Widget):
                 raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
 
             self.tof = VL53L0X()
-            self.tof.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
+            self.tof.start_ranging(VL53L0X_BETTER_ACCURACY_MODE)
 
     def set_dr_prescription(self):
         try:
