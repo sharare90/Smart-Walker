@@ -114,14 +114,12 @@ class Logger(object):
             if(dataType.value < startingIndex.value):
                 continue
             self._current_data[dataType] = data[i]
-            print(data[i])
-            print(self._current_data)
             i = i + 1
             if dataType == endingIndex:
                 break
         if self.is_dictionary_full():
             self.set_time()
-            self._data_list.append(dict_to_string(self._current_data))
+            self._data_list.append(self.dict_to_string())
             self.clear_and_build_current_data()
         if len(self._data_list) == UPLOAD_FREQUENCY:
             self.write_data_to_file()
