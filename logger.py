@@ -86,7 +86,7 @@ class Logger(object):
         self._current_data[DataTypes.TIME] = datetime.now()
 
     def clear_and_build_current_data(self):
-        self._current_data.clear()
+        self._current_data = dict()
         for i in DataTypes:
             self._current_data[i] = ''
 
@@ -119,12 +119,12 @@ class Logger(object):
                 break
         if self.is_dictionary_full():
             self.set_time()
-            self._data_list.append(copy.deepcopy(self._current_data))
+            self._data_list.append(self._current_data)
             self.clear_and_build_current_data()
         if len(self._data_list) == 100:
             self.write_data_to_file()
             self.upload_data()
-            self._data_list.clear()
+            del self._data_list[:]
 
 
     # update_sensors(self, fr, fl, rr, rl)
