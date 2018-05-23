@@ -33,10 +33,12 @@ class LoggerEnum(Enum):
         else:
             return NotImplemented
 
+
 class DataSources(LoggerEnum):
     WEIGHT = 1
     GYROSCOPE = 2
     PROXIMITY = 3
+
 
 class DataTypes(LoggerEnum):
     TIME = 1
@@ -52,6 +54,7 @@ class DataTypes(LoggerEnum):
     ACC = 11
     MAG = 12
     PROXIMITY = 13
+
 
 class Logger(object):
 
