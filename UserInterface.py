@@ -16,7 +16,7 @@ import time
 import random
 
 if not TEST_ENVIRONMENT:
-    from WeightSensor import WeightSensor
+    from weight_sensor import WeightSensor
     from Adafruit_BNO055 import BNO055
     from Dependencies.VL53L0X_rasp_python.python.VL53L0X import VL53L0X
     from Dependencies.VL53L0X_rasp_python.python.VL53L0X import VL53L0X_BETTER_ACCURACY_MODE
@@ -117,14 +117,14 @@ class SmartWalker(Widget):
 
         self.logger.add_data([heading, roll, pitch, sys, gyro, acc, mag], DataSources.GYROSCOPE)
 
-    #     if roll < -40:
-    #         self.forward_arrow_color = 1, 0, 0, 1
-    #     else:
-    #         self.forward_arrow_color = 0, 1, 0, 1
-    #     if roll > 40:
-    #         self.backward_arrow_color = 1, 0, 0, 1
-    #     else:
-    #         self.backward_arrow_color = 0, 1, 0, 1
+        if roll < -40:
+            self.forward_arrow_color = 1, 0, 0, 1
+        else:
+            self.forward_arrow_color = 0, 1, 0, 1
+        if roll > 40:
+            self.backward_arrow_color = 1, 0, 0, 1
+        else:
+            self.backward_arrow_color = 0, 1, 0, 1
 
     def update_proximity(self):
         if not TEST_ENVIRONMENT:

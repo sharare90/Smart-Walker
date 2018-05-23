@@ -74,7 +74,7 @@ class Logger(object):
         if not self._log_file_directory.exists():
             self._log_file_directory.mkdir(True, True)
         try:
-            self.file = open(LOG_FILE_DIRECTORY + file_name, 'w')
+            self.file = open(path.join(LOG_FILE_DIRECTORY, file_name), 'w')
         except IOError:
             print("An error occurred while opening the log file. Do you have appropriate permissions?")
         self.write_header()
@@ -94,40 +94,39 @@ class Logger(object):
     # Points self._current_data to a new dictionary and initializes the keys
     def clear_and_build_current_data(self):
         self._current_data = dict()
-        for i in DataTypes:
-            self._current_data[i] = ''
+        for data_type in DataTypes:
+            self._current_data[data_type] = ''
 
     # Returns true if all of the dictionary keys have values except for the timestamp
     def is_dictionary_full(self):
-        no_empty_values = True
-        for dataType in DataTypes:
-            if self._current_data[dataType] == '' and dataType.value != DataTypes.TIME.value:
-                no_empty_values = False
-        return no_empty_values
+        for data_type in DataTypes:
+            if self._current_data[data_type] == '' and data_type.value != DataTypes.TIME.value:
+                return False
+        return True
 
     # Takes parameters data, which is a list of data entries, and 
-    # dataSource, which is a member of enum DataSources
+    # data_source, which is a member of enum DataSources
     # The function stores the data in the dictionary _current_data using
     # the appropriate keys
-    def add_data(self, data, dataSource):
-        startingIndex = 0
-        endingIndex = 0
-        if(dataSource == DataSources.WEIGHT):
-            startingIndex = DataTypes.FR
-            endingIndex = DataTypes.RL
-        elif(dataSource == DataSources.GYROSCOPE):
-            startingIndex = DataTypes.HEAD
-            endingIndex = DataTypes.MAG
-        elif(dataSource == DataSources.PROXIMITY):
-            startingIndex = DataTypes.PROXIMITY
-            endingIndex = DataTypes.PROXIMITY
+    def add_data(self, data, data_source):
+        starting_index = 0
+        ending_index = 0
+        if data_source == DataSources.WEIGHT:
+            starting_index = DataTypes.FR
+            ending_index = DataTypes.RL
+        elif data_source == DataSources.GYROSCOPE:
+            starting_index = DataTypes.HEAD
+            ending_index = DataTypes.MAG
+        elif data_source == DataSources.PROXIMITY:
+            starting_index = DataTypes.PROXIMITY
+            ending_index = DataTypes.PROXIMITY
         i = 0
-        for dataType in DataTypes:
-            if(dataType.value < startingIndex.value):
+        for data_type in DataTypes:
+            if data_type.value < starting_index.value:
                 continue
-            self._current_data[dataType] = str(data[i])
+            self._current_data[data_type] = str(data[i])
             i = i + 1
-            if dataType == endingIndex:
+            if data_type == ending_index:
                 break
         if self.is_dictionary_full():
             self.set_time()
@@ -159,7 +158,7 @@ class Logger(object):
             return False
         else:
             try:
-                if(urlopen(SERVER_URL).getcode() == 204):
+                if urlopen(SERVER_URL).getcode() == 204:
                     return True
                 else:
                     return False
@@ -189,7 +188,7 @@ class Logger(object):
     def dict_to_string(self):
         data = ""
         for key in sorted(self._current_data):
-            if(key.value != len(self._current_data)):
+            if key.value != len(self._current_data):
                 data += self._current_data[key]+", "
             else:
                 data += self._current_data[key]+"\n"
@@ -200,8 +199,8 @@ class Logger(object):
     # if data is None then uploads self._current_data
     # returns True if data is uploaded, otherwise returns False
     def upload_data(self):
-        if(self.is_server_available()):
-            if(not self.is_server_response_set()):
+        if self.is_server_available():
+            if not self.is_server_response_set():
                 self.set_server_response()
 
             for data in self._data_list:
