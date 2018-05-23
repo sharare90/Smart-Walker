@@ -119,7 +119,7 @@ class Logger(object):
                 break
         if self.is_dictionary_full():
             self.set_time()
-            self._data_list.append(deepcopy(self._current_data))
+            self._data_list.append(copy.deepcopy(self._current_data))
             self.clear_and_build_current_data()
         if len(self._data_list) == UPLOAD_FREQUENCY:
             self.write_data_to_file()
