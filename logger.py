@@ -13,13 +13,20 @@ from functools import total_ordering
 from settings import (TEST_ENVIRONMENT, SERVER_URL, POST_URL,
 CREATE_FILE_URL, LOG_FILE_DIRECTORY, LOG_IMAGE_FILE_DIRECTORY, FILE_HEADER, UPLOAD_FREQUENCY)
 
+# comparison functions for enums
+# NOTE: only equality and less than need to be defined
+# Python then uses these definitions to define other
+# comparisons implicitly.
 class LoggerEnum(Enum):
+
+    # definition for equality comparison of enums
     def __eq__(self, other):
         if self.__class__ is other.__class__:
             return self.value == other.value
         else:
             return NotImplemented
 
+    # definition for less than comparison of enums
     def __lt__(self, other):
         if self.__class__ is other.__class__:
             return self.value < other.value
@@ -50,7 +57,6 @@ class Logger(object):
 
     def __init__(self):
 
-
         file_name = str(datetime.now())
         for char in ('.', ':', ' '):
             file_name = file_name.replace(char, '-')
@@ -76,20 +82,22 @@ class Logger(object):
         #self.cam = pygame.camera.Camera(pygame.camera.list_cameras()[0])
         #self.cam.start()
 
-    # write_header(self)
     # Writes header to file
     def write_header(self):
         self.file.write(FILE_HEADER)
         self.file.write('\n')
 
+    # Sets the timestamp for the current data entry
     def set_time(self):
         self._current_data[DataTypes.TIME] = str(datetime.now())
 
+    # Points self._current_data to a new dictionary and initializes the keys
     def clear_and_build_current_data(self):
         self._current_data = dict()
         for i in DataTypes:
             self._current_data[i] = ''
 
+    # Returns true if all of the dictionary keys have values except for the timestamp
     def is_dictionary_full(self):
         no_empty_values = True
         for dataType in DataTypes:
@@ -97,6 +105,10 @@ class Logger(object):
                 no_empty_values = False
         return no_empty_values
 
+    # Takes parameters data, which is a list of data entries, and 
+    # dataSource, which is a member of enum DataSources
+    # The function stores the data in the dictionary _current_data using
+    # the appropriate keys
     def add_data(self, data, dataSource):
         startingIndex = 0
         endingIndex = 0
@@ -125,40 +137,6 @@ class Logger(object):
             self.write_data_to_file()
             self.upload_data()
             del self._data_list[:]
-
-    # update_sensors(self, fr, fl, rr, rl)
-    # adds the sensor values in order to member variable _current_data
-    # in order to preserve integrity of log file, this function should be called before both
-    # update_gyro and update_proximity
-    # def update_sensors(self, fr, fl, rr, rl):
-    #     self._current_data += ('{time}, {fr}, {fl}, {rr}, {rl}, '.format(
-    #         time=datetime.now(),
-    #         fr=fr,
-    #         fl=fl,
-    #         rr=rr,
-    #         rl=rl,
-    #     ))
-
-    # update_gyro(self, head, roll, pitch, sys, gyro, acc, mag)
-    # adds the gyroscope values in order to member variable _current_data
-    # in order to preserve integrity of log file, this function should be called after update_sensors and
-    # before update_proximity
-    # def update_gyro(self, head, roll, pitch, sys, gyro, acc, mag):
-    #     self._current_data += ('{head}, {roll}, {pitch}, {sys}, {gyro}, {acc}, {mag}, '.format(
-    #         head=head,
-    #         roll=roll,
-    #         pitch=pitch,
-    #         sys=sys,
-    #         gyro=gyro,
-    #         acc=acc,
-    #         mag=mag,
-    #     ))
-
-    # update_proximity(self, proximity)
-    # adds the proximity value to member variable _current_data
-    # in order to preserve integrity of the log file, this function should be called after update_gyro and update_sensors
-    # def update_proximity(self, proximity):
-    #     self._current_data += str(proximity)
 
     # def capture_photos(self):
     #     img = self.cam.get_image()
@@ -207,6 +185,7 @@ class Logger(object):
     def set_upload_data(self, set_upload):
         self._is_upload = set_upload
 
+    # toString function for _current_data dictionary
     def dict_to_string(self):
         data = ""
         for key in sorted(self._current_data):
@@ -234,7 +213,7 @@ class Logger(object):
         else:
             return False
 
-
+# this main is only here for testing. It is not called in actual use.
 if __name__ == '__main__':
     myLogger = Logger()
     for i in range(0, 100):
