@@ -210,7 +210,7 @@ class Logger(object):
     def dict_to_string(self):
         data = ""
         for key in sorted(self._current_data):
-            if(key.value != len(self._current_data) - 1):
+            if(key.value != len(self._current_data)):
                 data += self._current_data[key]+", "
             else:
                 data += self._current_data[key]+"\n"
