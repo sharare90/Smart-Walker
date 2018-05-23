@@ -5,7 +5,7 @@ import time
 import numpy  # sudo apt-get python-numpy
 
 
-class HX711:
+class HX711(object):
     def __init__(self, dout, pd_sck, gain=128):
         
         self.PD_SCK = pd_sck
