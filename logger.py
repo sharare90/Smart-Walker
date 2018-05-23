@@ -113,7 +113,7 @@ class Logger(object):
         for dataType in DataTypes:
             if(dataType.value < startingIndex.value):
                 continue
-            self._current_data[dataType] = data[i]
+            self._current_data[dataType] = str(data[i])
             i = i + 1
             if dataType == endingIndex:
                 break
