@@ -83,7 +83,7 @@ class Logger(object):
         self.file.write('\n')
 
     def set_time(self):
-        self._current_data[DataTypes.TIME] = datetime.now()
+        self._current_data[DataTypes.TIME] = str(datetime.now())
 
     def clear_and_build_current_data(self):
         self._current_data = dict()
