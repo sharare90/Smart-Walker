@@ -139,7 +139,7 @@
             Color:
                 rgba: 1, 0, 0, 1
             Ellipse:
-                pos: root.width / 2 - 5 + root.rolling / 10, root.top * 1 / 8 - 5 + root.pitching / 10
+                pos: root.width / 2 - 5 + (root.pitching - root.prepitching) * 100, root.top * 1 / 8 - 5 + (root.rolling - root.prerolling) * 100
                 size: 10 ,10
 
     #    Label:
