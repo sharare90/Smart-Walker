@@ -17,13 +17,13 @@ class LoggerEnum(Enum):
     def __eq__(self, other):
         if self.__class__ is other.__class__:
             return self.value == other.value
-        else
+        else:
             return NotImplemented
 
     def __lt__(self, other):
         if self.__class__ is other.__class__:
             return self.value < other.value
-        else
+        else:
             return NotImplemented
 
 class DataSources(LoggerEnum):
