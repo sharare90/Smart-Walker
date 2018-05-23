@@ -6,18 +6,32 @@ import os.path
 from pathlib import Path
 from enum import Enum
 import copy
+from functools import total_ordering
 
 #import pygame.camera
 
 from settings import (TEST_ENVIRONMENT, SERVER_URL, POST_URL,
 CREATE_FILE_URL, LOG_FILE_DIRECTORY, LOG_IMAGE_FILE_DIRECTORY, FILE_HEADER)
 
-class DataSources(Enum):
+class LoggerEnum(Enum):
+    def __eq__(self, other):
+        if self.__class__ is other.__class__:
+            return self.value == other.value
+        else
+            return NotImplemented
+
+    def __lt__(self, other):
+        if self.__class__ is other.__class__:
+            return self.value < other.value
+        else
+            return NotImplemented
+
+class DataSources(LoggerEnum):
     WEIGHT = 1
     GYROSCOPE = 2
     PROXIMITY = 3
 
-class DataTypes(Enum):
+class DataTypes(LoggerEnum):
     TIME = 1
     FR = 2
     FL = 3
