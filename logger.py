@@ -11,7 +11,7 @@ from functools import total_ordering
 #import pygame.camera
 
 from settings import (TEST_ENVIRONMENT, SERVER_URL, POST_URL,
-CREATE_FILE_URL, LOG_FILE_DIRECTORY, LOG_IMAGE_FILE_DIRECTORY, FILE_HEADER)
+CREATE_FILE_URL, LOG_FILE_DIRECTORY, LOG_IMAGE_FILE_DIRECTORY, FILE_HEADER, UPLOAD_FREQUENCY)
 
 class LoggerEnum(Enum):
     def __eq__(self, other):
@@ -121,11 +121,10 @@ class Logger(object):
             self.set_time()
             self._data_list.append(self._current_data)
             self.clear_and_build_current_data()
-        if len(self._data_list) == 100:
+        if len(self._data_list) == UPLOAD_FREQUENCY:
             self.write_data_to_file()
             self.upload_data()
             del self._data_list[:]
-
 
     # update_sensors(self, fr, fl, rr, rl)
     # adds the sensor values in order to member variable _current_data
@@ -211,7 +210,7 @@ class Logger(object):
     def dict_to_string(self):
         data = ""
         for key in sorted(self._current_data):
-            if(key != len(self._current_data) - 1):
+            if(key.value != len(self._current_data) - 1):
                 data += self._current_data[key]+", "
             else:
                 data += self._current_data[key]+"\n"
@@ -238,8 +237,8 @@ class Logger(object):
 
 if __name__ == '__main__':
     myLogger = Logger()
-    for i in range(0, 200):
-        myLogger.add_data(['0','0','0','0','0','0', '0'], DataSources.GYROSCOPE)
-        myLogger.add_data(['0','0','0','0','0','0'], DataSources.WEIGHT)
-        myLogger.add_data(['0','0','0','0','0','0'], DataSources.PROXIMITY)
+    for i in range(0, 100):
+        myLogger.add_data(['1','1','1','1','1','1', '1'], DataSources.GYROSCOPE)
+        myLogger.add_data(['1','1','1','1','1','1'], DataSources.WEIGHT)
+        myLogger.add_data(['1','1','1','1','1','1'], DataSources.PROXIMITY)
 
