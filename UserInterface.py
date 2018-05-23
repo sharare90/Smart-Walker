@@ -9,7 +9,7 @@ from kivy.uix.widget import Widget
 from kivy.clock import Clock
 from kivy.properties import ListProperty, StringProperty, NumericProperty, ObjectProperty, BooleanProperty
 
-from logger import Logger
+from logger import Logger, DataSources
 
 
 import time
@@ -106,7 +106,7 @@ class SmartWalker(Widget):
 
     def update_weights(self):
         rr_value, fr_value, rl_value, fl_value = self.get_4_weight_sensors()
-        self.logger.update_sensors(fr_value, fl_value, rr_value, rl_value)
+        self.logger.add_data([fr_value, fl_value, rr_value, rl_value], DataSources.WEIGHT)
         self.rr.set_pressure(rr_value)
         self.fr.set_pressure(fr_value)
         self.rl.set_pressure(rl_value)
@@ -120,7 +120,7 @@ class SmartWalker(Widget):
             heading, roll, pitch = 100, 45, 30
             sys, gyro, acc, mag = 20, 12, 10, 4
 
-        self.logger.update_gyro(heading, roll, pitch, sys, gyro, acc, mag)
+        self.logger.add_data([heading, roll, pitch, sys, gyro, acc, mag], DataSources.GYROSCOPE)
 
     #     if roll < -40:
     #         self.forward_arrow_color = 1, 0, 0, 1
@@ -138,7 +138,7 @@ class SmartWalker(Widget):
             import random
             proximity_value = random.randrange(1000)
 
-        self.logger.update_proximity(proximity_value)
+        self.logger.add_data([proximity_value], DataSources.PROXIMITY)
         self.proximity.set_proximity(proximity_value)
 
     def update_safe(self, *args):
