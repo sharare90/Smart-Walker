@@ -33,6 +33,7 @@
     rl: rl
     rr: rr
     proximity: proximity
+    gyro: gyro
 
     canvas.before:
         Color:
@@ -96,19 +97,17 @@
                 pos: proximity.center_x - proximity.width / 2, proximity.center_y - proximity.height / 2,
                 size: proximity.width, proximity.height
 
-    Label:
-        canvas:
+    GyroWidget:
+        id: gyro
+        size: 10 ,10
+        pos: root.width / 2 - 5, root.top * 1 / 8 - 5
+
+        canvas.before:
             Color:
-                rgba: proximity.color
-            Line:
-                width: 2
-                rectangle:
-                    (
-                    proximity.center_x - proximity.width / 2,
-                    proximity.center_y - proximity.height / 2,
-                    proximity.width,
-                    proximity.height
-                    )
+                rgba: 1, 0, 0, 1
+            Ellipse:
+                pos: root.width / 2 - 5 + gyro.new_pitch_value, root.top * 1 / 8 - 5 + gyro.new_roll_value
+                size: gyro.width, gyro.height
 
     Label:
         canvas:
@@ -132,72 +131,4 @@
                 rgba: 0, 1, 0, 1
             Line:
                 width: 2
-                ellipse: root.width / 2 - 50, root.top * 1 / 8 - 49, 100, 100
-
-    Label:
-        canvas:
-            Color:
-                rgba: 1, 0, 0, 1
-            Ellipse:
-                pos: root.width / 2 - 5 + (root.pitching - root.pre_pitching) * 100, root.top * 1 / 8 - 5 + (root.rolling - root.pre_rolling) * 100
-                size: 10 ,10
-
-    #    Label:
-    #        canvas:
-    #            Color:
-    #                rgba: root.forward_arrow_color
-    #            Rectangle:
-    #                pos: root.width / 2 - 2 * root.arrow_width, root.height / 2 + 10
-    #                size: 4 * root.arrow_width, 4 * root.arrow_height
-    #            Triangle:
-    #                points:
-    #                    [
-    #                    root.width / 2 - 3 * root.arrow_width, root.height / 2 + 10 + 4 * root.arrow_height,
-    #                    root.width / 2, root.height / 2 + 10 + 6 * root.arrow_height,
-    #                    root.width / 2 + 3 * root.arrow_width, root.height / 2 + 10 + 4 * root.arrow_height
-    #                    ]
-#
-    #    Label:
-    #        canvas:
-    #            Color:
-    #                rgba: root.backward_arrow_color
-    #            Rectangle:
-    #                pos: root.width / 2 - 2 * root.arrow_width, root.height / 2 - 10
-    #                size: 4 * root.arrow_width, -4 * root.arrow_height
-    #            Triangle:
-    #                points:
-    #                    [
-    #                    root.width / 2 - 3 * root.arrow_width, root.height / 2 - 10 - 4 * root.arrow_height,
-    #                    root.width / 2, root.height / 2 - 10 - 6 * root.arrow_height,
-    #                    root.width / 2 + 3 * root.arrow_width, root.height / 2 - 10 - 4 * root.arrow_height
-    #                    ]
-#
-    #    Label:
-    #        canvas:
-    #            Color:
-    #                rgba: root.right_arrow_color
-    #            Rectangle:
-    #                pos: root.width / 2 + 10, root.height / 2 - 2 * root.arrow_width
-    #                size: 4 * root.arrow_height, 4 * root.arrow_width
-    #            Triangle:
-    #                points:
-    #                    [
-    #                    root.width / 2 + 10 + 4 * root.arrow_height, root.height / 2 + 3 * root.arrow_width,
-    #                    root.width / 2 + 10 + 6 * root.arrow_height, root.height / 2,
-    #                    root.width / 2 + 10 + 4 * root.arrow_height, root.height / 2 - 3 * root.arrow_width
-    #                    ]
-#
-    #    Label:
-    #        canvas:
-    #            Color:
-    #                rgba: root.left_arrow_color
-    #            Rectangle:
-    #                pos: root.width / 2 - 10, root.height / 2 - 2 * root.arrow_width
-    #                size: -4 * root.arrow_height, 4 * root.arrow_width
-    #            Triangle:
-    #                points:
-    #                    [
-    #                    root.width / 2 - 10 - 4 * root.arrow_height, root.height / 2 + 3 * root.arrow_width,
-    #                    root.width / 2 - 10 - 6 * root.arrow_height, root.height / 2,
-    #                    root.width / 2 - 10 - 4 * root.arrow_height, root.height / 2 - 3 * root.arrow_width
-    #                    ]
+                rectangle: root.width / 2 - 50, root.top * 1 / 8 - 49, 100, 100

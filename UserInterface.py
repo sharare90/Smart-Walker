@@ -35,11 +35,6 @@ class SmartWalker(Widget):
     left_arrow_color = ListProperty()
     right_arrow_color = ListProperty()
 
-    rolling = NumericProperty()
-    pitching = NumericProperty()
-    pre_rolling = NumericProperty()
-    pre_pitching = NumericProperty()
-
     def __init__(self, **kwargs):
         super(SmartWalker, self).__init__(**kwargs)
         self.set_dr_prescription()
@@ -49,11 +44,6 @@ class SmartWalker(Widget):
         self.backward_arrow_color = 0, 1, 1, 1
         self.left_arrow_color = 1, 0, 1, 1
         self.right_arrow_color = 1, 1, 0, 1
-
-        self.rolling = 0
-        self.pitching = 0
-        self.pre_rolling = 0
-        self.pre_pitching = 0
 
         if not TEST_ENVIRONMENT:
             self.hx0 = HX711(27, 17)
@@ -134,12 +124,8 @@ class SmartWalker(Widget):
             sys, gyro, acc, mag = 20, 12, 10, 4
 
         self.logger.update_gyro(heading, roll, pitch, sys, gyro, acc, mag)
-
-        self.pre_rolling = self.rolling
-        self.pre_pitching = self.pitching
-        self.rolling = roll
-        self.pitching = pitch
-
+        self.gyro.set_roll_pos(roll)
+        self.gyro.set_pitch_pos(pitch)
         if roll < -40:
             self.forward_arrow_color = 1, 0, 0, 1
         else:
@@ -169,6 +155,24 @@ class SmartWalker(Widget):
         self.update_proximity()
         self.logger.write_data_to_file()
         # self.logger.capture_photos()
+
+
+class GyroWidget(Widget):
+    max_pitch_value = 0.1
+    min_pitch_value = 0
+    max_roll_value = 0.1
+    min_roll_value = 0
+    radius = 50
+    new_roll_value = NumericProperty()
+    new_pitch_value = NumericProperty()
+
+    def set_roll_pos(self, rolling):
+        self.new_roll_value = (2 * self.radius / (self.max_roll_value - self.min_roll_value)) * (
+            rolling - self.min_roll_value) - self.radius
+
+    def set_pitch_pos(self, pitching):
+        self.new_pitch_value = (2 * self.radius / (self.max_pitch_value - self.min_pitch_value)) * (
+            pitching - self.min_pitch_value) - self.radius
 
 
 class ProximityWidget(Widget):
