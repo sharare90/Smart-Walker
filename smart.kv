@@ -131,4 +131,8 @@
                 rgba: 0, 1, 0, 1
             Line:
                 width: 2
-                rectangle: root.width / 2 - 50, root.top * 1 / 8 - 49, 100, 100
+                rectangle: root.width / 2 - 50, root.top / 8 - 49, 100, 100
+
+    Label:
+        text: "roll: " + str(gyro.roll) + ", pitch: " + str(gyro.pitch)
+        pos: root.width / 2, root.top / 7

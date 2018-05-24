@@ -165,12 +165,16 @@ class GyroWidget(Widget):
     radius = 50
     new_roll_value = NumericProperty()
     new_pitch_value = NumericProperty()
+    roll = NumericProperty()
+    pitch = NumericProperty()
 
     def set_roll_pos(self, rolling):
+        self.roll = rolling
         self.new_roll_value = (2 * self.radius / (self.max_roll_value - self.min_roll_value)) * (
             rolling - self.min_roll_value) - self.radius
 
     def set_pitch_pos(self, pitching):
+        self.pitch = pitching
         self.new_pitch_value = (2 * self.radius / (self.max_pitch_value - self.min_pitch_value)) * (
             pitching - self.min_pitch_value) - self.radius
 
