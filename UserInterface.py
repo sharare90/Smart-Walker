@@ -158,25 +158,33 @@ class SmartWalker(Widget):
 
 
 class GyroWidget(Widget):
-    max_pitch_value = 170
-    min_pitch_value = 160
-    max_roll_value = -73
-    min_roll_value = -83
+    # max_pitch_value = 170
+    # min_pitch_value = 160
+    # max_roll_value = -73
+    # min_roll_value = -83
+    max_pitch_value = 0.1
+    min_pitch_value = 0
+    max_roll_value = 0.1
+    min_roll_value = 0
     radius = 50
     new_roll_value = NumericProperty()
     new_pitch_value = NumericProperty()
     roll = NumericProperty()
     pitch = NumericProperty()
+    pre_roll = NumericProperty()
+    pre_pitch = NumericProperty()
 
     def set_roll_pos(self, rolling):
+        self.pre_roll = self.roll
         self.roll = rolling
         self.new_roll_value = (2 * self.radius / (self.max_roll_value - self.min_roll_value)) * (
-            rolling - self.min_roll_value) - self.radius
+            (self.roll - self.pre_roll) - self.min_roll_value) - self.radius
 
     def set_pitch_pos(self, pitching):
+        self.pre_pitch = self.pitch
         self.pitch = pitching
         self.new_pitch_value = (2 * self.radius / (self.max_pitch_value - self.min_pitch_value)) * (
-            pitching - self.min_pitch_value) - self.radius
+            (self.pitch - self.pre_pitch) - self.min_pitch_value) - self.radius
 
 
 class ProximityWidget(Widget):
