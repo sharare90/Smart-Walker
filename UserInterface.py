@@ -1,5 +1,5 @@
 from kivy.graphics.context_instructions import Color
-from kivy.graphics.vertex_instructions import Rectangle, Line
+from kivy.graphics import Rectangle, Line
 
 from smart_walker_exceptions import NoDrPrescriptionFound
 from settings import TEST_ENVIRONMENT
@@ -9,18 +9,17 @@ from kivy.uix.widget import Widget
 from kivy.clock import Clock
 from kivy.properties import ListProperty, StringProperty, NumericProperty, ObjectProperty, BooleanProperty
 
-from logger import Logger
+from logger import Logger, DataSources
+
 
 import time
 import random
 
 if not TEST_ENVIRONMENT:
-    from data_with_write import HX711
+    from weight_sensor import WeightSensor
     from Adafruit_BNO055 import BNO055
-    import sys
-
-    sys.path.insert(0, 'VL53L0X_rasp_python/python/')
-    import VL53L0X
+    from Dependencies.VL53L0X_rasp_python.python.VL53L0X import VL53L0X
+    from Dependencies.VL53L0X_rasp_python.python.VL53L0X import VL53L0X_BETTER_ACCURACY_MODE
 
 
 class SmartWalker(Widget):
@@ -46,23 +45,23 @@ class SmartWalker(Widget):
         self.right_arrow_color = 1, 1, 0, 1
 
         if not TEST_ENVIRONMENT:
-            self.hx0 = HX711(27, 17)
-            self.hx3 = HX711(26, 13)
-            self.hx1 = HX711(10, 22)
-            self.hx2 = HX711(11, 9)
+            self.hx0 = WeightSensor(27, 17)
+            self.hx3 = WeightSensor(26, 13)
+            self.hx1 = WeightSensor(10, 22)
+            self.hx2 = WeightSensor(11, 9)
 
-            self.initialize_weight_sensor(self.hx0)
-            self.initialize_weight_sensor(self.hx1)
-            self.initialize_weight_sensor(self.hx2)
-            self.initialize_weight_sensor(self.hx3)
+            self.hx0.initialize_weight_sensor()
+            self.hx1.initialize_weight_sensor()
+            self.hx2.initialize_weight_sensor()
+            self.hx3.initialize_weight_sensor()
 
             self.bno = BNO055.BNO055(serial_port='/dev/ttyS0', rst=23)
 
             if not self.bno.begin():
                 raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
 
-            self.tof = VL53L0X.VL53L0X()
-            self.tof.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
+            self.tof = VL53L0X()
+            self.tof.start_ranging(VL53L0X_BETTER_ACCURACY_MODE)
 
     def set_dr_prescription(self):
         try:
@@ -79,12 +78,6 @@ class SmartWalker(Widget):
             self.rl.set_dr_radius(numbers[2])
             self.rr.set_dr_radius(numbers[3])
             ProximityWidget.set_dr_value(numbers[4])
-
-    def initialize_weight_sensor(self, sensor):
-        sensor.set_reading_format("LSB", "MSB")
-        sensor.set_reference_unit(92)
-        sensor.reset()
-        sensor.tare()
 
     def get_4_weight_sensors(self):
         """returns rr, fr, rl, fl"""
@@ -109,7 +102,7 @@ class SmartWalker(Widget):
 
     def update_weights(self):
         rr_value, fr_value, rl_value, fl_value = self.get_4_weight_sensors()
-        self.logger.update_sensors(fr_value, fl_value, rr_value, rl_value)
+        self.logger.add_data([fr_value, fl_value, rr_value, rl_value], DataSources.WEIGHT)
         self.rr.set_pressure(rr_value)
         self.fr.set_pressure(fr_value)
         self.rl.set_pressure(rl_value)
@@ -123,7 +116,7 @@ class SmartWalker(Widget):
             heading, roll, pitch = 100, random.uniform(0, 0.1), random.uniform(0, 0.1)
             sys, gyro, acc, mag = 20, 12, 10, 4
 
-        self.logger.update_gyro(heading, roll, pitch, sys, gyro, acc, mag)
+        self.logger.add_data([heading, roll, pitch, sys, gyro, acc, mag], DataSources.GYROSCOPE)
         self.gyro.set_roll_pos(roll)
         self.gyro.set_pitch_pos(pitch)
         if roll < -40:
@@ -142,7 +135,7 @@ class SmartWalker(Widget):
             import random
             proximity_value = random.randrange(1000)
 
-        self.logger.update_proximity(proximity_value)
+        self.logger.add_data([proximity_value], DataSources.PROXIMITY)
         self.proximity.set_proximity(proximity_value)
 
     def update_safe(self, *args):
