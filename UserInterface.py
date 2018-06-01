@@ -11,7 +11,6 @@ from kivy.properties import ListProperty, StringProperty, NumericProperty, Objec
 
 from logger import Logger, DataSources
 
-
 import time
 import random
 
@@ -119,6 +118,7 @@ class SmartWalker(Widget):
         self.logger.add_data([heading, roll, pitch, sys, gyro, acc, mag], DataSources.GYROSCOPE)
         self.gyro.set_roll_pos(roll)
         self.gyro.set_pitch_pos(pitch)
+
         if roll < -40:
             self.forward_arrow_color = 1, 0, 0, 1
         else:
@@ -151,33 +151,25 @@ class SmartWalker(Widget):
 
 
 class GyroWidget(Widget):
-    # max_pitch_value = 170
-    # min_pitch_value = 160
-    # max_roll_value = -73
-    # min_roll_value = -83
-    max_pitch_value = 0.1
-    min_pitch_value = 0
-    max_roll_value = 0.1
-    min_roll_value = 0
+    max_pitch_value = 170
+    min_pitch_value = 160
+    max_roll_value = -73
+    min_roll_value = -83
+    # max_pitch_value = 0.1
+    # min_pitch_value = 0
+    # max_roll_value = 0.1
+    # min_roll_value = 0
     radius = 50
     new_roll_value = NumericProperty()
     new_pitch_value = NumericProperty()
-    roll = NumericProperty()
-    pitch = NumericProperty()
-    pre_roll = NumericProperty()
-    pre_pitch = NumericProperty()
 
     def set_roll_pos(self, rolling):
-        self.pre_roll = self.roll
-        self.roll = rolling
-        self.new_roll_value = ((self.max_roll_value - self.min_roll_value) / 2 * self.radius) * (
-            (self.roll - self.pre_roll) - self.min_roll_value) - self.radius
+        self.new_roll_value = (rolling - (self.max_roll_value + self.min_roll_value) / 2) * self.radius / (
+                self.max_roll_value - self.min_roll_value)
 
     def set_pitch_pos(self, pitching):
-        self.pre_pitch = self.pitch
-        self.pitch = pitching
-        self.new_pitch_value = ((self.max_pitch_value - self.min_pitch_value) / 2 * self.radius) * (
-            (self.pitch - self.pre_pitch) - self.min_pitch_value) - self.radius
+        self.new_pitch_value = (pitching - (self.max_pitch_value + self.min_pitch_value) / 2) * self.radius / (
+                self.max_pitch_value - self.min_pitch_value)
 
 
 class ProximityWidget(Widget):
