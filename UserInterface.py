@@ -174,12 +174,10 @@ class GyroWidget(Widget):
         self.initial_pitching_value = pitching
 
     def set_roll_pos(self, rolling):
-        self.new_roll_value = (rolling - (self.max_roll_value + self.min_roll_value) / 2) * self.radius / (
-                self.max_roll_value - self.min_roll_value) - self.initial_pitching_value
+        self.new_roll_value = rolling - self.initial_pitching_value
 
     def set_pitch_pos(self, pitching):
-        self.new_pitch_value = (pitching - (self.max_pitch_value + self.min_pitch_value) / 2) * self.radius / (
-                self.max_pitch_value - self.min_pitch_value) - self.initial_pitching_value
+        self.new_pitch_value = pitching - self.initial_pitching_value
 
 
 class ProximityWidget(Widget):
