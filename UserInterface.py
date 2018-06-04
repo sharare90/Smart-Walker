@@ -55,12 +55,18 @@ class SmartWalker(Widget):
             self.hx3.initialize_weight_sensor()
 
             self.bno = BNO055.BNO055(serial_port='/dev/ttyS0', rst=23)
+            heading, roll, pitch = self.bno.read_euler()
+            self.gyro.set_initial_values(heading, roll, pitch)
 
             if not self.bno.begin():
                 raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
 
             self.tof = VL53L0X()
             self.tof.start_ranging(VL53L0X_BETTER_ACCURACY_MODE)
+
+        else:
+            heading, roll, pitch = 100, random.uniform(0, 0.1), random.uniform(0, 0.1)
+            self.gyro.set_initial_values(heading, roll, pitch)
 
     def set_dr_prescription(self):
         try:
@@ -163,13 +169,17 @@ class GyroWidget(Widget):
     new_roll_value = NumericProperty()
     new_pitch_value = NumericProperty()
 
+    def set_initial_values(self, heading, rolling, pitching):
+        self.initial_rolling_value = rolling
+        self.initial_pitching_value = pitching
+
     def set_roll_pos(self, rolling):
         self.new_roll_value = (rolling - (self.max_roll_value + self.min_roll_value) / 2) * self.radius / (
-                self.max_roll_value - self.min_roll_value)
+                self.max_roll_value - self.min_roll_value) - self.initial_pitching_value
 
     def set_pitch_pos(self, pitching):
         self.new_pitch_value = (pitching - (self.max_pitch_value + self.min_pitch_value) / 2) * self.radius / (
-                self.max_pitch_value - self.min_pitch_value)
+                self.max_pitch_value - self.min_pitch_value) - self.initial_pitching_value
 
 
 class ProximityWidget(Widget):
