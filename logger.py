@@ -2,6 +2,7 @@ from datetime import datetime
 import requests
 import json
 from settings import TEST_ENVIRONMENT
+
 if not TEST_ENVIRONMENT:
     from urllib import urlopen
 import os.path
@@ -10,10 +11,11 @@ from enum import Enum
 import copy
 from functools import total_ordering
 
-#import pygame.camera
+# import pygame.camera
 
 from settings import (TEST_ENVIRONMENT, SERVER_URL, POST_URL,
-CREATE_FILE_URL, LOG_FILE_DIRECTORY, LOG_IMAGE_FILE_DIRECTORY, FILE_HEADER, UPLOAD_FREQUENCY)
+                      CREATE_FILE_URL, LOG_FILE_DIRECTORY, LOG_IMAGE_FILE_DIRECTORY, FILE_HEADER, UPLOAD_FREQUENCY)
+
 
 # comparison functions for enums
 # NOTE: only equality and less than need to be defined
@@ -194,9 +196,9 @@ class Logger(object):
         data = ""
         for key in sorted(self._current_data):
             if key.value != len(self._current_data):
-                data += self._current_data[key]+", "
+                data += self._current_data[key] + ", "
             else:
-                data += self._current_data[key]+"\n"
+                data += self._current_data[key] + "\n"
         return data
 
     # upload_data(self, data)
@@ -222,7 +224,6 @@ class Logger(object):
 if __name__ == '__main__':
     myLogger = Logger()
     for i in range(0, 100):
-        myLogger.add_data(['1','1','1','1','1','1', '1'], DataSources.GYROSCOPE)
-        myLogger.add_data(['1','1','1','1','1','1'], DataSources.WEIGHT)
-        myLogger.add_data(['1','1','1','1','1','1'], DataSources.PROXIMITY)
-
+        myLogger.add_data(['1', '1', '1', '1', '1', '1', '1'], DataSources.GYROSCOPE)
+        myLogger.add_data(['1', '1', '1', '1', '1', '1'], DataSources.WEIGHT)
+        myLogger.add_data(['1', '1', '1', '1', '1', '1'], DataSources.PROXIMITY)
