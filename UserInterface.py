@@ -118,7 +118,7 @@ class SmartWalker(Widget):
             heading, roll, pitch = self.bno.read_euler()
             sys, gyro, acc, mag = self.bno.get_calibration_status()
         else:
-            heading, roll, pitch = 100, random.uniform(0, 0.1), random.uniform(0, 0.1)
+            heading, roll, pitch = 100, random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1)
             sys, gyro, acc, mag = 20, 12, 10, 4
 
         self.logger.add_data([heading, roll, pitch, sys, gyro, acc, mag], DataSources.GYROSCOPE)
@@ -157,14 +157,14 @@ class SmartWalker(Widget):
 
 
 class GyroWidget(Widget):
-    max_pitch_value = 170
-    min_pitch_value = 160
-    max_roll_value = -73
-    min_roll_value = -83
-    # max_pitch_value = 0.1
-    # min_pitch_value = 0
-    # max_roll_value = 0.1
-    # min_roll_value = 0
+    # max_pitch_value = 170
+    # min_pitch_value = 160
+    # max_roll_value = -73
+    # min_roll_value = -83
+    max_pitch_value = 0.1
+    min_pitch_value = -0.1
+    max_roll_value = 0.1
+    min_roll_value = -0.1
     radius = 50
     new_roll_value = NumericProperty()
     new_pitch_value = NumericProperty()
@@ -174,10 +174,12 @@ class GyroWidget(Widget):
         self.initial_pitching_value = pitching
 
     def set_roll_pos(self, rolling):
-        self.new_roll_value = rolling - self.initial_pitching_value
+        self.new_roll_value = (rolling - self.initial_rolling_value) * (
+                self.radius / (self.max_roll_value - self.min_roll_value))
 
     def set_pitch_pos(self, pitching):
-        self.new_pitch_value = pitching - self.initial_pitching_value
+        self.new_pitch_value = (pitching - self.initial_pitching_value) * (
+                    self.radius / (self.max_pitch_value - self.min_pitch_value))
 
 
 class ProximityWidget(Widget):
