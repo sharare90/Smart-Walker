@@ -1,5 +1,5 @@
 from kivy.graphics.context_instructions import Color
-from kivy.graphics import Rectangle, Line
+from kivy.graphics.vertex_instructions import Rectangle, Line
 
 from smart_walker_exceptions import NoDrPrescriptionFound
 from settings import TEST_ENVIRONMENT
@@ -10,6 +10,7 @@ from kivy.clock import Clock
 from kivy.properties import ListProperty, StringProperty, NumericProperty, ObjectProperty, BooleanProperty
 
 from logger import Logger, DataSources
+
 
 import time
 import random

@@ -1,6 +1,5 @@
 from Dependencies.HX711 import HX711
 
-
 class WeightSensor(HX711):
 
     def __init__(self, dout, pd_sck):
