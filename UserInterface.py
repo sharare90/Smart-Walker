@@ -157,14 +157,14 @@ class SmartWalker(Widget):
 
 
 class GyroWidget(Widget):
-    # max_pitch_value = 170
-    # min_pitch_value = 160
-    # max_roll_value = -73
-    # min_roll_value = -83
-    max_pitch_value = 0.1
-    min_pitch_value = -0.1
-    max_roll_value = 0.1
-    min_roll_value = -0.1
+    max_pitch_value = 170
+    min_pitch_value = 160
+    max_roll_value = -73
+    min_roll_value = -83
+    # max_pitch_value = 0.1
+    # min_pitch_value = -0.1
+    # max_roll_value = 0.1
+    # min_roll_value = -0.1
     radius = 50
     new_roll_value = NumericProperty()
     new_pitch_value = NumericProperty()
