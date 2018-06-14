@@ -107,7 +107,7 @@ class Logger(object):
                 return False
         return True
 
-    # Takes parameters data, which is a list of data entries, and 
+    # Takes parameters data, which is a list of data entries, and
     # data_source, which is a member of enum DataSources
     # The function stores the data in the dictionary _current_data using
     # the appropriate keys

@@ -13,4 +13,3 @@ class WeightSensor(HX711):
         self.set_reference_unit(92)
         self.reset()
         self.tare()
-        

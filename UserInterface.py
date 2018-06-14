@@ -56,12 +56,18 @@ class SmartWalker(Widget):
             self.hx3.initialize_weight_sensor()
 
             self.bno = BNO055.BNO055(serial_port='/dev/ttyS0', rst=23)
+            heading, roll, pitch = self.bno.read_euler()
+            self.gyro.set_initial_values(heading, roll, pitch)
 
             if not self.bno.begin():
                 raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
 
             self.tof = VL53L0X()
             self.tof.start_ranging(VL53L0X_BETTER_ACCURACY_MODE)
+
+        else:
+            heading, roll, pitch = 100, random.uniform(0, 0.1), random.uniform(0, 0.1)
+            self.gyro.set_initial_values(heading, roll, pitch)
 
     def set_dr_prescription(self):
         try:
@@ -83,7 +89,8 @@ class SmartWalker(Widget):
         """returns rr, fr, rl, fl"""
         if TEST_ENVIRONMENT:
             import random
-            return random.randrange(10000) - 9000, random.randrange(10000)  - 5000, random.randrange(10000)  - 5000, random.randrange(10000)  - 5000
+            return random.randrange(10000) - 9000, random.randrange(10000) - 5000, random.randrange(
+                10000) - 5000, random.randrange(10000) - 5000
         try:
             val0 = self.hx0.get_weight(1)
             val1 = self.hx1.get_weight(1)
@@ -112,10 +119,12 @@ class SmartWalker(Widget):
             heading, roll, pitch = self.bno.read_euler()
             sys, gyro, acc, mag = self.bno.get_calibration_status()
         else:
-            heading, roll, pitch = 100, 45, 30
+            heading, roll, pitch = 100, random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1)
             sys, gyro, acc, mag = 20, 12, 10, 4
 
         self.logger.add_data([heading, roll, pitch, sys, gyro, acc, mag], DataSources.GYROSCOPE)
+        self.gyro.set_roll_pos(roll)
+        self.gyro.set_pitch_pos(pitch)
 
         if roll < -40:
             self.forward_arrow_color = 1, 0, 0, 1
@@ -145,7 +154,33 @@ class SmartWalker(Widget):
         self.update_gyroscope()
         self.update_proximity()
         self.logger.write_data_to_file()
-        #self.logger.capture_photos()
+        # self.logger.capture_photos()
+
+
+class GyroWidget(Widget):
+    max_pitch_value = 170
+    min_pitch_value = 160
+    max_roll_value = -73
+    min_roll_value = -83
+    # max_pitch_value = 0.1
+    # min_pitch_value = -0.1
+    # max_roll_value = 0.1
+    # min_roll_value = -0.1
+    radius = 50
+    new_roll_value = NumericProperty()
+    new_pitch_value = NumericProperty()
+
+    def set_initial_values(self, heading, rolling, pitching):
+        self.initial_rolling_value = rolling
+        self.initial_pitching_value = pitching
+
+    def set_roll_pos(self, rolling):
+        self.new_roll_value = (rolling - self.initial_rolling_value) * (
+                self.radius / (self.max_roll_value - self.min_roll_value))
+
+    def set_pitch_pos(self, pitching):
+        self.new_pitch_value = (pitching - self.initial_pitching_value) * (
+                    self.radius / (self.max_pitch_value - self.min_pitch_value))
 
 
 class ProximityWidget(Widget):
