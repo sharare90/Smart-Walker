@@ -10,7 +10,7 @@ from functools import total_ordering
 
 import pygame.camera
 
-from settings import (TEST_ENVIRONMENT, SERVER_URL, POST_URL,
+from settings import (TEST_ENVIRONMENT, SERVER_URL, POST_URL, URL_IMAGES,
 CREATE_FILE_URL, LOG_FILE_DIRECTORY, LOG_IMAGE_FILE_DIRECTORY, FILE_HEADER, UPLOAD_FREQUENCY)
 
 # comparison functions for enums
@@ -145,6 +145,7 @@ class Logger(object):
         image_file_name = self.image_file_name + str(self.image_counter) + '.jpg'
         pygame.image.save(img, image_file_name)
         self.image_counter += 1
+        requests.post(URL_IMAGES, files={'file': (image_file_name, img)})
 
     # write_data_to_file(self)
     # writes the string _current_data to the local log file

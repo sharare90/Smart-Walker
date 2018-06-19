@@ -4,5 +4,6 @@ POST_URL = SERVER_URL + 'add_line'
 CREATE_FILE_URL = SERVER_URL + 'create_file'
 LOG_FILE_DIRECTORY = 'logs/'
 LOG_IMAGE_FILE_DIRECTORY = 'images_logs/'
+URL_IMAGES = SERVER_URL + 'add_image'
 FILE_HEADER = 'time, fr, fl, rr, rl, head, roll, pitch, sys, gyro, acc, mag, proximity'
 UPLOAD_FREQUENCY = 100
