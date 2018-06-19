@@ -10,8 +10,9 @@ from functools import total_ordering
 
 import pygame.camera
 
-from settings import (TEST_ENVIRONMENT, SERVER_URL, POST_URL, URL_IMAGES,
-CREATE_FILE_URL, LOG_FILE_DIRECTORY, LOG_IMAGE_FILE_DIRECTORY, FILE_HEADER, UPLOAD_FREQUENCY)
+from settings import TEST_ENVIRONMENT, SERVER_URL, POST_URL, URL_IMAGES, CREATE_DIRECTORY_URL, \
+    CREATE_FILE_URL, LOG_FILE_DIRECTORY, LOG_IMAGE_FILE_DIRECTORY, FILE_HEADER, UPLOAD_FREQUENCY
+
 
 # comparison functions for enums
 # NOTE: only equality and less than need to be defined
@@ -81,6 +82,7 @@ class Logger(object):
         except IOError:
             print("An error occurred while opening the log file. Do you have appropriate permissions?")
         self.write_header()
+        self._server_image_directory_name = self.create_image_directory()
         pygame.camera.init()
         self.cam = pygame.camera.Camera(pygame.camera.list_cameras()[0])
         self.cam.start()
@@ -140,13 +142,18 @@ class Logger(object):
             self.upload_data()
             del self._data_list[:]
 
+    def create_image_directory(self):
+        response = requests.post(CREATE_DIRECTORY_URL)
+        return json.loads(response.content)['directory_name']
+
     def capture_photos(self):
         img = self.cam.get_image()
         image_file_name = self.image_file_name + str(self.image_counter) + '.jpg'
         pygame.image.save(img, image_file_name)
         self.image_counter += 1
         with open(image_file_name) as f:
-            requests.post(URL_IMAGES, files={'file': (image_file_name, f)})
+            requests.post(URL_IMAGES, files={'file': (image_file_name, f)},
+                          data={'directory_name': self._server_image_directory_name})
 
     # write_data_to_file(self)
     # writes the string _current_data to the local log file
@@ -194,9 +201,9 @@ class Logger(object):
         data = ""
         for key in sorted(self._current_data):
             if key.value != len(self._current_data):
-                data += self._current_data[key]+", "
+                data += self._current_data[key] + ", "
             else:
-                data += self._current_data[key]+"\n"
+                data += self._current_data[key] + "\n"
         return data
 
     # upload_data(self, data)
@@ -217,11 +224,11 @@ class Logger(object):
         else:
             return False
 
+
 # this main is only here for testing. It is not called in actual use.
 if __name__ == '__main__':
     myLogger = Logger()
     for i in range(0, 100):
-        myLogger.add_data(['1','1','1','1','1','1', '1'], DataSources.GYROSCOPE)
-        myLogger.add_data(['1','1','1','1','1','1'], DataSources.WEIGHT)
-        myLogger.add_data(['1','1','1','1','1','1'], DataSources.PROXIMITY)
-
+        myLogger.add_data(['1', '1', '1', '1', '1', '1', '1'], DataSources.GYROSCOPE)
+        myLogger.add_data(['1', '1', '1', '1', '1', '1'], DataSources.WEIGHT)
+        myLogger.add_data(['1', '1', '1', '1', '1', '1'], DataSources.PROXIMITY)

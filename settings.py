@@ -2,6 +2,7 @@ TEST_ENVIRONMENT = True
 SERVER_URL = 'http://10.173.215.128:8000/'
 POST_URL = SERVER_URL + 'add_line'
 CREATE_FILE_URL = SERVER_URL + 'create_file'
+CREATE_DIRECTORY_URL = SERVER_URL + 'create_image_directory'
 LOG_FILE_DIRECTORY = 'logs/'
 LOG_IMAGE_FILE_DIRECTORY = 'images_logs/'
 URL_IMAGES = SERVER_URL + 'add_image'
