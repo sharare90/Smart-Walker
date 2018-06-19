@@ -145,7 +145,8 @@ class Logger(object):
         image_file_name = self.image_file_name + str(self.image_counter) + '.jpg'
         pygame.image.save(img, image_file_name)
         self.image_counter += 1
-        requests.post(URL_IMAGES, files={'file': (image_file_name, img)})
+        with open(image_file_name) as f:
+            requests.post(URL_IMAGES, files={'file': (image_file_name, f)})
 
     # write_data_to_file(self)
     # writes the string _current_data to the local log file
