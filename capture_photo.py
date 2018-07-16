@@ -1,5 +1,5 @@
 import json
-import pygame
+import pygame.camera
 
 import requests
 
