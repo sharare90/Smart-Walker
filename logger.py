@@ -82,10 +82,10 @@ class Logger(object):
         except IOError:
             print("An error occurred while opening the log file. Do you have appropriate permissions?")
         self.write_header()
-        self._server_image_directory_name = self.create_image_directory()
-        pygame.camera.init()
-        self.cam = pygame.camera.Camera(pygame.camera.list_cameras()[0])
-        self.cam.start()
+        # self._server_image_directory_name = self.create_image_directory()
+        # pygame.camera.init()
+        # self.cam = pygame.camera.Camera(pygame.camera.list_cameras()[0])
+        # self.cam.start()
 
     # Writes header to file
     def write_header(self):
