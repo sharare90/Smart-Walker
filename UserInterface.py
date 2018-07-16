@@ -154,7 +154,7 @@ class SmartWalker(Widget):
         self.update_gyroscope()
         self.update_proximity()
         self.logger.write_data_to_file()
-        self.logger.capture_photos()
+        # self.logger.capture_photos()
 
 
 class GyroWidget(Widget):
