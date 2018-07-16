@@ -211,18 +211,18 @@ class Logger(object):
         else:
             return False
 
-    def create_image_directory(self):
-        response = requests.post(CREATE_DIRECTORY_URL)
-        return json.loads(response.content)['directory_name']
+    # def create_image_directory(self):
+    #     response = requests.post(CREATE_DIRECTORY_URL)
+    #     return json.loads(response.content)['directory_name']
 
-    def capture_photos(self):
-        img = self.cam.get_image()
-        image_file_name = self.image_file_name + str(self.image_counter) + '.jpg'
-        pygame.image.save(img, image_file_name)
-        self.image_counter += 1
-        with open(image_file_name) as f:
-            requests.post(URL_IMAGES, files={'file': (image_file_name, f)},
-                          data={'directory_name': self._server_image_directory_name})
+    # def capture_photos(self):
+    #     img = self.cam.get_image()
+    #     image_file_name = self.image_file_name + str(self.image_counter) + '.jpg'
+    #     pygame.image.save(img, image_file_name)
+    #     self.image_counter += 1
+    #     with open(image_file_name) as f:
+    #         requests.post(URL_IMAGES, files={'file': (image_file_name, f)},
+    #                       data={'directory_name': self._server_image_directory_name})
 
 # this main is only here for testing. It is not called in actual use.
 if __name__ == '__main__':
