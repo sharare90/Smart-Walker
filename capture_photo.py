@@ -3,7 +3,7 @@ import pygame.camera
 
 import requests
 
-import datetime
+import time
 from settings import CREATE_DIRECTORY_URL, LOG_IMAGE_FILE_DIRECTORY, URL_IMAGES
 
 
@@ -26,7 +26,8 @@ def start():
     pygame.camera.init()
     cam = pygame.camera.Camera(pygame.camera.list_cameras()[0])
     cam.start()
-    for i in range(5):
+    while True:
+        time.sleep(0.2)
         capture_photos(cam, server_image_directory_name)
 
 
