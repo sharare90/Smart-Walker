@@ -86,7 +86,8 @@ class SmartWalker(Widget):
             ProximityWidget.set_dr_value(numbers[4])
 
     def get_4_weight_sensors(self):
-        """returns rr, fr, rl, fl"""
+        """returns rr, fr, rl, fl,
+         calibration values: 6.1324866, 4.3640498, 4.50525366, 4.35680998 """
         if TEST_ENVIRONMENT:
             import random
             return random.randrange(10000) - 9000, random.randrange(10000) - 5000, random.randrange(
@@ -97,7 +98,7 @@ class SmartWalker(Widget):
             val2 = self.hx2.get_weight(1)
             val3 = self.hx3.get_weight(1)
 
-            return val0, val1, val2, val3
+            return 6.1324866 * val0, 4.3640498 * val1, 4.50525366 * val2, 4.35680998 * val3
 
         except (KeyboardInterrupt, SystemExit):
             self.hx0.cleanAndExit()
