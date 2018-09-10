@@ -11,7 +11,6 @@ from kivy.properties import ListProperty, StringProperty, NumericProperty, Objec
 
 from logger import Logger, DataSources
 
-
 import time
 import random
 
@@ -98,7 +97,7 @@ class SmartWalker(Widget):
             val2 = self.hx2.get_weight(1)
             val3 = self.hx3.get_weight(1)
 
-            return 6.1324866 * val0, 4.3640498 * val1, 4.50525366 * val2, 4.35680998 * val3
+            return -6.1324866 * val0 / 1000, -4.3640498 * val1 / 1000, -4.50525366 * val2 / 1000, -4.35680998 * val3 / 1000
 
         except (KeyboardInterrupt, SystemExit):
             self.hx0.cleanAndExit()
@@ -181,7 +180,7 @@ class GyroWidget(Widget):
 
     def set_pitch_pos(self, pitching):
         self.new_pitch_value = (pitching - self.initial_pitching_value) * (
-                    self.radius / (self.max_pitch_value - self.min_pitch_value))
+                self.radius / (self.max_pitch_value - self.min_pitch_value))
 
 
 class ProximityWidget(Widget):
