@@ -240,7 +240,7 @@ class PressureSensorWidget(Widget):
         self.dr_radius = float(dr_value) / PressureSensorWidget.max_dr_value * PressureSensorWidget.max_dr_radius_size
 
     def set_pressure(self, pressure):
-        self.pressure = str(pressure)
+        self.pressure = "{:.2f}".format(pressure)
 
         if pressure < 0:
             self.patient_radius = min(
