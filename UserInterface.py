@@ -71,7 +71,7 @@ class SmartWalker(Widget):
     def set_dr_prescription(self):
         try:
             with open('dr_note.txt') as f:
-                numbers = map(int, f.readline().split(' '))
+                numbers = map(float, f.readline().split(' '))
         except:
             raise NoDrPrescriptionFound()
 
@@ -82,7 +82,7 @@ class SmartWalker(Widget):
             self.fr.set_dr_radius(numbers[1])
             self.rl.set_dr_radius(numbers[2])
             self.rr.set_dr_radius(numbers[3])
-            ProximityWidget.set_dr_value(numbers[4])
+            ProximityWidget.set_dr_value(int(numbers[4]))
 
     def get_4_weight_sensors(self):
         """returns rr, fr, rl, fl,
