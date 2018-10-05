@@ -97,7 +97,12 @@ class SmartWalker(Widget):
             val2 = self.hx2.get_weight(1)
             val3 = self.hx3.get_weight(1)
 
-            return -6.1324866 * val0 / 1000, -4.3640498 * val1 / 1000, -4.50525366 * val2 / 1000, -4.35680998 * val3 / 1000
+            calibrated_val0 = -6.1324866 * val0 / 1000
+            calibrated_val1 = -4.3640498 * val1 / 1000
+            calibrated_val2 = -4.50525366 * val2 / 1000
+            calibrated_val3 = -4.35680998 * val3 / 1000
+
+            return calibrated_val0, calibrated_val1, calibrated_val2, calibrated_val3
 
         except (KeyboardInterrupt, SystemExit):
             self.hx0.cleanAndExit()
@@ -217,7 +222,7 @@ class ProximityWidget(Widget):
 class PressureSensorWidget(Widget):
     max_dr_value = 1
     max_dr_radius_size = 50
-    dr_circle_color = 0, 1, 0, 0.5
+    dr_circle_color = 0, 0, 0, 1
     patient_circle_color = 1, 0, 0, 1
     mean_circle_color = 1, 1, 1, 1
 
